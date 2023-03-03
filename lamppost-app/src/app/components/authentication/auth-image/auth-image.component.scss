@@ -2,4 +2,7 @@
   height: 100%;
   background-repeat: no-repeat;
   background-position: center;
+  img {
+    filter: brightness(0) invert(1);
+  }
 }
