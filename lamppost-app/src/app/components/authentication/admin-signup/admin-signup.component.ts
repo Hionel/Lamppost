@@ -47,11 +47,11 @@ export class AdminSignupComponent {
         Validators.minLength(6),
       ]),
       confirmPassword: new FormControl('', [Validators.required]),
-      firstName: new FormControl('', [
+      firstname: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
       ]),
-      lastName: new FormControl('', [
+      lastname: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
       ]),

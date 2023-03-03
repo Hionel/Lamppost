@@ -107,17 +107,17 @@
       type="text"
       matInput
       placeholder="Enter your firstname"
-      formControlName="firstName"
+      formControlName="firstname"
     />
     <mat-error
       *ngIf="
-        adminRegister.get('firstName')!.hasError('minlength') &&
-        !adminRegister.get('firstName')!.hasError('required')
+        adminRegister.get('firstname')!.hasError('minlength') &&
+        !adminRegister.get('firstname')!.hasError('required')
       "
     >
       Firstname must have at least 2 characters
     </mat-error>
-    <mat-error *ngIf="adminRegister.get('firstName')!.hasError('required')">
+    <mat-error *ngIf="adminRegister.get('firstname')!.hasError('required')">
       Firstname is <strong>required</strong>
     </mat-error>
   </mat-form-field>
@@ -128,17 +128,17 @@
       type="text"
       matInput
       placeholder="Enter your lastname"
-      formControlName="lastName"
+      formControlName="lastname"
     />
     <mat-error
       *ngIf="
-        adminRegister.get('lastName')!.hasError('minlength') &&
-        !adminRegister.get('lastName')!.hasError('required')
+        adminRegister.get('lastname')!.hasError('minlength') &&
+        !adminRegister.get('lastname')!.hasError('required')
       "
     >
       Lastname must have at least 2 characters
     </mat-error>
-    <mat-error *ngIf="adminRegister.get('lastName')!.hasError('required')">
+    <mat-error *ngIf="adminRegister.get('lastname')!.hasError('required')">
       Lastname is <strong>required</strong>
     </mat-error>
   </mat-form-field>
