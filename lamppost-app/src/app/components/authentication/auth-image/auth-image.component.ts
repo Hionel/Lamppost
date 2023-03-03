@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AuthImageComponent {
   imageSrc: string = '../assets/icon/lamppost.png';
+  backgroundSrc: string = '../assets/icon/Stacked_blob.png';
 }

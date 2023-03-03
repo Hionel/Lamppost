@@ -1,1 +1,186 @@
-<p>admin-signup works!</p>
+<form
+  class="form flexColumn"
+  [formGroup]="adminRegister"
+  #formDirective="ngForm"
+  (ngSubmit)="submitForm()"
+>
+  <!-- Email -->
+  <mat-form-field class="form__field-wrapper">
+    <mat-label>Email</mat-label>
+    <input
+      type="email"
+      matInput
+      placeholder="Enter your email"
+      value=""
+      formControlName="email"
+    />
+    <mat-error *ngIf="adminRegister.get('email')!.hasError('alreadyInUse')">
+      Email is <strong>already</strong> in use
+    </mat-error>
+    <mat-error
+      *ngIf="
+        adminRegister.get('email')!.hasError('email') &&
+        !adminRegister.get('email')!.hasError('required')
+      "
+    >
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="adminRegister.get('email')!.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <!-- PASS -->
+  <mat-form-field class="form__field-wrapper">
+    <mat-label>Password</mat-label>
+    <input
+      [type]="registerPasswordsVisibility ? 'text' : 'password'"
+      matInput
+      placeholder="Enter your password"
+      value=""
+      formControlName="password"
+      #passwordInput
+    />
+    <mat-icon
+      mat-icon-button
+      (click)="
+        tooglePasswordVisibility('password', registerPasswordsVisibility)
+      "
+      class="visibility__toogle-icon"
+      >{{
+        registerPasswordsVisibility ? "visibility_off" : "visibility"
+      }}</mat-icon
+    >
+    <mat-error
+      *ngIf="
+        adminRegister.get('password')!.hasError('pattern') &&
+        !adminRegister.get('password')!.hasError('required')
+      "
+    >
+      Password must have an uppercase letter, a number and a special character
+    </mat-error>
+    <mat-error *ngIf="adminRegister.get('password')!.hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+    <mat-error
+      *ngIf="
+        !adminRegister.get('password')!.hasError('pattern') &&
+        adminRegister.get('password')!.hasError('minlength')
+      "
+    >
+      Password must have at least 6 characters
+    </mat-error>
+  </mat-form-field>
+  <!-- Confirm PASS -->
+  <mat-form-field class="form__field-wrapper">
+    <mat-label>Confirm password</mat-label>
+    <input
+      matInput
+      placeholder="Confirm your password"
+      value=""
+      formControlName="confirmPassword"
+      [type]="confirmPasswordsVisibility ? 'text' : 'password'"
+    />
+    <mat-icon
+      mat-icon-button
+      (click)="
+        tooglePasswordVisibility('confirmPassword', confirmPasswordsVisibility)
+      "
+      class="visibility__toogle-icon"
+      >{{
+        confirmPasswordsVisibility ? "visibility_off" : "visibility"
+      }}</mat-icon
+    >
+    <mat-error
+      *ngIf="adminRegister.get('confirmPassword')?.hasError('matching')"
+    >
+      Passwords do <strong>NOT</strong> match
+    </mat-error>
+    <mat-error
+      *ngIf="adminRegister.get('confirmPassword')?.hasError('required')"
+    >
+      Confirming the password is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <!-- FIRSTNAME -->
+  <mat-form-field class="form__field-wrapper">
+    <mat-label>Firstname</mat-label>
+    <input
+      type="text"
+      matInput
+      placeholder="Enter your firstname"
+      formControlName="firstName"
+    />
+    <mat-error
+      *ngIf="
+        adminRegister.get('firstName')!.hasError('minlength') &&
+        !adminRegister.get('firstName')!.hasError('required')
+      "
+    >
+      Firstname must have at least 2 characters
+    </mat-error>
+    <mat-error *ngIf="adminRegister.get('firstName')!.hasError('required')">
+      Firstname is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <!-- LASTNAME -->
+  <mat-form-field class="form__field-wrapper">
+    <mat-label>Lastname</mat-label>
+    <input
+      type="text"
+      matInput
+      placeholder="Enter your lastname"
+      formControlName="lastName"
+    />
+    <mat-error
+      *ngIf="
+        adminRegister.get('lastName')!.hasError('minlength') &&
+        !adminRegister.get('lastName')!.hasError('required')
+      "
+    >
+      Lastname must have at least 2 characters
+    </mat-error>
+    <mat-error *ngIf="adminRegister.get('lastName')!.hasError('required')">
+      Lastname is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <!-- AGE -->
+  <mat-form-field class="form__field-wrapper">
+    <mat-label>Age</mat-label>
+    <input
+      type="number"
+      matInput
+      placeholder="Enter your age"
+      value=""
+      formControlName="age"
+    />
+    <mat-error
+      *ngIf="
+        adminRegister.get('age')!.hasError('min') &&
+        !adminRegister.get('age')!.hasError('required')
+      "
+    >
+      Age must be at least 18 yeas old
+    </mat-error>
+    <mat-error
+      *ngIf="
+        adminRegister.get('age')!.hasError('max') &&
+        !adminRegister.get('age')!.hasError('required')
+      "
+    >
+      Age can't be over 65 yeas old
+    </mat-error>
+    <mat-error *ngIf="adminRegister.get('age')!.hasError('required')">
+      Age is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <button
+    type="submit"
+    [disabled]="adminRegister.invalid"
+    mat-raised-button
+    color="primary"
+    data-testid="submit-button"
+  >
+    Register
+  </button>
+</form>

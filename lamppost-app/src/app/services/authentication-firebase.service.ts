@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { FormGroup } from '@angular/forms';
+import { ExtractErrorMessagePipe } from '../customPipes/extract-error-message.pipe';
+import { FirestoreFirebaseService } from './firestore-firebase.service';
 import { SnackbarNotificationService } from './snackbar-notification.service';
 
 @Injectable({
@@ -10,7 +13,9 @@ export class AuthenticationFirebaseService {
 
   constructor(
     private ngFireAuth: AngularFireAuth,
-    private snackbarNotification: SnackbarNotificationService
+    private snackbarNotification: SnackbarNotificationService,
+    private firestoreService: FirestoreFirebaseService,
+    private extractErrorMsg: ExtractErrorMessagePipe
   ) {
     this.userLoggedIn = false;
     this.ngFireAuth.onAuthStateChanged((user) => {
@@ -22,39 +27,44 @@ export class AuthenticationFirebaseService {
     });
   }
 
-  async signupUser(user: any): Promise<any> {
+  async signupUser(user: FormGroup) {
+    const userData = user.value;
+    console.log(userData);
     try {
       const res = await this.ngFireAuth.createUserWithEmailAndPassword(
-        user.email,
-        user.password
+        userData.email,
+        userData.password
       );
-      res.user?.sendEmailVerification();
-    } catch (error) {
-      console.log('Signup error:', error);
-      if (error) {
-        return { isValid: false };
-      }
+      res.user!.sendEmailVerification();
+      this.firestoreService.createUserCollection(res.user!.uid, userData);
+      this.snackbarNotification.openSnackBar('Admin Registration Successful');
       return;
+    } catch (error: any) {
+      if (error.code) {
+        const errorMsg = this.extractErrorMsg.transform(error.message);
+        return this.snackbarNotification.openSnackBar(`${errorMsg}`);
+      }
     }
   }
 
-  async loginUser(email: string, passowrd: string): Promise<any> {
+  async loginUser(email: string, password: string) {
     try {
       const res = await this.ngFireAuth.signInWithEmailAndPassword(
         email,
-        passowrd
+        password
       );
       this.snackbarNotification.openSnackBar('Authentication Successful');
-      sessionStorage.setItem('loggedUser', JSON.stringify(res.user!.uid));
-    } catch (error) {
+      return sessionStorage.setItem(
+        'loggedUser',
+        JSON.stringify(res.user!.uid)
+      );
+    } catch (error: any) {
       if (error) {
-        console.log(error);
-        this.snackbarNotification.openSnackBar(
-          'Authentication credentials are invalid'
-        );
-        return { isValid: false };
+        if (error.code) {
+          const errorMsg = this.extractErrorMsg.transform(error.message);
+          return this.snackbarNotification.openSnackBar(`${errorMsg}`);
+        }
       }
-      return;
     }
   }
 }

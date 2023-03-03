@@ -1,3 +1,6 @@
-<section class="auth__image-container flexColumn">
+<section
+  class="auth__image-container flexColumn"
+  [ngStyle]="{ 'background-image': 'url(' + backgroundSrc + ')' }"
+>
   <img [src]="imageSrc" alt="No Lamp" />
 </section>
