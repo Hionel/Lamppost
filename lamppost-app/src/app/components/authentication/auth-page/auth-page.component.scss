@@ -1,0 +1,34 @@
+.authentication__body {
+  height: 100%;
+  background-color: whitesmoke;
+  .authentication__card-wrapper {
+    width: 50%;
+    height: auto;
+
+    .authentication__forms-container {
+      height: 100%;
+      width: 85%;
+      gap: 2rem;
+      .authentication__forms__header-container {
+        width: 90%;
+        padding: 1rem;
+        border-radius: 10px;
+        font-family: "Source Serif Pro", serif;
+      }
+      .authentication__form-container {
+        height: 70%;
+        width: 100%;
+      }
+      .authenticatiion__forms__controls-container {
+        height: 10%;
+        width: 100%;
+      }
+    }
+  }
+
+  .authentication__image-container {
+    width: 50%;
+    height: 100%;
+    background-color: whitesmoke;
+  }
+}

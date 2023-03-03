@@ -1,2 +1,30 @@
-<p>auth-page works!</p>
-<router-outlet></router-outlet>
+<section class="authentication__body flexRow">
+  <main class="authentication__card-wrapper flexColumn">
+    <mat-card class="authentication__forms-container flexColumn">
+      <mat-card-header class="authentication__forms__header-container">
+        <mat-card-title class="authentication__forms__headings">
+          <h1 [innerHTML]="appTitle"></h1
+        ></mat-card-title>
+        <mat-card-subtitle
+          class="authentication__forms__headings"
+          [innerHTML]="authFormTitle"
+        ></mat-card-subtitle>
+      </mat-card-header>
+      <section class="authentication__form-container">
+        <router-outlet></router-outlet>
+      </section>
+      <mat-card-actions
+        class="authenticatiion__forms__controls-container flexRow"
+      >
+        <a mat-fab extended [routerLink]="routerLink" color="primary">
+          <mat-icon [innerText]="routerButtonIcon"></mat-icon>
+          {{ routerButtonText }}
+        </a>
+      </mat-card-actions>
+    </mat-card>
+  </main>
+
+  <aside class="authentication__image-container">
+    <app-auth-image></app-auth-image>
+  </aside>
+</section>
