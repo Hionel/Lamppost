@@ -1,27 +1,26 @@
 <section class="authentication__body flexRow">
-  <main class="authentication__card-wrapper flexColumn">
-    <mat-card class="authentication__forms-container flexColumn">
-      <mat-card-header class="authentication__forms__header-container">
-        <mat-card-title class="authentication__forms__headings">
-          <h1 [innerHTML]="appTitle"></h1
-        ></mat-card-title>
-        <mat-card-subtitle
-          class="authentication__forms__headings"
+  <main class="authentication__card-wrapper">
+    <div class="authentication__forms-container">
+      <header class="authentication__forms__header-container flexRow">
+        <h1
+          class="authentication__forms__headings main-heading"
+          [innerHTML]="appTitle"
+        ></h1>
+        <h4
+          class="authentication__forms__headings subheading"
           [innerHTML]="authFormTitle"
-        ></mat-card-subtitle>
-      </mat-card-header>
+        ></h4>
+      </header>
       <section class="authentication__form-container">
         <router-outlet></router-outlet>
       </section>
-      <mat-card-actions
-        class="authenticatiion__forms__controls-container flexRow"
-      >
-        <a mat-fab extended [routerLink]="routerLink" color="primary">
+      <div class="authentication__forms__controls-container">
+        <a mat-fab extended [routerLink]="routerLink" color="secondary">
           <mat-icon [innerText]="routerButtonIcon"></mat-icon>
           {{ routerButtonText }}
         </a>
-      </mat-card-actions>
-    </mat-card>
+      </div>
+    </div>
   </main>
 
   <aside class="authentication__image-container">

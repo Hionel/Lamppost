@@ -19,7 +19,7 @@ export class AuthPageComponent implements AfterContentChecked, OnInit {
       case '/authentication/administrator-signup':
         this.authFormTitle = 'Administrator Register';
         this.routerLink = '/authentication/login';
-        this.routerButtonText = 'Login';
+        this.routerButtonText = 'Already an admin?';
         this.routerButtonIcon = 'login';
         break;
       case '/authentication/login':

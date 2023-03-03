@@ -21,15 +21,31 @@
   <mat-form-field>
     <mat-label>Password</mat-label>
     <input
+      [type]="loginPasswordsVisibility ? 'text' : 'password'"
       matInput
       formControlName="password"
       placeholder="PasswordExample1234!"
       required
-      type="password"
     />
+    <mat-icon
+      mat-icon-button
+      (click)="
+        tooglePasswordVisibility('loginPassword', loginPasswordsVisibility)
+      "
+      class="visibility__toogle-icon"
+    >
+      {{ loginPasswordsVisibility ? "visibility_off" : "visibility" }}
+    </mat-icon>
     <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
       Password is required
     </mat-error>
   </mat-form-field>
-  <button mat-stroked-button color="primary" type="submit">Login</button>
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="loginForm.invalid"
+  >
+    Login
+  </button>
 </form>
