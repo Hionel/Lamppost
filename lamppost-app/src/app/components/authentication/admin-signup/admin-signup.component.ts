@@ -67,7 +67,6 @@ export class AdminSignupComponent {
 
   // Registration event
   submitForm() {
-    console.log(this.adminRegister.value);
     this.authService.signupUser(this.adminRegister);
   }
 }
