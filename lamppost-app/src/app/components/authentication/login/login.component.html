@@ -1,0 +1,35 @@
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="submitLogin()"
+  class="form flexColumn"
+>
+  <mat-form-field>
+    <mat-label>Enter your email</mat-label>
+    <input
+      matInput
+      placeholder="mail@example.com"
+      formControlName="email"
+      required
+    />
+    <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+      Email is required
+    </mat-error>
+    <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+      Email format is invalid
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      placeholder="PasswordExample1234!"
+      required
+      type="password"
+    />
+    <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+      Password is required
+    </mat-error>
+  </mat-form-field>
+  <button mat-stroked-button color="primary" type="submit">Login</button>
+</form>
