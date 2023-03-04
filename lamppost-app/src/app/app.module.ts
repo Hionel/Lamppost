@@ -23,6 +23,7 @@ import { LoginComponent } from './components/authentication/login/login.componen
 import { AdminSignupComponent } from './components/authentication/admin-signup/admin-signup.component';
 import { AuthImageComponent } from './components/authentication/auth-image/auth-image.component';
 import { ExtractErrorMessagePipe } from './customPipes/extract-error-message.pipe';
+import { UserSignupComponent } from './components/authentication/user-signup/user-signup.component';
 
 const materialModules = [
   MatCardModule,
@@ -43,6 +44,7 @@ const modules = [FormsModule, ReactiveFormsModule];
     AdminSignupComponent,
     AuthImageComponent,
     ExtractErrorMessagePipe,
+    UserSignupComponent,
   ],
   imports: [
     BrowserModule,
