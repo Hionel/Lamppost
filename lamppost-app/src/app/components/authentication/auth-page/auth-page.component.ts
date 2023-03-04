@@ -24,11 +24,11 @@ export class AuthPageComponent implements AfterContentChecked, OnInit {
         break;
       case '/authentication/login':
         this.authFormTitle = 'Login';
-        this.routerLink = '/authentication/register';
+        this.routerLink = '/authentication/registration';
         this.routerButtonText = 'Not an user ?';
         this.routerButtonIcon = 'add';
         break;
-      case '/authentication/register':
+      case '/authentication/registration':
         this.authFormTitle = 'Registration';
         this.routerLink = '/authentication/login';
         this.routerButtonText = 'Login';
