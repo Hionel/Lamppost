@@ -37,12 +37,14 @@ export class AuthenticationFirebaseService {
       );
       res.user!.sendEmailVerification();
       this.firestoreService.createUserCollection(res.user!.uid, userData);
-      this.snackbarNotification.openSnackBar('Admin Registration Successful');
+      this.snackbarNotification.openSuccessSnack(
+        'Admin Registration Successful'
+      );
       return;
     } catch (error: any) {
       if (error.code) {
         const errorMsg = this.extractErrorMsg.transform(error.message);
-        return this.snackbarNotification.openSnackBar(`${errorMsg}`);
+        return this.snackbarNotification.openErrorSnack(`${errorMsg}`);
       }
     }
   }
@@ -53,7 +55,7 @@ export class AuthenticationFirebaseService {
         email,
         password
       );
-      this.snackbarNotification.openSnackBar('Authentication Successful');
+      this.snackbarNotification.openSuccessSnack('Authentication Successful');
       return sessionStorage.setItem(
         'loggedUser',
         JSON.stringify(res.user!.uid)
@@ -62,7 +64,7 @@ export class AuthenticationFirebaseService {
       if (error) {
         if (error.code) {
           const errorMsg = this.extractErrorMsg.transform(error.message);
-          return this.snackbarNotification.openSnackBar(`${errorMsg}`);
+          return this.snackbarNotification.openErrorSnack(`${errorMsg}`);
         }
       }
     }
