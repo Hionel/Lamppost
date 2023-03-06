@@ -4,6 +4,10 @@ import { AdminSignupComponent } from './components/authentication/admin-signup/a
 import { AuthPageComponent } from './components/authentication/auth-page/auth-page.component';
 import { LoginComponent } from './components/authentication/login/login.component';
 import { UserSignupComponent } from './components/authentication/user-signup/user-signup.component';
+import { AdminHomeComponent } from './components/homepages/administrator/admin-home/admin-home.component';
+import { UserHomeComponent } from './components/homepages/user/user-home/user-home.component';
+
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -28,6 +32,12 @@ const routes: Routes = [
         component: UserSignupComponent,
       },
     ],
+  },
+  { path: 'homepage', component: UserHomeComponent, canActivate: [AuthGuard] },
+  {
+    path: 'administrator',
+    component: AdminHomeComponent,
+    canActivate: [AuthGuard],
   },
 ];
 

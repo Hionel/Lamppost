@@ -8,17 +8,26 @@ import { StoredUser } from '../interfaces/stored-user';
 export class FirestoreFirebaseService {
   constructor(private ngFirestore: AngularFirestore) {}
 
-  // Create user collection
-  async createUserCollection(UID: string, userInformation: StoredUser) {
-    const userCollectionRef = this.ngFirestore.collection(UID);
-    const userData = {
-      email: userInformation.email,
-      firstame: userInformation.firstname,
-      lastname: userInformation.lastname,
-      age: userInformation.age,
-      adminAccount: userInformation.adminAccount,
-    };
+  private usersCollectionRef = this.ngFirestore.collection('Users');
 
-    return userCollectionRef.doc('userData').set({ ...userData });
+  // Create user collection
+  async createUserDocument(UID: string, userInformation: StoredUser) {
+    try {
+      const userData = {
+        email: userInformation.email,
+        firstname: userInformation.firstname,
+        lastname: userInformation.lastname,
+        age: userInformation.age,
+        adminAccount: userInformation.adminAccount,
+      };
+
+      return this.usersCollectionRef.doc(UID).set({ ...userData });
+    } catch (error) {
+      console.log('create error:', error);
+    }
+  }
+
+  getLoggedUserData(UID: string) {
+    return this.usersCollectionRef.doc(UID).snapshotChanges();
   }
 }

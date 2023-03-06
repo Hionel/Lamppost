@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ExtractErrorMessagePipe } from './customPipes/extract-error-message.pipe';
 
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
@@ -22,8 +23,9 @@ import { AuthPageComponent } from './components/authentication/auth-page/auth-pa
 import { LoginComponent } from './components/authentication/login/login.component';
 import { AdminSignupComponent } from './components/authentication/admin-signup/admin-signup.component';
 import { AuthImageComponent } from './components/authentication/auth-image/auth-image.component';
-import { ExtractErrorMessagePipe } from './customPipes/extract-error-message.pipe';
 import { UserSignupComponent } from './components/authentication/user-signup/user-signup.component';
+import { UserHomeComponent } from './components/homepages/user/user-home/user-home.component';
+import { AdminHomeComponent } from './components/homepages/administrator/admin-home/admin-home.component';
 
 const materialModules = [
   MatCardModule,
@@ -38,13 +40,15 @@ const modules = [FormsModule, ReactiveFormsModule];
 
 @NgModule({
   declarations: [
+    ExtractErrorMessagePipe,
     AppComponent,
     AuthPageComponent,
     LoginComponent,
     AdminSignupComponent,
     AuthImageComponent,
-    ExtractErrorMessagePipe,
     UserSignupComponent,
+    UserHomeComponent,
+    AdminHomeComponent,
   ],
   imports: [
     BrowserModule,

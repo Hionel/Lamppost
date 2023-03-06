@@ -1,31 +1,24 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ExtractErrorMessagePipe } from '../customPipes/extract-error-message.pipe';
+import { StoredUser } from '../interfaces/stored-user';
+import { CookiesService } from './cookies.service';
 import { FirestoreFirebaseService } from './firestore-firebase.service';
 import { SnackbarNotificationService } from './snackbar-notification.service';
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationFirebaseService {
-  userLoggedIn!: boolean;
-
   constructor(
     private ngFireAuth: AngularFireAuth,
     private snackbarNotification: SnackbarNotificationService,
     private firestoreService: FirestoreFirebaseService,
-    private extractErrorMsg: ExtractErrorMessagePipe
-  ) {
-    this.userLoggedIn = false;
-    this.ngFireAuth.onAuthStateChanged((user) => {
-      if (user) {
-        this.userLoggedIn = true;
-      } else {
-        this.userLoggedIn = false;
-      }
-    });
-  }
+    private extractErrorMsg: ExtractErrorMessagePipe,
+    private router: Router,
+    private cookieService: CookiesService
+  ) {}
 
   async signupUser(user: FormGroup) {
     const userData = user.value;
@@ -36,10 +29,8 @@ export class AuthenticationFirebaseService {
         userData.password
       );
       res.user!.sendEmailVerification();
-      this.firestoreService.createUserCollection(res.user!.uid, userData);
-      this.snackbarNotification.openSuccessSnack(
-        'Admin Registration Successful'
-      );
+      this.firestoreService.createUserDocument(res.user!.uid, userData);
+      this.snackbarNotification.openSuccessSnack('Registration Successful');
       return;
     } catch (error: any) {
       if (error.code) {
@@ -55,11 +46,20 @@ export class AuthenticationFirebaseService {
         email,
         password
       );
+      let userData = { uid: res.user!.uid };
       this.snackbarNotification.openSuccessSnack('Authentication Successful');
-      return sessionStorage.setItem(
-        'loggedUser',
-        JSON.stringify(res.user!.uid)
-      );
+      this.firestoreService
+        .getLoggedUserData(res.user!.uid)
+        .subscribe((res) => {
+          userData = { ...userData, ...res.payload.data()! };
+          this.cookieService.setTokenCookie(userData as StoredUser);
+          const adminState = this.cookieService.getTokenCookie();
+          if (adminState.adminAccount) {
+            this.router.navigate(['/administrator']);
+          } else {
+            this.router.navigate(['/homepage']);
+          }
+        });
     } catch (error: any) {
       if (error) {
         if (error.code) {

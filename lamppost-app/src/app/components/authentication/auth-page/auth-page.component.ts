@@ -1,5 +1,6 @@
 import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookiesService } from 'src/app/services/cookies.service';
 
 @Component({
   selector: 'app-auth-page',
@@ -7,13 +8,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth-page.component.scss'],
 })
 export class AuthPageComponent implements AfterContentChecked, OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private cookieService: CookiesService) {}
   appTitle: string = 'LAMPPOST';
   authFormTitle!: string;
   routerLink?: string;
   routerButtonText?: string;
   routerButtonIcon?: string;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cookieService.deleteCookie();
+  }
   ngAfterContentChecked(): void {
     switch (this.router.url) {
       case '/authentication/administrator-signup':
