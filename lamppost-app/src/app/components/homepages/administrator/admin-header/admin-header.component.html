@@ -1,0 +1,45 @@
+<header class="header-container">
+  <section class="header__logo__title-container flexRow">
+    <div class="header__logo-container flexColumn">
+      <img
+        [src]="logoSrc"
+        alt="No Lamp"
+        class="header__logo-style"
+        [routerLink]="logoPath"
+      />
+    </div>
+    <div
+      class="header__app__title-container flexColumn"
+      [routerLink]="logoPath"
+    >
+      <h1 [innerText]="appTitle"></h1>
+    </div>
+  </section>
+  <nav class="header__navigation-container flexRow">
+    <a
+      mat-fab
+      extended
+      [routerLink]="nav.path"
+      *ngFor="let nav of navLinks"
+      color="primary"
+    >
+      <mat-icon>{{ nav.icon }}</mat-icon>
+      {{ nav.name }}
+    </a>
+  </nav>
+  <section class="header__info__logout-container flexRow">
+    <div class="header__info-container flexColumn">
+      <p>Welcome admin, {{ fullname }}</p>
+    </div>
+    <div class="header__logout-container flexColumn">
+      <button
+        mat-mini-fab
+        color="primary"
+        [routerLink]="logoutPath"
+        matTooltip="Log out"
+      >
+        <mat-icon>{{ logoutIcon }}</mat-icon>
+      </button>
+    </div>
+  </section>
+</header>

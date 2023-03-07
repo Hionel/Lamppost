@@ -1,0 +1,13 @@
+.workers__body-wrapper {
+  height: 90vh;
+  .workers__table-container {
+    padding: 0rem 0.5rem;
+    height: 100%;
+    width: 55%;
+    overflow-y: scroll;
+  }
+  .workers__edit-container {
+    height: 100%;
+    width: 45%;
+  }
+}

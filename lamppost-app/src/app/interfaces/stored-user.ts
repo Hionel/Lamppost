@@ -1,4 +1,5 @@
 export interface StoredUser {
+  id?: number;
   uid?: string;
   email: string;
   firstname: string;

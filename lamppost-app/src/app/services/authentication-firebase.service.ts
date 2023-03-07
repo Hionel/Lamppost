@@ -22,7 +22,6 @@ export class AuthenticationFirebaseService {
 
   async signupUser(user: FormGroup) {
     const userData = user.value;
-    console.log(userData);
     try {
       const res = await this.ngFireAuth.createUserWithEmailAndPassword(
         userData.email,
@@ -31,7 +30,7 @@ export class AuthenticationFirebaseService {
       res.user!.sendEmailVerification();
       this.firestoreService.createUserDocument(res.user!.uid, userData);
       this.snackbarNotification.openSuccessSnack('Registration Successful');
-      return;
+      return this.loginUser(userData.email, userData.password);
     } catch (error: any) {
       if (error.code) {
         const errorMsg = this.extractErrorMsg.transform(error.message);

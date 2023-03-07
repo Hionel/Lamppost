@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
+import { map, Observable } from 'rxjs';
 import { StoredUser } from '../interfaces/stored-user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirestoreFirebaseService {
-  constructor(private ngFirestore: AngularFirestore) {}
+  private usersCollectionRef: AngularFirestoreCollection<StoredUser> =
+    this.ngFirestore.collection<StoredUser>('Users');
+  allUsers?: Observable<StoredUser[]>;
 
-  private usersCollectionRef = this.ngFirestore.collection('Users');
+  constructor(private ngFirestore: AngularFirestore) {}
 
   // Create user collection
   async createUserDocument(UID: string, userInformation: StoredUser) {
@@ -26,8 +32,21 @@ export class FirestoreFirebaseService {
       console.log('create error:', error);
     }
   }
-
+  // Get logged user data
   getLoggedUserData(UID: string) {
     return this.usersCollectionRef.doc(UID).snapshotChanges();
+  }
+
+  // Get all users data
+  getAllUsersData() {
+    return this.usersCollectionRef.snapshotChanges().pipe(
+      map((docs) => {
+        return docs.map((res) => {
+          const data = res.payload.doc.data() as StoredUser;
+          const uid = res.payload.doc.id;
+          return { uid, ...data };
+        });
+      })
+    );
   }
 }

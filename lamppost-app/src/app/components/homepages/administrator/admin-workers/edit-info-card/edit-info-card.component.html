@@ -1,0 +1,75 @@
+<div class="worker__edit__card__card-container">
+  <div class="card__content">
+    <div class="card__front flexColumn">
+      <h3 class="card__title">THE <br />LampposT</h3>
+      <p class="card__subtitle">Choose a worker to edit</p>
+      <mat-icon class="card__front__icon">edit</mat-icon>
+    </div>
+
+    <div class="card__back">
+      <h5 class="card__back__title">Edit employee profile</h5>
+      <form class="card__form__body flexColumn" [formGroup]="editUserForm">
+        <mat-form-field class="card__form__field flexRow" appearance="outline">
+          <mat-label class="edit__label">Edit email</mat-label>
+          <input
+            matInput
+            placeholder="pat@example.com"
+            formControlName="email"
+            required
+            class="edit__inputStyle"
+          />
+          <mat-error *ngIf="editUserForm.get('email')?.hasError('required')"
+            >Err msg</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field class="card__form__field flexRow" appearance="outline">
+          <mat-label class="edit__label">Edit firstname</mat-label>
+          <input
+            matInput
+            placeholder="pat@example.com"
+            formControlName="firstname"
+            required
+            class="edit__inputStyle"
+          />
+          <mat-error *ngIf="editUserForm.get('firstname')?.hasError('required')"
+            >Err msg</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field class="card__form__field flexRow" appearance="outline">
+          <mat-label class="edit__label">Edit lastname</mat-label>
+          <input
+            matInput
+            placeholder="pat@example.com"
+            formControlName="lastname"
+            required
+            class="edit__inputStyle"
+          />
+          <mat-error *ngIf="editUserForm.get('lastname')?.hasError('required')"
+            >Err msg</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field class="card__form__field flexRow" appearance="outline">
+          <mat-label class="edit__label">Edit age</mat-label>
+          <input
+            matInput
+            placeholder="pat@example.com"
+            formControlName="age"
+            required
+            class="edit__inputStyle"
+          />
+          <mat-error *ngIf="editUserForm.get('age')?.hasError('required')"
+            >Err msg</mat-error
+          >
+        </mat-form-field>
+        <div class="card__form__controls flexRow">
+          <button mat-mini-fab color="primary" matTooltip="Save new data">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-mini-fab color="warn" matTooltip="Delete user">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

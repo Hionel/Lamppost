@@ -1,0 +1,80 @@
+.worker__edit__card__card-container {
+  .card__content {
+    text-align: center;
+    position: relative;
+    padding: 17em;
+    transition: transform 2s;
+    background-image: var(--background-image);
+    border-radius: 15px;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+      rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    transform-style: preserve-3d;
+
+    .card__front,
+    .card__back {
+      font-family: "Source Serif Pro", serif;
+      color: white;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      padding: 2em;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+    }
+
+    .card__front {
+      gap: 2.5rem;
+      .card__title {
+        font-size: 3rem;
+        text-shadow: rgba(0, 0, 0, 0.5) -1px 0, rgba(0, 0, 0, 0.3) 0 -1px,
+          rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
+        transform: translateZ(7.5rem);
+      }
+      .card__subtitle {
+        padding: 1rem;
+        border-radius: 15px;
+        font-size: 1rem;
+        text-shadow: rgba(0, 0, 0, 0.5) -1px 0, rgba(0, 0, 0, 0.3) 0 -1px,
+          rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
+        transform: translateZ(15rem);
+      }
+      .card__front__icon {
+        scale: 1.5;
+        transform: translateZ(13.5rem);
+      }
+    }
+
+    .card__back {
+      transform: rotateY(-0.5turn);
+      background-image: var(--background-image);
+      box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+        rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+      border-radius: 15px;
+      .card__back__title {
+        font-size: 1rem;
+        letter-spacing: 1.5px;
+        text-shadow: rgba(0, 0, 0, 0.5) -1px 0, rgba(0, 0, 0, 0.3) 0 -1px,
+          rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
+        transform: translateZ(5rem);
+      }
+      .card__form__body {
+        height: 90%;
+        justify-content: space-around;
+        transform: translateZ(10rem);
+
+        .card__form__field {
+          width: 100%;
+        }
+        .card__form__controls {
+          width: 100%;
+          justify-content: space-evenly;
+        }
+      }
+    }
+  }
+  &:hover .card__content {
+    transform: rotateY(-0.5turn);
+  }
+}
