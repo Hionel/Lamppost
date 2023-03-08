@@ -1,4 +1,12 @@
-import { Component, Output } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ComponentRef,
+  ElementRef,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { StoredUser } from 'src/app/interfaces/stored-user';
 import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.service';
 
@@ -8,5 +16,8 @@ import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.se
   styleUrls: ['./admin-workers.component.scss'],
 })
 export class AdminWorkersComponent {
-  @Output() employeesData: StoredUser[] = [];
+  selectedUserData?: StoredUser;
+  onSelectUser(userData: StoredUser) {
+    this.selectedUserData = userData;
+  }
 }

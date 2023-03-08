@@ -50,13 +50,15 @@ export class AuthenticationFirebaseService {
       this.firestoreService
         .getLoggedUserData(res.user!.uid)
         .subscribe((res) => {
-          userData = { ...userData, ...res.payload.data()! };
-          this.cookieService.setTokenCookie(userData as StoredUser);
-          const adminState = this.cookieService.getTokenCookie();
-          if (adminState.adminAccount) {
-            this.router.navigate(['/administrator']);
-          } else {
-            this.router.navigate(['/homepage']);
+          if (res.payload.exists) {
+            userData = { ...userData, ...res.payload.data()! };
+            this.cookieService.setTokenCookie(userData as StoredUser);
+            const adminState = this.cookieService.getTokenCookie();
+            if (adminState.adminAccount) {
+              this.router.navigate(['/administrator']);
+            } else {
+              this.router.navigate(['/homepage']);
+            }
           }
         });
     } catch (error: any) {

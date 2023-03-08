@@ -1,26 +1,42 @@
 <div class="worker__edit__card__card-container">
-  <div class="card__content">
+  <div class="card__content" [style.transform]="cardTransform">
     <div class="card__front flexColumn">
       <h3 class="card__title">THE <br />LampposT</h3>
       <p class="card__subtitle">Choose a worker to edit</p>
-      <mat-icon class="card__front__icon">edit</mat-icon>
+      <button
+        mat-mini-fab
+        color="primary"
+        matTooltip="Edit your profile"
+        class="card__front__icon"
+        (click)="editAdminProfile()"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
     </div>
 
     <div class="card__back">
-      <h5 class="card__back__title">Edit employee profile</h5>
-      <form class="card__form__body flexColumn" [formGroup]="editUserForm">
+      <h5 class="card__back__title">Edit profile</h5>
+      <mat-icon
+        class="card__back__closeBtn"
+        matTooltip="Close card"
+        matTooltipPosition="right"
+        (click)="closeCard(editUserForm, formDirective)"
+        >close</mat-icon
+      >
+      <form
+        class="card__form__body flexColumn"
+        [formGroup]="editUserForm"
+        #formDirective="ngForm"
+      >
         <mat-form-field class="card__form__field flexRow" appearance="outline">
-          <mat-label class="edit__label">Edit email</mat-label>
+          <mat-label class="edit__label">Email</mat-label>
           <input
             matInput
             placeholder="pat@example.com"
             formControlName="email"
-            required
             class="edit__inputStyle"
+            readonly="true"
           />
-          <mat-error *ngIf="editUserForm.get('email')?.hasError('required')"
-            >Err msg</mat-error
-          >
         </mat-form-field>
         <mat-form-field class="card__form__field flexRow" appearance="outline">
           <mat-label class="edit__label">Edit firstname</mat-label>
@@ -32,8 +48,16 @@
             class="edit__inputStyle"
           />
           <mat-error *ngIf="editUserForm.get('firstname')?.hasError('required')"
-            >Err msg</mat-error
+            >Firstname is <strong>required</strong></mat-error
           >
+          <mat-error
+            *ngIf="
+              editUserForm.get('firstname')!.hasError('minlength') &&
+              !editUserForm.get('firstname')!.hasError('required')
+            "
+          >
+            Firstname must have at least 2 characters
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="card__form__field flexRow" appearance="outline">
           <mat-label class="edit__label">Edit lastname</mat-label>
@@ -45,8 +69,16 @@
             class="edit__inputStyle"
           />
           <mat-error *ngIf="editUserForm.get('lastname')?.hasError('required')"
-            >Err msg</mat-error
+            >Lastname is <strong>required</strong></mat-error
           >
+          <mat-error
+            *ngIf="
+              editUserForm.get('lastname')!.hasError('minlength') &&
+              !editUserForm.get('lastname')!.hasError('required')
+            "
+          >
+            Lastname must have at least 2 characters
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="card__form__field flexRow" appearance="outline">
           <mat-label class="edit__label">Edit age</mat-label>
@@ -58,14 +90,41 @@
             class="edit__inputStyle"
           />
           <mat-error *ngIf="editUserForm.get('age')?.hasError('required')"
-            >Err msg</mat-error
+            >Age is <strong>required</strong></mat-error
           >
+          <mat-error
+            *ngIf="
+              editUserForm.get('age')!.hasError('min') &&
+              !editUserForm.get('age')!.hasError('required')
+            "
+          >
+            Age must be at least 18 yeas old
+          </mat-error>
+          <mat-error
+            *ngIf="
+              editUserForm.get('age')!.hasError('max') &&
+              !editUserForm.get('age')!.hasError('required')
+            "
+          >
+            Age can't be over 65 yeas old
+          </mat-error>
         </mat-form-field>
         <div class="card__form__controls flexRow">
-          <button mat-mini-fab color="primary" matTooltip="Save new data">
+          <button
+            mat-mini-fab
+            color="primary"
+            matTooltip="Save new data"
+            [disabled]="editUserForm.invalid"
+            (click)="updateUserData(editUserForm, formDirective)"
+          >
             <mat-icon>check</mat-icon>
           </button>
-          <button mat-mini-fab color="warn" matTooltip="Delete user">
+          <button
+            mat-mini-fab
+            color="warn"
+            matTooltip="Delete user"
+            (click)="deleteUserData(editUserForm, formDirective)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </div>

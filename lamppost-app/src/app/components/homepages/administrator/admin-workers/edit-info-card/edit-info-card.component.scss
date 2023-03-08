@@ -41,8 +41,7 @@
         transform: translateZ(15rem);
       }
       .card__front__icon {
-        scale: 1.5;
-        transform: translateZ(13.5rem);
+        transform: translateZ(11.5rem);
       }
     }
 
@@ -59,6 +58,21 @@
           rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
         transform: translateZ(5rem);
       }
+      .card__back__closeBtn {
+        text-shadow: rgba(0, 0, 0, 0.5) -1px 0, rgba(0, 0, 0, 0.3) 0 -1px,
+          rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
+        cursor: pointer;
+        position: absolute;
+        right: 4%;
+        top: 2%;
+        transform: translateZ(7.5rem);
+        transition: all 220ms ease-in-out;
+        &:hover {
+          transition: all 220ms ease-in-out;
+          scale: 1.1;
+        }
+      }
+
       .card__form__body {
         height: 90%;
         justify-content: space-around;
@@ -73,8 +87,5 @@
         }
       }
     }
-  }
-  &:hover .card__content {
-    transform: rotateY(-0.5turn);
   }
 }
