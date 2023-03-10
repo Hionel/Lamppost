@@ -1,1 +1,30 @@
-<p>user-home works!</p>
+<form [formGroup]="addShiftForm" (ngSubmit)="addShift()" class="flexColumn">
+  <span>Shift slug:</span>
+  <input type="text" formControlName="shiftSlug" />
+  <br />
+  <span>Date</span>
+  <input type="date" formControlName="shiftDate" />
+  <br />
+  <span>Start Time</span>
+  <input type="time" formControlName="shiftStartTime" />
+  <br />
+  <span>End Time</span>
+  <input type="time" formControlName="shiftEndTime" />
+  <br />
+  <span>Wage/hour</span>
+  <input type="text" formControlName="shiftWage" />
+  <br />
+  <span>Department</span>
+  <select formControlName="shiftDepartment">
+    <option value="">HR</option>
+    <option value="">ASSETS</option>
+    <option value="">DEV</option>
+    <option value="">PROD</option>
+  </select>
+  <br />
+  <span>Comments</span>
+  <textarea cols="30" rows="10" formControlName="shiftComments"></textarea>
+  <br />
+
+  <button type="submit">Add shift</button>
+</form>
