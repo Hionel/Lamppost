@@ -101,4 +101,32 @@ export class FirestoreFirebaseService {
       return this.snackbar.openErrorSnack(`Error adding shift: ${error}`);
     }
   }
+  // Get all shifts
+
+  getAllShifts() {
+    return this.shiftsCollectionRef.snapshotChanges().pipe(
+      map((userShifts) => {
+        return userShifts.map((res) => {
+          const shiftData = res.payload.doc.data() as IshiftObject;
+          const shiftsUID = res.payload.doc.id;
+          return { shiftsUID, ...shiftData };
+        });
+      })
+    );
+  }
+
+  async getFullname(UID: string) {
+    try {
+      let fullname;
+      await this.usersCollectionRef
+        .doc(UID)
+        .get()
+        .forEach((user) => {
+          fullname = user.data()?.firstname + ' ' + user.data()?.lastname;
+        });
+      return fullname;
+    } catch (error) {
+      return this.snackbar.openErrorSnack('Failed fetching the names');
+    }
+  }
 }

@@ -21,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { AppComponent } from './app.component';
 import { AuthPageComponent } from './components/authentication/auth-page/auth-page.component';
@@ -37,6 +38,7 @@ import { AdminOverviewComponent } from './components/homepages/administrator/adm
 import { AdminHeaderComponent } from './components/homepages/administrator/admin-header/admin-header.component';
 import { EditInfoCardComponent } from './components/homepages/administrator/admin-workers/edit-info-card/edit-info-card.component';
 import { WorkersTableComponent } from './components/homepages/administrator/admin-workers/workers-table/workers-table.component';
+import { ShiftsTableComponent } from './components/homepages/administrator/admin-shifts/shifts-table/shifts-table.component';
 
 const materialModules = [
   MatCardModule,
@@ -50,6 +52,7 @@ const materialModules = [
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
+  MatDatepickerModule,
 ];
 const modules = [FormsModule, ReactiveFormsModule];
 
@@ -70,6 +73,7 @@ const modules = [FormsModule, ReactiveFormsModule];
     AdminHeaderComponent,
     EditInfoCardComponent,
     WorkersTableComponent,
+    ShiftsTableComponent,
   ],
   imports: [
     BrowserModule,

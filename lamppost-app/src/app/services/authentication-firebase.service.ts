@@ -31,6 +31,7 @@ export class AuthenticationFirebaseService {
       this.firestoreService.createUserDocument(res.user!.uid, userData);
       this.snackbarNotification.openSuccessSnack('Registration Successful');
       return this.loginUser(userData.email, userData.password);
+      return;
     } catch (error: any) {
       if (error.code) {
         const errorMsg = this.extractErrorMsg.transform(error.message);

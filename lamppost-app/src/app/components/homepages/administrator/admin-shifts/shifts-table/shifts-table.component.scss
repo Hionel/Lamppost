@@ -1,0 +1,44 @@
+.workers__table__head {
+  align-items: center;
+  justify-content: space-around;
+  background-image: var(--background-image);
+  border-radius: 5px;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  .workers__table__filter-container {
+    gap: 0.5rem;
+    span {
+      font-family: "Source Serif Pro", serif;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+    input {
+      font-family: "Source Serif Pro", serif;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      border-bottom: 1px solid black;
+    }
+  }
+  .workers__table__paginator {
+    background-color: transparent;
+  }
+}
+.workers__table-wrapper {
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  table {
+    background-color: transparent;
+    .hoverRowSelectionEffect {
+      transition: all 220ms ease-in-out;
+    }
+    .hoverRowSelectionEffect:hover {
+      cursor: pointer;
+      background-color: rgba(128, 128, 128, 0.2);
+      transition: all 220ms ease-in-out;
+    }
+  }
+}

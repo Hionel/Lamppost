@@ -120,6 +120,7 @@
             <mat-icon>check</mat-icon>
           </button>
           <button
+            *ngIf="showDeleteButton"
             mat-mini-fab
             color="warn"
             matTooltip="Delete user"
