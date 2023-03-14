@@ -1,14 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  FormBuilder,
-  AbstractControl,
-} from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Ishift } from 'src/app/interfaces/ishift';
+import { AllShiftsService } from 'src/app/services/all-shifts.service';
 import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.service';
 
 @Component({
@@ -30,16 +26,18 @@ export class ShiftsTableComponent implements OnInit {
   dataSource = new MatTableDataSource<Ishift>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @Input() modificationsDone: boolean = false;
+  // @Input() modificationsDone: boolean = false;
   searchFormGroup: FormGroup;
   constructor(
     private firestoreSerivce: FirestoreFirebaseService,
-    private formBuilder: FormBuilder
+    private shiftsService: AllShiftsService
   ) {
     this.getShifts();
-    this.searchFormGroup = this.formBuilder.group({
-      byName: '',
-      byDepartment: '',
+    this.searchFormGroup = new FormGroup({
+      byName: new FormControl(''),
+      byDepartment: new FormControl(''),
+      filterStartDate: new FormControl(''),
+      filterEndDate: new FormControl(''),
     });
 
     this.filterListener();
@@ -47,49 +45,29 @@ export class ShiftsTableComponent implements OnInit {
 
   filterListener() {
     this.searchFormGroup.valueChanges.subscribe((res: any) => {
-      console.log(res);
       const filter = JSON.stringify({
         ...res,
-        inputName: res.byName,
       });
       this.dataSource.filter = filter;
     });
   }
-
   createFilterOption(): (data: Ishift, filter: string) => boolean {
-    let filterFunc = function (data: any, filter: any): boolean {
-      let search = JSON.parse(filter);
-      console.log(search);
-      console.log(data);
-
-      if (search.byName && !search.byDepartment) {
-        return data.fullname
-          .trim()
-          .toLowerCase()
-          .includes(search.byName.trim().toLowerCase());
-      }
-      if (!search.byName && search.byDepartment) {
-        return data.shiftDepartment
-          .trim()
-          .toLowerCase()
-          .includes(search.byDepartment.trim().toLowerCase());
-      }
-      if (search.byName && search.byDepartment) {
-        return (
-          data.shiftDepartment
-            .trim()
-            .toLowerCase()
-            .includes(search.byDepartment.trim().toLowerCase()) &&
-          data.fullname
-            .trim()
-            .toLowerCase()
-            .includes(search.byName.trim().toLowerCase())
-        );
-      }
-      return true;
-    };
+    let filterFunc = this.shiftsService.filterFunc;
     return filterFunc;
   }
+  onDateRangePickerClosed() {
+    if (!this.searchFormGroup.get('filterEndDate')!.value) {
+      this.clearDateRange();
+    }
+  }
+  clearDateRange() {
+    this.shiftsService.clearDateInputs(
+      this.searchFormGroup,
+      'filterStartDate',
+      'filterEndDate'
+    );
+  }
+
   ngOnInit(): void {}
 
   selectShiftFromTable(shift: any) {}
@@ -103,7 +81,7 @@ export class ShiftsTableComponent implements OnInit {
         this.firestoreSerivce.getFullname(data.shiftsUID).then((workerName) => {
           fullname = String(workerName);
           data.shifts.forEach((shift) => {
-            totalEarnings = this.calculateTotalPerShift(
+            totalEarnings = this.shiftsService.calculateTotalPerShift(
               shift.shiftStartTime,
               shift.shiftEndTime,
               shift.shiftWage
@@ -115,7 +93,6 @@ export class ShiftsTableComponent implements OnInit {
             };
             this.shiftsData.push(shiftInfo);
           });
-          console.log(this.shiftsData);
           this.dataSource = new MatTableDataSource(this.shiftsData);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -123,14 +100,5 @@ export class ShiftsTableComponent implements OnInit {
         });
       });
     });
-  }
-
-  calculateTotalPerShift(start: string, end: string, wagePerHour: string) {
-    let startTime = start.split(':');
-    let endTime = end.split(':');
-    let hDiff = Number(endTime[0]) - Number(startTime[0]);
-    let mDiff = (Number(endTime[1]) - Number(startTime[1])) / 60;
-    let hoursWorked = `${hDiff + mDiff}`;
-    return (Math.round(Number(hoursWorked) * 100) / 100) * Number(wagePerHour);
   }
 }

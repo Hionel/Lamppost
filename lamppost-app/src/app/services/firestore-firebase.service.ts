@@ -114,7 +114,7 @@ export class FirestoreFirebaseService {
       })
     );
   }
-
+  // Get fullname
   async getFullname(UID: string) {
     try {
       let fullname;

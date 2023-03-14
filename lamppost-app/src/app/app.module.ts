@@ -22,6 +22,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { AuthPageComponent } from './components/authentication/auth-page/auth-page.component';
@@ -39,6 +40,7 @@ import { AdminHeaderComponent } from './components/homepages/administrator/admin
 import { EditInfoCardComponent } from './components/homepages/administrator/admin-workers/edit-info-card/edit-info-card.component';
 import { WorkersTableComponent } from './components/homepages/administrator/admin-workers/workers-table/workers-table.component';
 import { ShiftsTableComponent } from './components/homepages/administrator/admin-shifts/shifts-table/shifts-table.component';
+import { DateTimeRemovalPipe } from './customPipes/date-time-removal.pipe';
 
 const materialModules = [
   MatCardModule,
@@ -53,6 +55,7 @@ const materialModules = [
   MatSortModule,
   MatTableModule,
   MatDatepickerModule,
+  MatNativeDateModule,
 ];
 const modules = [FormsModule, ReactiveFormsModule];
 
@@ -74,6 +77,7 @@ const modules = [FormsModule, ReactiveFormsModule];
     EditInfoCardComponent,
     WorkersTableComponent,
     ShiftsTableComponent,
+    DateTimeRemovalPipe,
   ],
   imports: [
     BrowserModule,
@@ -85,7 +89,7 @@ const modules = [FormsModule, ReactiveFormsModule];
     ...materialModules,
     ...modules,
   ],
-  providers: [ExtractErrorMessagePipe],
+  providers: [ExtractErrorMessagePipe, DateTimeRemovalPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
