@@ -23,13 +23,12 @@ export class ShiftsTableComponent {
     'shiftDepartment',
     'totalEarnings',
   ];
-  shiftsData: Ishift[] = [];
+
   dataSource = new MatTableDataSource<Ishift>();
   @Output() selectedShift: EventEmitter<Ishift> = new EventEmitter<Ishift>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  // @Input() modificationsDone: boolean = false;
   searchFormGroup: FormGroup;
   constructor(
     private firestoreSerivce: FirestoreFirebaseService,
@@ -79,33 +78,37 @@ export class ShiftsTableComponent {
 
   getShifts() {
     this.firestoreSerivce.getAllShifts().subscribe((response) => {
-      this.shiftsData = [];
-      response.forEach((data) => {
-        let shiftInfo: Ishift;
-        let totalEarnings: number;
-        let fullname: string;
-        this.firestoreSerivce.getFullname(data.shiftsUID).then((workerName) => {
-          fullname = String(workerName);
-          data.shifts.forEach((shift) => {
-            totalEarnings = this.shiftsService.calculateTotalPerShift(
-              shift.shiftStartTime,
-              shift.shiftEndTime,
-              shift.shiftWage
-            );
-            shiftInfo = {
-              uid: data.shiftsUID,
-              fullname: fullname,
-              ...shift,
-              totalEarnings: totalEarnings,
-            };
-            this.shiftsData.push(shiftInfo);
-          });
-          this.dataSource = new MatTableDataSource(this.shiftsData);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.dataSource.filterPredicate = this.createFilterOption();
-        });
-      });
+      let shiftsData = new Array() as Ishift[];
+      for (let data of response) {
+        if (data.shifts.length > 0) {
+          let shiftInfo: Ishift;
+          let totalEarnings: number;
+          let fullname: string;
+          this.firestoreSerivce
+            .getFullname(data.shiftsUID)
+            .then((workerName) => {
+              fullname = String(workerName);
+              for (const shift of data.shifts) {
+                totalEarnings = this.shiftsService.calculateTotalPerShift(
+                  shift.shiftStartTime,
+                  shift.shiftEndTime,
+                  shift.shiftWage
+                );
+                shiftInfo = {
+                  uid: data.shiftsUID,
+                  fullname: fullname,
+                  ...shift,
+                  totalEarnings: totalEarnings,
+                };
+                shiftsData.push(shiftInfo);
+              }
+              this.dataSource = new MatTableDataSource(shiftsData);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+              this.dataSource.filterPredicate = this.createFilterOption();
+            });
+        }
+      }
     });
   }
 }

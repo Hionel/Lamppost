@@ -1,18 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import {
-  collection,
-  doc,
-  DocumentSnapshot,
-  getDoc,
-  getFirestore,
-  where,
-} from 'firebase/firestore';
-import { map, Observable, pipe } from 'rxjs';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { map } from 'rxjs';
 import { Ishift, IshiftObject } from '../interfaces/ishift';
 import { StoredUser } from '../interfaces/stored-user';
 
@@ -64,15 +56,6 @@ export class FirestoreFirebaseService {
       })
     );
   }
-
-  // Delete user data form firestore
-  async deleteUserData(UID: string) {
-    try {
-      await this.usersCollectionRef.doc(UID).delete();
-    } catch (error: any) {
-      this.snackbar.openErrorSnack(`Error deleting ${error}`);
-    }
-  }
   // Update specifci user Data
   updateUserData(UID: string, userUpdated: StoredUser) {
     try {
@@ -81,6 +64,15 @@ export class FirestoreFirebaseService {
       this.snackbar.openErrorSnack(`Error updating ${error}`);
     }
   }
+  // Delete user data form firestore
+  async deleteUserData(UID: string) {
+    try {
+      await this.usersCollectionRef.doc(UID).delete();
+    } catch (error: any) {
+      this.snackbar.openErrorSnack(`Error deleting ${error}`);
+    }
+  }
+
   // Get fullname
   async getFullname(UID: string) {
     try {
@@ -139,10 +131,8 @@ export class FirestoreFirebaseService {
 
   updateShift(UID: string, ShiftSlug: string, updatedShiftData: Ishift) {
     try {
-      console.log(updatedShiftData);
       const userShiftsDocument = this.shiftsCollectionRef.doc(UID);
       return userShiftsDocument.get().subscribe((res) => {
-        console.log(res.data()?.shifts);
         const shiftsArray = res.data()!.shifts;
         if (res.exists) {
           const modifiedShiftIndex = shiftsArray.findIndex(
@@ -156,7 +146,6 @@ export class FirestoreFirebaseService {
             shiftWage: updatedShiftData.shiftWage,
             shiftDepartment: updatedShiftData.shiftDepartment,
           };
-          console.log(shiftsArray);
           return userShiftsDocument.update({ shifts: shiftsArray });
         }
         return this.snackbar.openErrorSnack(
@@ -165,6 +154,36 @@ export class FirestoreFirebaseService {
       });
     } catch (error: any) {
       return this.snackbar.openErrorSnack(`Error updating ${error}`);
+    }
+  }
+
+  deleteShift(UID: string, ShiftSlug: string) {
+    try {
+      const userShiftsDocument = this.shiftsCollectionRef.doc(UID);
+      return userShiftsDocument.get().subscribe((res) => {
+        const shiftsArray = res.data()!.shifts;
+        if (res.exists) {
+          const removedShiftIndex = shiftsArray.findIndex(
+            (shift: Ishift) => shift.shiftSlug === ShiftSlug
+          );
+          shiftsArray.splice(removedShiftIndex, 1);
+          return userShiftsDocument
+            .update({ shifts: shiftsArray })
+            .then(() => {
+              this.snackbar.openSuccessSnack('Shift deleted successfully');
+            })
+            .catch((error) => {
+              return this.snackbar.openErrorSnack(
+                `Error deleting shift: ${error}`
+              );
+            });
+        }
+        return this.snackbar.openErrorSnack(
+          'No response exists for this document'
+        );
+      });
+    } catch (error: any) {
+      return this.snackbar.openErrorSnack(`Error deleting: ${error}`);
     }
   }
 }

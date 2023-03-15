@@ -14,7 +14,7 @@ import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.se
   templateUrl: './edit-shift-overlay.component.html',
   styleUrls: ['./edit-shift-overlay.component.scss'],
 })
-export class EditShiftOverlayComponent implements OnInit {
+export class EditShiftOverlayComponent {
   editShiftForm: FormGroup;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Ishift,
@@ -35,9 +35,6 @@ export class EditShiftOverlayComponent implements OnInit {
       ]),
     });
   }
-  ngOnInit(): void {
-    console.log(this.data);
-  }
   updateShiftData(form: FormGroup, formDirective: FormGroupDirective) {
     this.firestoreSerivce.updateShift(
       this.data.uid!,
@@ -48,5 +45,7 @@ export class EditShiftOverlayComponent implements OnInit {
     formDirective.resetForm();
   }
 
-  deleteShiftData(form: FormGroup, formDirective: FormGroupDirective) {}
+  deleteShiftData() {
+    this.firestoreSerivce.deleteShift(this.data.uid!, this.data.shiftSlug);
+  }
 }

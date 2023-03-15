@@ -96,7 +96,6 @@
   </button>
   <button
     [mat-dialog-close]="true"
-    cdkFocusInitial
     mat-mini-fab
     color="primary"
     matTooltip="Update shift data"
@@ -110,7 +109,7 @@
     mat-mini-fab
     color="warn"
     matTooltip="Delete shift data"
-    (click)="deleteShiftData(editShiftForm, formDirective)"
+    (click)="deleteShiftData()"
   >
     <mat-icon>delete</mat-icon>
   </button>
