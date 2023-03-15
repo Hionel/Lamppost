@@ -1,4 +1,5 @@
 export interface Ishift {
+  uid?: string;
   fullname?: string;
   shiftSlug: string;
   shiftDate: string;
@@ -6,7 +7,7 @@ export interface Ishift {
   shiftEndTime: string;
   shiftWage: string;
   shiftDepartment: string;
-  shiftComments: string;
+  shiftComments?: string;
   totalEarnings?: number;
 }
 

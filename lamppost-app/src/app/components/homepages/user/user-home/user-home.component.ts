@@ -24,8 +24,8 @@ export class UserHomeComponent {
       shiftDepartment: new FormControl(''),
       shiftComments: new FormControl(''),
     });
-    let loggedUserData = this.cookieService.getTokenCookie();
-    this.UID = loggedUserData.uid;
+    let loggedUserUID = this.cookieService.getTokenCookie();
+    this.UID = loggedUserUID.uid;
   }
   addShift() {
     this.firestoreService.addShift(this.addShiftForm.value, this.UID);

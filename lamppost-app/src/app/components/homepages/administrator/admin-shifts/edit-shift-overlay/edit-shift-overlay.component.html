@@ -1,0 +1,117 @@
+<h2 mat-dialog-title align="center">
+  EDIT EMPLOYEE'S SHIFT
+  <p>
+    {{ data.shiftSlug }}
+  </p>
+</h2>
+<div class="dialog__content-container">
+  <form
+    class="flexColumn"
+    [formGroup]="editShiftForm"
+    #formDirective="ngForm"
+    (ngSubmit)="updateShiftData(editShiftForm, formDirective)"
+  >
+    <mat-form-field class="edit__shift__field flexRow" appearance="outline">
+      <mat-label class="edit__label">Fullname</mat-label>
+      <input
+        matInput
+        formControlName="fullname"
+        class="name__inputStyle"
+        readonly="true"
+      />
+    </mat-form-field>
+    <mat-form-field class="edit__shift__field flexRow" appearance="outline">
+      <mat-label class="edit__label">Edit Date</mat-label>
+      <input
+        matInput
+        formControlName="shiftDate"
+        class="edit__inputStyle"
+        required
+      />
+      <mat-error *ngIf="editShiftForm.get('shiftDate')?.hasError('required')"
+        >Firstname is <strong>required</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="edit__shift__field flexRow" appearance="outline">
+      <mat-label class="edit__label">Edit Start Time</mat-label>
+      <input
+        matInput
+        formControlName="shiftStartTime"
+        required
+        class="edit__inputStyle"
+      />
+      <mat-error
+        *ngIf="editShiftForm.get('shiftStartTime')?.hasError('required')"
+        >Start time is <strong>required</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="edit__shift__field flexRow" appearance="outline">
+      <mat-label class="edit__label">Edit End Time</mat-label>
+      <input
+        matInput
+        formControlName="shiftEndTime"
+        class="edit__inputStyle"
+        required
+      />
+      <mat-error *ngIf="editShiftForm.get('shiftEndTime')?.hasError('required')"
+        >End time is <strong>required</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="edit__shift__field flexRow" appearance="outline">
+      <mat-label class="edit__label">Edit Wage</mat-label>
+      <input
+        matInput
+        formControlName="shiftWage"
+        class="edit__inputStyle"
+        required
+      />
+      <mat-error *ngIf="editShiftForm.get('shiftWage')?.hasError('required')">
+        Wage is <strong>required</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="edit__shift__field flexRow" appearance="outline">
+      <mat-label class="edit__label">Edit Department</mat-label>
+      <input
+        matInput
+        formControlName="shiftDepartment"
+        class="edit__inputStyle"
+        required
+      />
+      <mat-error
+        *ngIf="editShiftForm.get('shiftDepartment')?.hasError('required')"
+      >
+        Department is <strong>required</strong></mat-error
+      >
+    </mat-form-field>
+  </form>
+</div>
+<mat-dialog-actions align="center" class="dialog__controls-container">
+  <button
+    mat-dialog-close
+    mat-mini-fab
+    color="secondary"
+    matTooltip="Cancel editing"
+  >
+    <mat-icon>cancel</mat-icon>
+  </button>
+  <button
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+    mat-mini-fab
+    color="primary"
+    matTooltip="Update shift data"
+    [disabled]="editShiftForm.invalid"
+    (click)="updateShiftData(editShiftForm, formDirective)"
+  >
+    <mat-icon>save</mat-icon>
+  </button>
+  <button
+    [mat-dialog-close]="true"
+    mat-mini-fab
+    color="warn"
+    matTooltip="Delete shift data"
+    (click)="deleteShiftData(editShiftForm, formDirective)"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-dialog-actions>

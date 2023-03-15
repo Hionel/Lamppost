@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import { ExtractErrorMessagePipe } from '../customPipes/extract-error-message.pipe';
 import { StoredUser } from '../interfaces/stored-user';
 import { CookiesService } from './cookies.service';
@@ -39,27 +40,38 @@ export class AuthenticationFirebaseService {
     }
   }
 
-  async loginUser(email: string, password: string) {
+  loginUser(email: string, password: string) {
     try {
-      const res = await this.ngFireAuth.signInWithEmailAndPassword(
-        email,
-        password
-      );
-      let userData = { uid: res.user!.uid };
-      this.snackbarNotification.openSuccessSnack('Authentication Successful');
-      this.firestoreService
-        .getLoggedUserData(res.user!.uid)
-        .subscribe((res) => {
-          if (res.payload.exists) {
-            userData = { ...userData, ...res.payload.data()! };
-            this.cookieService.setTokenCookie(userData as StoredUser);
-            const adminState = this.cookieService.getTokenCookie();
-            if (adminState.adminAccount) {
-              this.router.navigate(['/administrator']);
-            } else {
-              this.router.navigate(['/homepage']);
-            }
-          }
+      this.ngFireAuth
+        .signInWithEmailAndPassword(email, password)
+        .then((res) => {
+          console.log(res.user?.uid);
+          let tokenData: { uid: string; adminAccount?: boolean } = {
+            uid: res.user!.uid,
+          };
+
+          this.firestoreService
+            .getLoggedUserData(res.user!.uid)
+            .pipe(take(1))
+            .subscribe((res) => {
+              if (res.payload.exists) {
+                tokenData = {
+                  ...tokenData,
+                  adminAccount: res.payload.data()!.adminAccount,
+                };
+
+                this.cookieService.setTokenCookie(tokenData as StoredUser);
+                const adminState = this.cookieService.getTokenCookie();
+                if (adminState.adminAccount) {
+                  this.router.navigate(['/administrator']);
+                } else {
+                  this.router.navigate(['/homepage']);
+                }
+              }
+              this.snackbarNotification.openSuccessSnack(
+                'Authentication Successful'
+              );
+            });
         });
     } catch (error: any) {
       if (error) {

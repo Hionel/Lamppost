@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,13 +6,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Ishift } from 'src/app/interfaces/ishift';
 import { AllShiftsService } from 'src/app/services/all-shifts.service';
 import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.service';
+import { SnackbarNotificationService } from 'src/app/services/snackbar-notification.service';
 
 @Component({
   selector: 'app-shifts-table',
   templateUrl: './shifts-table.component.html',
   styleUrls: ['./shifts-table.component.scss'],
 })
-export class ShiftsTableComponent implements OnInit {
+export class ShiftsTableComponent {
   displayedColumns: string[] = [
     'fullname',
     'shiftDate',
@@ -24,13 +25,16 @@ export class ShiftsTableComponent implements OnInit {
   ];
   shiftsData: Ishift[] = [];
   dataSource = new MatTableDataSource<Ishift>();
+  @Output() selectedShift: EventEmitter<Ishift> = new EventEmitter<Ishift>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
   // @Input() modificationsDone: boolean = false;
   searchFormGroup: FormGroup;
   constructor(
     private firestoreSerivce: FirestoreFirebaseService,
-    private shiftsService: AllShiftsService
+    private shiftsService: AllShiftsService,
+    private snackbar: SnackbarNotificationService
   ) {
     this.getShifts();
     this.searchFormGroup = new FormGroup({
@@ -58,6 +62,7 @@ export class ShiftsTableComponent implements OnInit {
   onDateRangePickerClosed() {
     if (!this.searchFormGroup.get('filterEndDate')!.value) {
       this.clearDateRange();
+      this.snackbar.openErrorSnack('Please select both date values!');
     }
   }
   clearDateRange() {
@@ -68,12 +73,13 @@ export class ShiftsTableComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {}
-
-  selectShiftFromTable(shift: any) {}
+  selectShiftFromTable(shift: Ishift) {
+    this.selectedShift.emit(shift);
+  }
 
   getShifts() {
     this.firestoreSerivce.getAllShifts().subscribe((response) => {
+      this.shiftsData = [];
       response.forEach((data) => {
         let shiftInfo: Ishift;
         let totalEarnings: number;
@@ -87,6 +93,7 @@ export class ShiftsTableComponent implements OnInit {
               shift.shiftWage
             );
             shiftInfo = {
+              uid: data.shiftsUID,
               fullname: fullname,
               ...shift,
               totalEarnings: totalEarnings,

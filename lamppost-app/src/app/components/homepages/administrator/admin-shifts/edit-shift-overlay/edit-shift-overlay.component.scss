@@ -1,0 +1,28 @@
+h2 {
+  font-family: "Source Serif Pro", serif !important;
+  color: white !important;
+  user-select: none;
+}
+.dialog__content-container {
+  padding: 1rem;
+  overflow: hidden;
+  height: 100%;
+}
+.dialog__controls-container {
+  justify-content: space-around;
+  padding-bottom: 2rem;
+  button {
+    transition: all 220ms ease-in-out;
+
+    &:hover {
+      scale: 1.1;
+      transition: all 220ms ease-in-out;
+    }
+  }
+}
+.name__inputStyle {
+  border: none;
+  outline: none;
+  user-select: none;
+  cursor: default;
+}

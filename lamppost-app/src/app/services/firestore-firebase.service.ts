@@ -4,7 +4,14 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { collection, doc, getDoc, getFirestore } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  DocumentSnapshot,
+  getDoc,
+  getFirestore,
+  where,
+} from 'firebase/firestore';
 import { map, Observable, pipe } from 'rxjs';
 import { Ishift, IshiftObject } from '../interfaces/ishift';
 import { StoredUser } from '../interfaces/stored-user';
@@ -74,7 +81,21 @@ export class FirestoreFirebaseService {
       this.snackbar.openErrorSnack(`Error updating ${error}`);
     }
   }
-
+  // Get fullname
+  async getFullname(UID: string) {
+    try {
+      let fullname;
+      await this.usersCollectionRef
+        .doc(UID)
+        .get()
+        .forEach((user) => {
+          fullname = user.data()?.firstname + ' ' + user.data()?.lastname;
+        });
+      return fullname;
+    } catch (error) {
+      return this.snackbar.openErrorSnack('Failed fetching the names');
+    }
+  }
   // Add shift to
   async addShift(newShiftData: Ishift, UID: string) {
     try {
@@ -114,19 +135,36 @@ export class FirestoreFirebaseService {
       })
     );
   }
-  // Get fullname
-  async getFullname(UID: string) {
+  // Update specific shift
+
+  updateShift(UID: string, ShiftSlug: string, updatedShiftData: Ishift) {
     try {
-      let fullname;
-      await this.usersCollectionRef
-        .doc(UID)
-        .get()
-        .forEach((user) => {
-          fullname = user.data()?.firstname + ' ' + user.data()?.lastname;
-        });
-      return fullname;
-    } catch (error) {
-      return this.snackbar.openErrorSnack('Failed fetching the names');
+      console.log(updatedShiftData);
+      const userShiftsDocument = this.shiftsCollectionRef.doc(UID);
+      return userShiftsDocument.get().subscribe((res) => {
+        console.log(res.data()?.shifts);
+        const shiftsArray = res.data()!.shifts;
+        if (res.exists) {
+          const modifiedShiftIndex = shiftsArray.findIndex(
+            (shift: Ishift) => shift.shiftSlug === ShiftSlug
+          );
+          shiftsArray[modifiedShiftIndex] = {
+            shiftSlug: ShiftSlug,
+            shiftDate: updatedShiftData.shiftDate,
+            shiftStartTime: updatedShiftData.shiftStartTime,
+            shiftEndTime: updatedShiftData.shiftEndTime,
+            shiftWage: updatedShiftData.shiftWage,
+            shiftDepartment: updatedShiftData.shiftDepartment,
+          };
+          console.log(shiftsArray);
+          return userShiftsDocument.update({ shifts: shiftsArray });
+        }
+        return this.snackbar.openErrorSnack(
+          'No response exists for this document'
+        );
+      });
+    } catch (error: any) {
+      return this.snackbar.openErrorSnack(`Error updating ${error}`);
     }
   }
 }

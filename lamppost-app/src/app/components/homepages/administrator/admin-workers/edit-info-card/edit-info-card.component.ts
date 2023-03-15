@@ -56,6 +56,7 @@ export class EditInfoCardComponent {
     ) {
       console.log(this.selectedUserData);
       this.addDataToEditForm(this.selectedUserData!);
+      this.showDeleteButton = true;
       this.cardTransform = 'rotateY(-0.5turn)';
     }
   }
