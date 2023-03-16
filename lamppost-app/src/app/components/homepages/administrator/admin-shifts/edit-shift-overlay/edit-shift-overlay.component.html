@@ -22,12 +22,14 @@
     </mat-form-field>
     <mat-form-field class="edit__shift__field flexRow" appearance="outline">
       <mat-label class="edit__label">Edit Date</mat-label>
+
       <input
         matInput
         formControlName="shiftDate"
         class="edit__inputStyle"
         required
       />
+
       <mat-error *ngIf="editShiftForm.get('shiftDate')?.hasError('required')"
         >Firstname is <strong>required</strong></mat-error
       >
@@ -36,6 +38,7 @@
       <mat-label class="edit__label">Edit Start Time</mat-label>
       <input
         matInput
+        type="time"
         formControlName="shiftStartTime"
         required
         class="edit__inputStyle"
@@ -49,6 +52,7 @@
       <mat-label class="edit__label">Edit End Time</mat-label>
       <input
         matInput
+        type="time"
         formControlName="shiftEndTime"
         class="edit__inputStyle"
         required
