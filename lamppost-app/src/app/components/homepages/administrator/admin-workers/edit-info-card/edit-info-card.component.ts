@@ -5,6 +5,7 @@ import {
   Input,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
@@ -24,6 +25,7 @@ import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.se
 })
 export class EditInfoCardComponent {
   @Input() selectedUserData!: StoredUser | undefined;
+  showDeleteButton: boolean = true;
   cardTransform: string = '';
   editUserForm: FormGroup;
   constructor(
@@ -54,6 +56,7 @@ export class EditInfoCardComponent {
     ) {
       console.log(this.selectedUserData);
       this.addDataToEditForm(this.selectedUserData!);
+      this.showDeleteButton = true;
       this.cardTransform = 'rotateY(-0.5turn)';
     }
   }
@@ -63,6 +66,11 @@ export class EditInfoCardComponent {
     formDirective.resetForm();
     for (const control in form.controls) {
       form.get(control)?.setErrors(null);
+    }
+    if (!this.showDeleteButton) {
+      setTimeout(() => {
+        this.showDeleteButton = true;
+      }, 1500);
     }
   }
   deleteUserData(form: FormGroup, formDirective: FormGroupDirective) {
@@ -90,6 +98,7 @@ export class EditInfoCardComponent {
         };
         console.log(this.selectedUserData);
         this.addDataToEditForm(this.selectedUserData!);
+        this.showDeleteButton = false;
       });
     });
   }

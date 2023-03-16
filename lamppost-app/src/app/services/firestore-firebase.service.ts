@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { map, Observable } from 'rxjs';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { map } from 'rxjs';
+import { Ishift, IshiftObject } from '../interfaces/ishift';
 import { StoredUser } from '../interfaces/stored-user';
 
 import { SnackbarNotificationService } from './snackbar-notification.service';
@@ -15,12 +16,11 @@ import { SnackbarNotificationService } from './snackbar-notification.service';
 export class FirestoreFirebaseService {
   private usersCollectionRef: AngularFirestoreCollection<StoredUser> =
     this.ngFirestore.collection<StoredUser>('Users');
-  allUsers?: Observable<StoredUser[]>;
-
+  private shiftsCollectionRef: AngularFirestoreCollection<IshiftObject> =
+    this.ngFirestore.collection<IshiftObject>('Shifts');
   constructor(
     private ngFirestore: AngularFirestore,
-    private snackbar: SnackbarNotificationService,
-    private ngFireAuth: AngularFireAuth
+    private snackbar: SnackbarNotificationService
   ) {}
 
   // Create user collection
@@ -56,7 +56,15 @@ export class FirestoreFirebaseService {
       })
     );
   }
-
+  // Update specifci user Data
+  updateUserData(UID: string, userUpdated: StoredUser) {
+    try {
+      this.usersCollectionRef.doc(UID).update(userUpdated);
+    } catch (error: any) {
+      this.snackbar.openErrorSnack(`Error updating ${error}`);
+    }
+  }
+  // Delete user data form firestore
   async deleteUserData(UID: string) {
     try {
       await this.usersCollectionRef.doc(UID).delete();
@@ -65,11 +73,117 @@ export class FirestoreFirebaseService {
     }
   }
 
-  updateUserData(UID: string, userUpdated: StoredUser) {
+  // Get fullname
+  async getFullname(UID: string) {
     try {
-      this.usersCollectionRef.doc(UID).update(userUpdated);
+      let fullname;
+      await this.usersCollectionRef
+        .doc(UID)
+        .get()
+        .forEach((user) => {
+          fullname = user.data()?.firstname + ' ' + user.data()?.lastname;
+        });
+      return fullname;
+    } catch (error) {
+      return this.snackbar.openErrorSnack('Failed fetching the names');
+    }
+  }
+  // Add shift to
+  async addShift(newShiftData: Ishift, UID: string) {
+    try {
+      const db = getFirestore();
+      const ref = doc(db, 'Shifts', UID);
+      getDoc(ref)
+        .then((res) => {
+          let shiftsArray: IshiftObject;
+          if (res.data()) {
+            shiftsArray = res.data() as IshiftObject;
+            const updatedArray = {
+              shifts: [...shiftsArray.shifts, newShiftData],
+            };
+            return this.shiftsCollectionRef.doc(UID).set(updatedArray);
+          } else {
+            shiftsArray = { shifts: [newShiftData] };
+            return this.shiftsCollectionRef.doc(UID).set(shiftsArray);
+          }
+        })
+        .catch((error) => {
+          return this.snackbar.openErrorSnack(`Error adding shift: ${error}`);
+        });
+    } catch (error) {
+      return this.snackbar.openErrorSnack(`Error adding shift: ${error}`);
+    }
+  }
+  // Get all shifts
+
+  getAllShifts() {
+    return this.shiftsCollectionRef.snapshotChanges().pipe(
+      map((userShifts) => {
+        return userShifts.map((res) => {
+          const shiftData = res.payload.doc.data() as IshiftObject;
+          const shiftsUID = res.payload.doc.id;
+          return { shiftsUID, ...shiftData };
+        });
+      })
+    );
+  }
+  // Update specific shift
+
+  updateShift(UID: string, ShiftSlug: string, updatedShiftData: Ishift) {
+    try {
+      const userShiftsDocument = this.shiftsCollectionRef.doc(UID);
+      return userShiftsDocument.get().subscribe((res) => {
+        const shiftsArray = res.data()!.shifts;
+        if (res.exists) {
+          const modifiedShiftIndex = shiftsArray.findIndex(
+            (shift: Ishift) => shift.shiftSlug === ShiftSlug
+          );
+          shiftsArray[modifiedShiftIndex] = {
+            shiftSlug: ShiftSlug,
+            shiftDate: updatedShiftData.shiftDate,
+            shiftStartTime: updatedShiftData.shiftStartTime,
+            shiftEndTime: updatedShiftData.shiftEndTime,
+            shiftWage: updatedShiftData.shiftWage,
+            shiftDepartment: updatedShiftData.shiftDepartment,
+          };
+          return userShiftsDocument.update({ shifts: shiftsArray });
+        }
+        return this.snackbar.openErrorSnack(
+          'No response exists for this document'
+        );
+      });
     } catch (error: any) {
-      this.snackbar.openErrorSnack(`Error updating ${error}`);
+      return this.snackbar.openErrorSnack(`Error updating ${error}`);
+    }
+  }
+
+  deleteShift(UID: string, ShiftSlug: string) {
+    try {
+      const userShiftsDocument = this.shiftsCollectionRef.doc(UID);
+      return userShiftsDocument.get().subscribe((res) => {
+        const shiftsArray = res.data()!.shifts;
+        if (res.exists) {
+          const removedShiftIndex = shiftsArray.findIndex(
+            (shift: Ishift) => shift.shiftSlug === ShiftSlug
+          );
+          shiftsArray.splice(removedShiftIndex, 1);
+          return userShiftsDocument
+            .update({ shifts: shiftsArray })
+            .then(() => {
+              this.snackbar.openSuccessSnack('Shift deleted successfully');
+            })
+            .catch((error) => {
+              return this.snackbar.openErrorSnack(
+                `Error deleting shift: ${error}`
+              );
+            });
+        }
+        return this.snackbar.openErrorSnack(
+          'No response exists for this document'
+        );
+      });
+    } catch (error: any) {
+      return this.snackbar.openErrorSnack(`Error deleting: ${error}`);
     }
   }
 }

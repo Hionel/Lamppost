@@ -1,6 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { StoredUser } from 'src/app/interfaces/stored-user';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.service';
 
@@ -10,11 +9,19 @@ import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.se
   styleUrls: ['./admin-home.component.scss'],
 })
 export class AdminHomeComponent implements OnInit {
-  private userData: StoredUser;
-  @Output() fullname: string;
-  constructor(private cookie: CookiesService, private router: Router) {
-    this.userData = this.cookie.getTokenCookie();
-    this.fullname = this.userData.firstname + ' ' + this.userData.lastname;
+  private userUID: string;
+  private token;
+  @Output() fullname!: string;
+  constructor(
+    private cookie: CookiesService,
+    private router: Router,
+    private firestoreService: FirestoreFirebaseService
+  ) {
+    this.token = this.cookie.getTokenCookie();
+    this.userUID = this.token.uid;
+    this.firestoreService.getFullname(this.userUID).then((data) => {
+      this.fullname = String(data);
+    });
   }
   ngOnInit(): void {
     if (this.router.url === '/administrator') {

@@ -8,13 +8,12 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CookiesService } from '../services/cookies.service';
-import { FirestoreFirebaseService } from '../services/firestore-firebase.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private cookieService: CookiesService) {}
+export class MasterGuard implements CanActivate {
+  constructor(private cookiesSerivce: CookiesService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -24,12 +23,11 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     return new Promise((resolve) => {
-      const token = this.cookieService.checkCookie();
-      if (token) {
+      const token = this.cookiesSerivce.getTokenCookie();
+      if (token.adminAccount) {
         resolve(true);
       } else {
-        console.log('No token auth guard');
-        this.router.navigate(['/']);
+        this.router.navigate(['/homepage']);
         resolve(false);
       }
     });

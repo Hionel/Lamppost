@@ -46,7 +46,7 @@ body {
   height: 100%;
 }
 body {
-  font-family: "Source Serif Pro", serif;
+  font-family: "Source Serif Pro", serif !important;
 }
 * {
   margin: 0;
@@ -72,7 +72,7 @@ body {
   gap: 1.5rem;
   mat-form-field {
     width: 80%;
-    font-family: "Source Serif Pro", serif;
+    font-family: "Source Serif Pro", serif !important;
     .visibility__toogle-icon {
       cursor: pointer;
       position: absolute;
@@ -80,4 +80,23 @@ body {
       bottom: 15px;
     }
   }
+}
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.75) !important;
+}
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background-image: var(--background-image) !important;
+  border-radius: 15px !important;
+  color: white;
+  box-shadow: rgba(255, 255, 255, 0.5) 0px 2px 4px 0px inset !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

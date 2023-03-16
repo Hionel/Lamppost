@@ -21,6 +21,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { AuthPageComponent } from './components/authentication/auth-page/auth-page.component';
@@ -28,6 +31,7 @@ import { LoginComponent } from './components/authentication/login/login.componen
 import { AdminSignupComponent } from './components/authentication/admin-signup/admin-signup.component';
 import { AuthImageComponent } from './components/authentication/auth-image/auth-image.component';
 import { UserSignupComponent } from './components/authentication/user-signup/user-signup.component';
+
 import { UserHomeComponent } from './components/homepages/user/user-home/user-home.component';
 
 import { AdminHomeComponent } from './components/homepages/administrator/admin-home/admin-home.component';
@@ -37,6 +41,9 @@ import { AdminOverviewComponent } from './components/homepages/administrator/adm
 import { AdminHeaderComponent } from './components/homepages/administrator/admin-header/admin-header.component';
 import { EditInfoCardComponent } from './components/homepages/administrator/admin-workers/edit-info-card/edit-info-card.component';
 import { WorkersTableComponent } from './components/homepages/administrator/admin-workers/workers-table/workers-table.component';
+import { ShiftsTableComponent } from './components/homepages/administrator/admin-shifts/shifts-table/shifts-table.component';
+import { DateTimeRemovalPipe } from './customPipes/date-time-removal.pipe';
+import { EditShiftOverlayComponent } from './components/homepages/administrator/admin-shifts/edit-shift-overlay/edit-shift-overlay.component';
 
 const materialModules = [
   MatCardModule,
@@ -50,12 +57,16 @@ const materialModules = [
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatDialogModule,
 ];
 const modules = [FormsModule, ReactiveFormsModule];
 
 @NgModule({
   declarations: [
     ExtractErrorMessagePipe,
+    DateTimeRemovalPipe,
     AppComponent,
     AuthPageComponent,
     LoginComponent,
@@ -70,6 +81,8 @@ const modules = [FormsModule, ReactiveFormsModule];
     AdminHeaderComponent,
     EditInfoCardComponent,
     WorkersTableComponent,
+    ShiftsTableComponent,
+    EditShiftOverlayComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +94,7 @@ const modules = [FormsModule, ReactiveFormsModule];
     ...materialModules,
     ...modules,
   ],
-  providers: [ExtractErrorMessagePipe],
+  providers: [ExtractErrorMessagePipe, DateTimeRemovalPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

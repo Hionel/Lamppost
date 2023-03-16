@@ -25,7 +25,11 @@ export class CookiesService {
       token,
       'Very-secret-key'
     ).toString(crypto.enc.Utf8);
-    return JSON.parse(decryptedToken);
+    if (decryptedToken) {
+      return JSON.parse(decryptedToken);
+    } else {
+      return console.log('get Token Cookie error');
+    }
   }
   deleteCookie() {
     this.cookie.delete('token');
