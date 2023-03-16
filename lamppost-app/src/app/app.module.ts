@@ -44,6 +44,9 @@ import { WorkersTableComponent } from './components/homepages/administrator/admi
 import { ShiftsTableComponent } from './components/homepages/administrator/admin-shifts/shifts-table/shifts-table.component';
 import { DateTimeRemovalPipe } from './customPipes/date-time-removal.pipe';
 import { EditShiftOverlayComponent } from './components/homepages/administrator/admin-shifts/edit-shift-overlay/edit-shift-overlay.component';
+import { MostShiftsCardComponent } from './components/homepages/administrator/admin-overview/most-shifts-card/most-shifts-card.component';
+import { PastShiftsCardComponent } from './components/homepages/administrator/admin-overview/past-shifts-card/past-shifts-card.component';
+import { HighestEarningsSummaryDisplayComponent } from './components/homepages/administrator/admin-overview/highest-earnings-summary-display/highest-earnings-summary-display.component';
 
 const materialModules = [
   MatCardModule,
@@ -83,6 +86,9 @@ const modules = [FormsModule, ReactiveFormsModule];
     WorkersTableComponent,
     ShiftsTableComponent,
     EditShiftOverlayComponent,
+    MostShiftsCardComponent,
+    HighestEarningsSummaryDisplayComponent,
+    PastShiftsCardComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,53 @@
+.past__shifts__card-wrapper {
+  height: 100%;
+  .past__shifts__card__title-container {
+    height: 10%;
+    padding-top: 1rem;
+    justify-content: flex-start;
+    h1 {
+      font-family: "Source Serif Pro", serif !important;
+    }
+  }
+  .past__shifts__table-container {
+    height: 90%;
+    .past__shifts__table__controls-container {
+      padding-left: 4%;
+      justify-content: flex-start;
+      gap: 1rem;
+      height: 10%;
+      span {
+        font-family: "Source Serif Pro", serif;
+        letter-spacing: 1.5px;
+        font-weight: 600;
+      }
+      input {
+        font-family: "Source Serif Pro", serif;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid black;
+      }
+    }
+    .shifts__table-wrapper {
+      height: 80%;
+      overflow-y: scroll;
+      border-radius: 15px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      .past__shifts__table {
+        th {
+          color: white;
+          font-family: "Source Serif Pro", serif;
+          font-weight: 600;
+          background-image: var(--background-image);
+          background-attachment: fixed;
+        }
+      }
+    }
+  }
+}
