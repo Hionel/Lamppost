@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-most-shifts-card',
@@ -7,5 +7,7 @@ import { Component } from '@angular/core';
 })
 export class MostShiftsCardComponent {
   cardTitle: string = 'Employee of the month';
-  mostShiftsNumber: number = 55;
+  @Input() mostShiftsNumber: number = 0;
+  @Input() employeeName: string = '';
+  @Input() monthName: string = '';
 }
