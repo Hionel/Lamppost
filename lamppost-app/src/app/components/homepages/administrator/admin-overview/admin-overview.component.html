@@ -9,10 +9,15 @@
         class="overview__card-component most__shifts__card"
       ></app-most-shifts-card>
       <app-past-shifts-card
+        *ngIf="pastWeekShifts"
+        [thisWeekTableData]="pastWeekShifts"
         class="overview__card-component past__shifts__card"
       ></app-past-shifts-card>
     </div>
     <app-highest-earnings-summary-display
+      *ngIf="highesEarningsMonth && highesEarningsValue"
+      [currentMonth]="highesEarningsMonth"
+      [highestTotal]="highesEarningsValue"
       class="overview__summary-container"
     ></app-highest-earnings-summary-display>
   </main>
