@@ -127,7 +127,7 @@ export class FirestoreFirebaseService {
       })
     );
   }
-  // Update specific shift
+  //  Update specific shift
 
   updateShift(UID: string, ShiftSlug: string, updatedShiftData: Ishift) {
     try {

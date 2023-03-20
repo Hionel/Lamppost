@@ -1,1 +1,24 @@
-<p>admin-overview works!</p>
+<section class="main__body overview__section-wrapper flexColumn">
+  <main class="overview__statistics-wrapper flexColumn">
+    <div class="overview__cards-container flexRow">
+      <app-most-shifts-card
+        *ngIf="employeeOfTheMonth"
+        [employeeName]="employeeOfTheMonth.fullname!"
+        [monthName]="employeeOfTheMonth.month!"
+        [mostShiftsNumber]="employeeOfTheMonth!.totalShifts"
+        class="overview__card-component most__shifts__card"
+      ></app-most-shifts-card>
+      <app-past-shifts-card
+        *ngIf="pastWeekShifts"
+        [thisWeekTableData]="pastWeekShifts"
+        class="overview__card-component past__shifts__card"
+      ></app-past-shifts-card>
+    </div>
+    <app-highest-earnings-summary-display
+      *ngIf="highesEarningsMonth && highesEarningsValue"
+      [currentMonth]="highesEarningsMonth"
+      [highestTotal]="highesEarningsValue"
+      class="overview__summary-container"
+    ></app-highest-earnings-summary-display>
+  </main>
+</section>

@@ -19,13 +19,12 @@
       width: 35%;
       .header__logo-style {
         width: 60px;
-        aspect-ratio: 1;
         filter: brightness(0) invert(1) drop-shadow(0px 10px 5px #0000008b);
         transition: all 220ms ease-in-out;
 
         &:hover {
-          scale: 1.1;
           cursor: pointer;
+          filter: brightness(0) invert(1) drop-shadow(0px -5px 5px #fff9d8);
           transition: all 220ms ease-in-out;
         }
       }
@@ -50,6 +49,12 @@
     justify-content: space-around;
     .header__navigation__button {
       font-size: 1rem;
+      &:nth-of-type(2) {
+        * {
+          margin: 0 !important;
+          border-radius: 100px !important;
+        }
+      }
     }
   }
   .header__info__logout-container {

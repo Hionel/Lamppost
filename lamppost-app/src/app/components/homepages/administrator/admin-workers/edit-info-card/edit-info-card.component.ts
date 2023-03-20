@@ -1,12 +1,4 @@
-import {
-  AfterViewChecked,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   FormControl,
@@ -15,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { StoredUser } from 'src/app/interfaces/stored-user';
-import { CookiesService } from 'src/app/services/cookies.service';
 import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.service';
 
 @Component({

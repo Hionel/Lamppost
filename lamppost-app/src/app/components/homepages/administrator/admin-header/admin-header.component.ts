@@ -31,6 +31,7 @@ export class AdminHeaderComponent {
         icon: 'work',
         path: 'shifts',
       },
+      { name: '', icon: 'assessment', path: 'overview' },
       { name: 'Employees', icon: 'fingerprint', path: 'employees' },
     ];
   }

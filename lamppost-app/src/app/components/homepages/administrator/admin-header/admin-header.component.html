@@ -20,7 +20,7 @@
       mat-fab
       extended
       [routerLink]="nav.path"
-      *ngFor="let nav of navLinks"
+      *ngFor="let nav of navLinks; let i = index"
       color="primary"
       class="header__navigation__button"
     >
