@@ -14,11 +14,11 @@ export class SnackbarNotificationService {
   private _duration: number = 5000;
 
   openSuccessSnack = (message: string) => {
-    this.snackBar.open(message, 'Close', {
+    this.snackBar.open(message, 'Ok', {
       horizontalPosition: this._Xposition,
       verticalPosition: this._Yposition,
       duration: this._duration,
-      panelClass: 'green-snackbar',
+      panelClass: ['green-snackbar'],
     });
   };
 
@@ -27,7 +27,7 @@ export class SnackbarNotificationService {
       horizontalPosition: this._Xposition,
       verticalPosition: this._Yposition,
       duration: this._duration,
-      panelClass: 'red-snackbar',
+      panelClass: ['red-snackbar'],
     });
   };
 }

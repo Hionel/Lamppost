@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Ishift, IshiftObject } from 'src/app/interfaces/ishift';
+import { Ishift } from 'src/app/interfaces/ishift';
 import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.service';
 import { EditShiftOverlayComponent } from './edit-shift-overlay/edit-shift-overlay.component';
 
@@ -11,13 +11,8 @@ import { EditShiftOverlayComponent } from './edit-shift-overlay/edit-shift-overl
   styleUrls: ['./admin-shifts.component.scss'],
 })
 export class AdminShiftsComponent implements OnInit {
-  constructor(
-    private firestoreSerivce: FirestoreFirebaseService,
-    private matDialog: MatDialog,
-    private router: Router
-  ) {}
+  constructor(private matDialog: MatDialog, private router: Router) {}
   onSelectShift(selectedShift: Ishift) {
-    // console.log(selectedShift);
     this.router.navigate([
       `/administrator/shifts/edit-shift:${selectedShift.shiftSlug}`,
     ]);

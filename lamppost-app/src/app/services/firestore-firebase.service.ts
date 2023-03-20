@@ -60,6 +60,7 @@ export class FirestoreFirebaseService {
   updateUserData(UID: string, userUpdated: StoredUser) {
     try {
       this.usersCollectionRef.doc(UID).update(userUpdated);
+      this.snackbar.openSuccessSnack(`Successfully updated the user's data`);
     } catch (error: any) {
       this.snackbar.openErrorSnack(`Error updating ${error}`);
     }
@@ -68,6 +69,7 @@ export class FirestoreFirebaseService {
   async deleteUserData(UID: string) {
     try {
       await this.usersCollectionRef.doc(UID).delete();
+      this.snackbar.openSuccessSnack(`Successfully deleted the user`);
     } catch (error: any) {
       this.snackbar.openErrorSnack(`Error deleting ${error}`);
     }
@@ -101,9 +103,11 @@ export class FirestoreFirebaseService {
             const updatedArray = {
               shifts: [...shiftsArray.shifts, newShiftData],
             };
+            this.snackbar.openSuccessSnack(`Added a new shift`);
             return this.shiftsCollectionRef.doc(UID).set(updatedArray);
           } else {
             shiftsArray = { shifts: [newShiftData] };
+            this.snackbar.openSuccessSnack(`Added a new shift`);
             return this.shiftsCollectionRef.doc(UID).set(shiftsArray);
           }
         })
@@ -146,6 +150,7 @@ export class FirestoreFirebaseService {
             shiftWage: updatedShiftData.shiftWage,
             shiftDepartment: updatedShiftData.shiftDepartment,
           };
+          this.snackbar.openSuccessSnack(`Modified shift's data successfully`);
           return userShiftsDocument.update({ shifts: shiftsArray });
         }
         return this.snackbar.openErrorSnack(

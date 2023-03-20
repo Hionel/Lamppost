@@ -67,11 +67,21 @@ export class AuthenticationFirebaseService {
                 } else {
                   this.router.navigate(['/homepage']);
                 }
+                this.snackbarNotification.openSuccessSnack(
+                  'Authentication Successful'
+                );
+              } else {
+                this.snackbarNotification.openErrorSnack(
+                  'Authentication Failed'
+                );
               }
-              this.snackbarNotification.openSuccessSnack(
-                'Authentication Successful'
-              );
             });
+        })
+        .catch((error: any) => {
+          if (error.code) {
+            const errorMsg = this.extractErrorMsg.transform(error.message);
+            return this.snackbarNotification.openErrorSnack(`${errorMsg}`);
+          }
         });
     } catch (error: any) {
       if (error) {
