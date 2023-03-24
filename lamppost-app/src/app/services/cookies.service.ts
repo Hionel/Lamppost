@@ -28,7 +28,7 @@ export class CookiesService {
     if (decryptedToken) {
       return JSON.parse(decryptedToken);
     } else {
-      return console.log('get Token Cookie error');
+      return console.error('get Token Cookie error');
     }
   }
   deleteCookie() {

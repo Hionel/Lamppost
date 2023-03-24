@@ -18,8 +18,8 @@ import { Ishift } from 'src/app/interfaces/ishift';
 })
 export class PastShiftsCardComponent implements OnInit {
   displayedColumns: string[] = ['fullname', 'shiftDate'];
-  @Input() thisWeekTableData!: Ishift[];
-  dataSource!: MatTableDataSource<Ishift>;
+  @Input() dataSource: MatTableDataSource<Ishift> =
+    new MatTableDataSource<Ishift>();
   @Output() selectedShift: EventEmitter<Ishift> = new EventEmitter<Ishift>();
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -30,7 +30,6 @@ export class PastShiftsCardComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<Ishift>(this.thisWeekTableData);
     this.dataSource.filterPredicate = (data: Ishift, filter: string) => {
       return data.fullname!.toLowerCase().includes(filter);
     };

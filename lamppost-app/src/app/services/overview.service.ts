@@ -37,6 +37,8 @@ export class OverviewService {
     totalShifts: 0,
   };
   employeesArray: Iemployee[] = new Array<Iemployee>();
+  pastShifts: Ishift[] = new Array<Ishift>();
+
   constructor(
     private firestoreService: FirestoreFirebaseService,
     private allShiftsService: AllShiftsService
@@ -47,122 +49,124 @@ export class OverviewService {
 
   processWokerWithMostShifts() {
     let subjectMostShiftsArray = new Subject<Iemployee[]>();
-    this.getShiftsObject()
-      .pipe(take(1))
-      .subscribe((res) => {
-        for (const userObject of res) {
-          this.employeeObject = {
-            uid: '',
-            fullname: '',
-            totalShifts: 0,
-            month: '',
-          };
+    this.getShiftsObject().subscribe((res) => {
+      this.employeesArray = [];
+      for (const userObject of res) {
+        this.employeeObject = {
+          uid: '',
+          fullname: '',
+          totalShifts: 0,
+          month: '',
+        };
 
-          if (userObject.shifts.length > 0) {
-            for (const shift of userObject.shifts) {
-              const shiftMonth = new Date(shift.shiftDate).getMonth() + 1;
-              if (shiftMonth === this.currentMonth) {
-                this.employeeObject.totalShifts += 1;
-              }
-              const monthName = new Date(
-                0,
-                this.currentMonth - 1
-              ).toLocaleString('en-us', { month: 'long' });
-              this.employeeObject.month = monthName;
-              this.employeeObject.uid = userObject.shiftsUID;
+        if (userObject.shifts.length > 0) {
+          for (const shift of userObject.shifts) {
+            const shiftMonth = new Date(shift.shiftDate).getMonth() + 1;
+            if (shiftMonth === this.currentMonth) {
+              this.employeeObject.totalShifts += 1;
             }
-            this.employeesArray.push(this.employeeObject);
+            const monthName = new Date(0, this.currentMonth - 1).toLocaleString(
+              'en-us',
+              { month: 'long' }
+            );
+            this.employeeObject.month = monthName;
+            this.employeeObject.uid = userObject.shiftsUID;
           }
+          this.employeesArray.push(this.employeeObject);
+        } else {
+          return;
         }
         subjectMostShiftsArray.next(this.employeesArray);
-        return subjectMostShiftsArray.asObservable();
-      });
+      }
+      return subjectMostShiftsArray.asObservable();
+    });
     return subjectMostShiftsArray;
   }
 
   getCurrentWeeksPastShifts() {
     let subjectPastShiftsArray = new Subject<Ishift[]>();
+    const currentDate = new Date();
+    const startOfWeek = currentDate.getDate() - currentDate.getDay() + 1;
+    const endOfWeek = currentDate.getDate() + 6;
+    const endOfWeekLimit =
+      currentDate.getDate() < endOfWeek ? currentDate.getDate() : endOfWeek;
 
-    this.getShiftsObject()
-      .pipe(take(1))
-      .subscribe((res) => {
-        const pastShifts: Ishift[] = [];
-        const currentDate = new Date();
-        const startOfWeek = currentDate.getDate() - currentDate.getDay() + 1;
-        const endOfWeek = currentDate.getDate() + 6;
-        const endOfWeekLimit =
-          currentDate.getDate() < endOfWeek ? currentDate.getDate() : endOfWeek;
+    this.getShiftsObject().subscribe(async (res) => {
+      this.pastShifts = [];
 
-        for (const userObject of res) {
-          if (userObject.shifts.length > 0) {
-            for (const shift of userObject.shifts) {
-              const shiftDateDay = new Date(shift.shiftDate).getDate();
-              const shiftMonth = new Date(shift.shiftDate).getMonth() + 1;
+      for (const userObject of res) {
+        if (userObject.shifts.length > 0) {
+          for (const shift of userObject.shifts) {
+            const shiftDateDay = new Date(shift.shiftDate).getDate();
+            const shiftMonth = new Date(shift.shiftDate).getMonth() + 1;
 
-              if (
-                shiftDateDay >= startOfWeek &&
-                shiftDateDay <= endOfWeekLimit &&
-                shiftMonth === this.currentMonth
-              ) {
-                this.firestoreService
-                  .getFullname(userObject.shiftsUID)
-                  .then((resultedName) => {
-                    shift.fullname = String(resultedName);
-                  });
-                pastShifts.push(shift);
-              }
+            if (
+              shiftDateDay >= startOfWeek &&
+              shiftDateDay <= endOfWeekLimit &&
+              shiftMonth === this.currentMonth
+            ) {
+              await this.firestoreService
+                .getFullname(userObject.shiftsUID)
+                .then((resultedName) => {
+                  shift.fullname = String(resultedName);
+                })
+                .finally(() => {
+                  this.pastShifts.push(shift);
+                });
             }
           }
+        } else {
+          return;
         }
-        subjectPastShiftsArray.next(pastShifts);
-        return subjectPastShiftsArray.asObservable();
-      });
+        subjectPastShiftsArray.next(this.pastShifts);
+      }
+      return subjectPastShiftsArray.asObservable();
+    });
     return subjectPastShiftsArray;
   }
 
   getBestEarningsMonth() {
     let subjectSummaryData = new Subject<MonthsObj>();
-    this.getShiftsObject()
-      .pipe(take(1))
-      .subscribe((res) => {
-        const monthsObj: MonthsObj = {
-          January: 0,
-          February: 0,
-          March: 0,
-          April: 0,
-          May: 0,
-          July: 0,
-          June: 0,
-          August: 0,
-          September: 0,
-          October: 0,
-          November: 0,
-          December: 0,
-        };
-        console.log(res);
-        for (const userObject of res) {
-          if (userObject.shifts.length > 0) {
-            Object.entries(monthsObj).map(([key, value], index) => {
-              let monthTotal = 0;
-              for (const shift of userObject.shifts) {
-                shift.totalEarnings =
-                  this.allShiftsService.calculateTotalPerShift(
-                    shift.shiftStartTime,
-                    shift.shiftEndTime,
-                    shift.shiftWage
-                  );
-                if (new Date(shift.shiftDate).getMonth() === index) {
-                  monthTotal += shift.totalEarnings;
-                  value = monthTotal;
-                  monthsObj[key] = monthTotal;
-                }
+    this.getShiftsObject().subscribe((res) => {
+      const monthsObj: MonthsObj = {
+        January: 0,
+        February: 0,
+        March: 0,
+        April: 0,
+        May: 0,
+        July: 0,
+        June: 0,
+        August: 0,
+        September: 0,
+        October: 0,
+        November: 0,
+        December: 0,
+      };
+      for (const userObject of res) {
+        if (userObject.shifts.length > 0) {
+          Object.entries(monthsObj).map(([key, value], index) => {
+            let monthTotal = 0;
+            for (const shift of userObject.shifts) {
+              shift.totalEarnings =
+                this.allShiftsService.calculateTotalPerShift(
+                  shift.shiftStartTime,
+                  shift.shiftEndTime,
+                  shift.shiftWage
+                );
+              if (new Date(shift.shiftDate).getMonth() === index) {
+                monthTotal += shift.totalEarnings;
+                value = monthTotal;
+                monthsObj[key] = monthTotal;
               }
-            });
-          }
+            }
+          });
+        } else {
+          return;
         }
         subjectSummaryData.next(monthsObj);
-        return subjectSummaryData.asObservable();
-      });
+      }
+      return subjectSummaryData.asObservable();
+    });
     return subjectSummaryData;
   }
 }

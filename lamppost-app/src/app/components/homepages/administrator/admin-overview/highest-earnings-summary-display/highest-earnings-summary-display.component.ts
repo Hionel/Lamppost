@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { NumberFormatterPipe } from 'src/app/customPipes/number-formatter.pipe';
 
 @Component({
   selector: 'app-highest-earnings-summary-display',
@@ -8,8 +9,19 @@ import { Component, Input, OnInit } from '@angular/core';
 export class HighestEarningsSummaryDisplayComponent implements OnInit {
   @Input() currentMonth!: string;
   @Input() highestTotal!: number;
+  highestTotalDisplayed!: string;
   displayMessage!: string;
+  constructor(private numberFormatterPipe: NumberFormatterPipe) {}
   ngOnInit(): void {
-    this.displayMessage = `The highest earnings of month ${this.currentMonth} with a summarized total of ${this.highestTotal} €`;
+    this.displayMessage = this.numberFormatterPipe.transform(this.highestTotal);
+    this.displayMessage = `The highest earnings are in ${this.currentMonth} with a summarized total of ${this.displayMessage} €`;
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      (changes['currentMonth'] && !changes['currentMonth'].firstChange) ||
+      (changes['highestTotal'] && !changes['highestTotal'].firstChange)
+    ) {
+      this.displayMessage = `The highest earnings are in ${this.currentMonth} with a summarized total of ${this.displayMessage} €`;
+    }
   }
 }

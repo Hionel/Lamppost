@@ -68,6 +68,7 @@ export class FirestoreFirebaseService {
   // Delete user data form firestore
   async deleteUserData(UID: string) {
     try {
+      await this.shiftsCollectionRef.doc(UID).delete();
       await this.usersCollectionRef.doc(UID).delete();
       this.snackbar.openSuccessSnack(`Successfully deleted the user`);
     } catch (error: any) {

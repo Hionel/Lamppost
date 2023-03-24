@@ -2,12 +2,15 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ExtractErrorMessagePipe } from './customPipes/extract-error-message.pipe';
 
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+
+import { ExtractErrorMessagePipe } from './customPipes/extract-error-message.pipe';
+import { DateTimeRemovalPipe } from './customPipes/date-time-removal.pipe';
+import { NumberFormatterPipe } from './customPipes/number-formatter.pipe';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
@@ -42,11 +45,11 @@ import { AdminHeaderComponent } from './components/homepages/administrator/admin
 import { EditInfoCardComponent } from './components/homepages/administrator/admin-workers/edit-info-card/edit-info-card.component';
 import { WorkersTableComponent } from './components/homepages/administrator/admin-workers/workers-table/workers-table.component';
 import { ShiftsTableComponent } from './components/homepages/administrator/admin-shifts/shifts-table/shifts-table.component';
-import { DateTimeRemovalPipe } from './customPipes/date-time-removal.pipe';
 import { EditShiftOverlayComponent } from './components/homepages/administrator/admin-shifts/edit-shift-overlay/edit-shift-overlay.component';
 import { MostShiftsCardComponent } from './components/homepages/administrator/admin-overview/most-shifts-card/most-shifts-card.component';
 import { PastShiftsCardComponent } from './components/homepages/administrator/admin-overview/past-shifts-card/past-shifts-card.component';
 import { HighestEarningsSummaryDisplayComponent } from './components/homepages/administrator/admin-overview/highest-earnings-summary-display/highest-earnings-summary-display.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 const materialModules = [
   MatCardModule,
@@ -70,6 +73,7 @@ const modules = [FormsModule, ReactiveFormsModule];
   declarations: [
     ExtractErrorMessagePipe,
     DateTimeRemovalPipe,
+    NumberFormatterPipe,
     AppComponent,
     AuthPageComponent,
     LoginComponent,
@@ -89,6 +93,7 @@ const modules = [FormsModule, ReactiveFormsModule];
     MostShiftsCardComponent,
     HighestEarningsSummaryDisplayComponent,
     PastShiftsCardComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,7 +105,11 @@ const modules = [FormsModule, ReactiveFormsModule];
     ...materialModules,
     ...modules,
   ],
-  providers: [ExtractErrorMessagePipe, DateTimeRemovalPipe],
+  providers: [
+    ExtractErrorMessagePipe,
+    DateTimeRemovalPipe,
+    NumberFormatterPipe,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

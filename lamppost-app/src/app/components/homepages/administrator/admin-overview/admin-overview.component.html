@@ -1,5 +1,9 @@
 <section class="main__body overview__section-wrapper flexColumn">
   <main class="overview__statistics-wrapper flexColumn">
+    <app-loader
+      class="loader__item"
+      *ngIf="loadingHandler.isLoading$ | async"
+    ></app-loader>
     <div class="overview__cards-container flexRow">
       <app-most-shifts-card
         *ngIf="employeeOfTheMonth"
@@ -10,14 +14,20 @@
       ></app-most-shifts-card>
       <app-past-shifts-card
         *ngIf="pastWeekShifts"
-        [thisWeekTableData]="pastWeekShifts"
+        [dataSource]="pastWeekShifts"
         class="overview__card-component past__shifts__card"
       ></app-past-shifts-card>
+      <div
+        class="overview__card-component flexColumn"
+        *ngIf="!employeeOfTheMonth && !pastWeekShifts"
+      >
+        <p class="overview__no__data-msg" [innerHTML]="noDataMessage"></p>
+      </div>
     </div>
     <app-highest-earnings-summary-display
-      *ngIf="highesEarningsMonth && highesEarningsValue"
-      [currentMonth]="highesEarningsMonth"
-      [highestTotal]="highesEarningsValue"
+      *ngIf="highestEarningsMonth && highestEarningsValue"
+      [currentMonth]="highestEarningsMonth"
+      [highestTotal]="highestEarningsValue"
       class="overview__summary-container"
     ></app-highest-earnings-summary-display>
   </main>
