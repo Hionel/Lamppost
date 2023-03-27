@@ -26,16 +26,11 @@ export class AdminOverviewComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit(): void {
-    this.overviewSerivce.processWokerWithMostShifts().subscribe(async (res) => {
+    this.overviewSerivce.processWokerWithMostShifts().subscribe((res) => {
       if (res.length > 0) {
         this.employeeOfTheMonth = res.reduce((acc, curr) => {
           return acc.totalShifts > curr.totalShifts ? acc : curr;
         });
-        await this.firestoreService
-          .getFullname(this.employeeOfTheMonth.uid!)
-          .then((resultedName) => {
-            this.employeeOfTheMonth!.fullname = String(resultedName);
-          });
       } else {
         return;
       }
@@ -72,6 +67,6 @@ export class AdminOverviewComponent implements OnInit, AfterContentChecked {
   ngAfterContentChecked(): void {
     setTimeout(() => {
       this.loadingHandler.finish();
-    }, 200);
+    }, 100);
   }
 }

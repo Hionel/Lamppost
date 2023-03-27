@@ -1,6 +1,6 @@
 export interface Ishift {
   uid?: string;
-  fullname?: string;
+  fullname?: string | void;
   shiftSlug: string;
   shiftDate: string;
   shiftStartTime: string;
@@ -12,6 +12,7 @@ export interface Ishift {
 }
 
 export interface IshiftObject {
+  fullname?: string | void;
   shiftsUID?: string;
   shifts: Ishift[];
 }

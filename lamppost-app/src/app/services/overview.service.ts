@@ -32,7 +32,7 @@ export interface Iemployee {
 })
 export class OverviewService {
   currentMonth = new Date().getMonth() + 1;
-  employeeObject: Iemployee = {
+  employeeCardDataObject: Iemployee = {
     fullname: '',
     totalShifts: 0,
   };
@@ -49,30 +49,32 @@ export class OverviewService {
 
   processWokerWithMostShifts() {
     let subjectMostShiftsArray = new Subject<Iemployee[]>();
-    this.getShiftsObject().subscribe((res) => {
+    this.getShiftsObject().subscribe(async (res) => {
       this.employeesArray = [];
       for (const userObject of res) {
-        this.employeeObject = {
+        let responseUserObject = await userObject;
+        this.employeeCardDataObject = {
           uid: '',
           fullname: '',
           totalShifts: 0,
           month: '',
         };
 
-        if (userObject.shifts.length > 0) {
-          for (const shift of userObject.shifts) {
+        if (responseUserObject.shifts.length > 0) {
+          this.employeeCardDataObject.uid = responseUserObject.shiftsUID;
+          this.employeeCardDataObject.fullname = responseUserObject.fullname!;
+          for (const shift of responseUserObject.shifts) {
             const shiftMonth = new Date(shift.shiftDate).getMonth() + 1;
             if (shiftMonth === this.currentMonth) {
-              this.employeeObject.totalShifts += 1;
+              this.employeeCardDataObject.totalShifts += 1;
             }
             const monthName = new Date(0, this.currentMonth - 1).toLocaleString(
               'en-us',
               { month: 'long' }
             );
-            this.employeeObject.month = monthName;
-            this.employeeObject.uid = userObject.shiftsUID;
+            this.employeeCardDataObject.month = monthName;
           }
-          this.employeesArray.push(this.employeeObject);
+          this.employeesArray.push(this.employeeCardDataObject);
         } else {
           return;
         }
@@ -86,33 +88,28 @@ export class OverviewService {
   getCurrentWeeksPastShifts() {
     let subjectPastShiftsArray = new Subject<Ishift[]>();
     const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
     const startOfWeek = currentDate.getDate() - currentDate.getDay() + 1;
     const endOfWeek = currentDate.getDate() + 6;
     const endOfWeekLimit =
       currentDate.getDate() < endOfWeek ? currentDate.getDate() : endOfWeek;
-
     this.getShiftsObject().subscribe(async (res) => {
       this.pastShifts = [];
-
       for (const userObject of res) {
-        if (userObject.shifts.length > 0) {
-          for (const shift of userObject.shifts) {
+        const responseUserObject = await userObject;
+        if (responseUserObject.shifts.length > 0) {
+          for (const shift of responseUserObject.shifts) {
             const shiftDateDay = new Date(shift.shiftDate).getDate();
             const shiftMonth = new Date(shift.shiftDate).getMonth() + 1;
-
+            const shiftYear = new Date(shift.shiftDate).getFullYear();
             if (
               shiftDateDay >= startOfWeek &&
               shiftDateDay <= endOfWeekLimit &&
-              shiftMonth === this.currentMonth
+              shiftMonth === this.currentMonth &&
+              shiftYear === currentYear
             ) {
-              await this.firestoreService
-                .getFullname(userObject.shiftsUID)
-                .then((resultedName) => {
-                  shift.fullname = String(resultedName);
-                })
-                .finally(() => {
-                  this.pastShifts.push(shift);
-                });
+              shift.fullname = responseUserObject.fullname;
+              this.pastShifts.push(shift);
             }
           }
         } else {
@@ -127,7 +124,7 @@ export class OverviewService {
 
   getBestEarningsMonth() {
     let subjectSummaryData = new Subject<MonthsObj>();
-    this.getShiftsObject().subscribe((res) => {
+    this.getShiftsObject().subscribe(async (res) => {
       const monthsObj: MonthsObj = {
         January: 0,
         February: 0,
@@ -143,10 +140,12 @@ export class OverviewService {
         December: 0,
       };
       for (const userObject of res) {
-        if (userObject.shifts.length > 0) {
+        const responseUserObject = await userObject;
+
+        if (responseUserObject.shifts.length > 0) {
           Object.entries(monthsObj).map(([key, value], index) => {
             let monthTotal = 0;
-            for (const shift of userObject.shifts) {
+            for (const shift of responseUserObject.shifts) {
               shift.totalEarnings =
                 this.allShiftsService.calculateTotalPerShift(
                   shift.shiftStartTime,

@@ -31,6 +31,7 @@
         text-shadow: rgba(0, 0, 0, 0.5) -1px 0, rgba(0, 0, 0, 0.3) 0 -1px,
           rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
         transform: translateZ(7.5rem);
+        // animation: floating 520ms ease-in-out alternate infinite;
       }
       .card__subtitle {
         padding: 1rem;
@@ -94,3 +95,13 @@
   cursor: default;
   user-select: none;
 }
+
+// @keyframes floating {
+//   0% {
+//     transform: translateZ(7.5rem);
+//   }
+
+//   100% {
+//     transform: translateZ(15.5rem);
+//   }
+// }

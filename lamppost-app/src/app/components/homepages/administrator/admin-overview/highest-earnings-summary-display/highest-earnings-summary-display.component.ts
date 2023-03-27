@@ -21,6 +21,10 @@ export class HighestEarningsSummaryDisplayComponent implements OnInit {
       (changes['currentMonth'] && !changes['currentMonth'].firstChange) ||
       (changes['highestTotal'] && !changes['highestTotal'].firstChange)
     ) {
+      this.displayMessage = ``;
+      this.displayMessage = this.numberFormatterPipe.transform(
+        this.highestTotal
+      );
       this.displayMessage = `The highest earnings are in ${this.currentMonth} with a summarized total of ${this.displayMessage} €`;
     }
   }

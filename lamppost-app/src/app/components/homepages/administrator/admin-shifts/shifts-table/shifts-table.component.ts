@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -12,8 +19,9 @@ import { SnackbarNotificationService } from 'src/app/services/snackbar-notificat
   selector: 'app-shifts-table',
   templateUrl: './shifts-table.component.html',
   styleUrls: ['./shifts-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShiftsTableComponent {
+export class ShiftsTableComponent implements OnInit {
   displayedColumns: string[] = [
     'fullname',
     'shiftDate',
@@ -23,7 +31,7 @@ export class ShiftsTableComponent {
     'shiftDepartment',
     'totalEarnings',
   ];
-
+  shiftsData: Ishift[] = [];
   dataSource = new MatTableDataSource<Ishift>();
   @Output() selectedShift: EventEmitter<Ishift> = new EventEmitter<Ishift>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -35,7 +43,6 @@ export class ShiftsTableComponent {
     private shiftsService: AllShiftsService,
     private snackbar: SnackbarNotificationService
   ) {
-    this.getShifts();
     this.searchFormGroup = new FormGroup({
       byName: new FormControl(''),
       byDepartment: new FormControl(''),
@@ -44,6 +51,9 @@ export class ShiftsTableComponent {
     });
 
     this.filterListener();
+  }
+  ngOnInit(): void {
+    this.getShifts();
   }
 
   filterListener() {
@@ -77,36 +87,31 @@ export class ShiftsTableComponent {
   }
 
   getShifts() {
-    this.firestoreSerivce.getAllShifts().subscribe((response) => {
-      let shiftsData = new Array() as Ishift[];
+    this.firestoreSerivce.getAllShifts().subscribe(async (response) => {
+      this.shiftsData = [];
       for (let data of response) {
-        if (data.shifts.length > 0) {
+        const result = await data;
+        if (result.shifts.length > 0) {
           let shiftInfo: Ishift;
           let totalEarnings: number;
-          let fullname: string;
-          this.firestoreSerivce
-            .getFullname(data.shiftsUID)
-            .then((workerName) => {
-              fullname = String(workerName);
-              for (const shift of data.shifts) {
-                totalEarnings = this.shiftsService.calculateTotalPerShift(
-                  shift.shiftStartTime,
-                  shift.shiftEndTime,
-                  shift.shiftWage
-                );
-                shiftInfo = {
-                  uid: data.shiftsUID,
-                  fullname: fullname,
-                  ...shift,
-                  totalEarnings: totalEarnings,
-                };
-                shiftsData.push(shiftInfo);
-              }
-              this.dataSource = new MatTableDataSource(shiftsData);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
-              this.dataSource.filterPredicate = this.createFilterOption();
-            });
+          for (const shift of result.shifts) {
+            totalEarnings = this.shiftsService.calculateTotalPerShift(
+              shift.shiftStartTime,
+              shift.shiftEndTime,
+              shift.shiftWage
+            );
+            shiftInfo = {
+              uid: result.shiftsUID,
+              fullname: result.fullname,
+              ...shift,
+              totalEarnings: totalEarnings,
+            };
+            this.shiftsData.push(shiftInfo);
+          }
+          this.dataSource = new MatTableDataSource(this.shiftsData);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.dataSource.filterPredicate = this.createFilterOption();
         }
       }
     });

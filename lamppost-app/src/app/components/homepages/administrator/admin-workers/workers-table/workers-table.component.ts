@@ -26,7 +26,7 @@ export class WorkersTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
   @Output() selectUser: EventEmitter<StoredUser> =
     new EventEmitter<StoredUser>();
-  @Input() modificationsDone: boolean = false;
+
   constructor(private firestoreService: FirestoreFirebaseService) {
     this.getTableData();
   }

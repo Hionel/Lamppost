@@ -77,19 +77,19 @@ export class FirestoreFirebaseService {
   }
 
   // Get fullname
-  async getFullname(UID: string) {
+  async getFullname(UID: string): Promise<string | void> {
+    let fullname;
     try {
-      let fullname;
       await this.usersCollectionRef
         .doc(UID)
         .get()
         .forEach((user) => {
           fullname = user.data()?.firstname + ' ' + user.data()?.lastname;
         });
-      return fullname;
     } catch (error) {
       return this.snackbar.openErrorSnack('Failed fetching the names');
     }
+    return fullname;
   }
   // Add shift to
   async addShift(newShiftData: Ishift, UID: string) {
@@ -97,20 +97,29 @@ export class FirestoreFirebaseService {
       const db = getFirestore();
       const ref = doc(db, 'Shifts', UID);
       getDoc(ref)
-        .then((res) => {
-          let shiftsArray: IshiftObject;
-          if (res.data()) {
-            shiftsArray = res.data() as IshiftObject;
-            const updatedArray = {
-              shifts: [...shiftsArray.shifts, newShiftData],
-            };
-            this.snackbar.openSuccessSnack(`Added a new shift`);
-            return this.shiftsCollectionRef.doc(UID).set(updatedArray);
-          } else {
-            shiftsArray = { shifts: [newShiftData] };
-            this.snackbar.openSuccessSnack(`Added a new shift`);
-            return this.shiftsCollectionRef.doc(UID).set(shiftsArray);
-          }
+        .then(async (res) => {
+          await this.getFullname(UID).then((workerName) => {
+            const userFullname = workerName as string;
+            let userShiftsObject: IshiftObject;
+            if (res.data()) {
+              userShiftsObject = res.data() as IshiftObject;
+              const updatedArray = {
+                fullname: userFullname,
+                shifts: [...userShiftsObject.shifts, newShiftData],
+              };
+              this.snackbar.openSuccessSnack(`Added a new shift`);
+              console.log(updatedArray);
+              return this.shiftsCollectionRef.doc(UID).set(updatedArray);
+            } else {
+              userShiftsObject = {
+                fullname: userFullname,
+                shifts: [newShiftData],
+              };
+              console.log(userShiftsObject);
+              this.snackbar.openSuccessSnack(`Added a new shift`);
+              return this.shiftsCollectionRef.doc(UID).set(userShiftsObject);
+            }
+          });
         })
         .catch((error) => {
           return this.snackbar.openErrorSnack(`Error adding shift: ${error}`);
@@ -124,8 +133,8 @@ export class FirestoreFirebaseService {
   getAllShifts() {
     return this.shiftsCollectionRef.snapshotChanges().pipe(
       map((userShifts) => {
-        return userShifts.map((res) => {
-          const shiftData = res.payload.doc.data() as IshiftObject;
+        return userShifts.map(async (res) => {
+          const shiftData = res.payload.doc.data();
           const shiftsUID = res.payload.doc.id;
           return { shiftsUID, ...shiftData };
         });
@@ -138,8 +147,8 @@ export class FirestoreFirebaseService {
     try {
       const userShiftsDocument = this.shiftsCollectionRef.doc(UID);
       return userShiftsDocument.get().subscribe((res) => {
-        const shiftsArray = res.data()!.shifts;
         if (res.exists) {
+          const shiftsArray = res.data()!.shifts;
           const modifiedShiftIndex = shiftsArray.findIndex(
             (shift: Ishift) => shift.shiftSlug === ShiftSlug
           );
@@ -167,8 +176,8 @@ export class FirestoreFirebaseService {
     try {
       const userShiftsDocument = this.shiftsCollectionRef.doc(UID);
       return userShiftsDocument.get().subscribe((res) => {
-        const shiftsArray = res.data()!.shifts;
         if (res.exists) {
+          const shiftsArray = res.data()!.shifts;
           const removedShiftIndex = shiftsArray.findIndex(
             (shift: Ishift) => shift.shiftSlug === ShiftSlug
           );
@@ -189,7 +198,7 @@ export class FirestoreFirebaseService {
         );
       });
     } catch (error: any) {
-      return this.snackbar.openErrorSnack(`Error deleting: ${error}`);
+      return this.snackbar.openErrorSnack(`Error deleting: ${error.message}`);
     }
   }
 }
