@@ -43,4 +43,31 @@ export default class CustomValidators {
       return null;
     };
   }
+
+  static dateComparison(
+    startDateInput: string,
+    endDateInput: string
+  ): ValidatorFn {
+    return (controls: AbstractControl): ValidationErrors | null => {
+      const startControl = controls.get(startDateInput);
+      const startControlValue = Number(startControl?.value.replace(':', ''));
+      const endControl = controls.get(endDateInput);
+      const endControlValue = Number(endControl?.value.replace(':', ''));
+
+      if (!startControl?.errors && startControlValue >= endControlValue) {
+        startControl?.setErrors({
+          startTooLate: {
+            actualValue: startControl?.value,
+            requiredValue: `less then ${endControl?.value}`,
+          },
+        });
+        return { startTooLate: true };
+      }
+      if (endControl?.value > startControl?.value) {
+        startControl?.setErrors(null);
+        return null;
+      }
+      return null;
+    };
+  }
 }

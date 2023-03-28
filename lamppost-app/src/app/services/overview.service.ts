@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, take } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Ishift } from '../interfaces/ishift';
 import { AllShiftsService } from './all-shifts.service';
 import { FirestoreFirebaseService } from './firestore-firebase.service';
@@ -31,7 +31,15 @@ export interface Iemployee {
   providedIn: 'root',
 })
 export class OverviewService {
+  currentDate = new Date();
   currentMonth = new Date().getMonth() + 1;
+  currentYear = this.currentDate.getFullYear();
+  startOfWeek = this.currentDate.getDate() - this.currentDate.getDay() + 1;
+  endOfWeek = this.currentDate.getDate() + 6;
+  endOfWeekLimit =
+    this.currentDate.getDate() < this.endOfWeek
+      ? this.currentDate.getDate()
+      : this.endOfWeek;
   employeeCardDataObject: Iemployee = {
     fullname: '',
     totalShifts: 0,
@@ -65,13 +73,17 @@ export class OverviewService {
           this.employeeCardDataObject.fullname = responseUserObject.fullname!;
           for (const shift of responseUserObject.shifts) {
             const shiftMonth = new Date(shift.shiftDate).getMonth() + 1;
-            if (shiftMonth === this.currentMonth) {
-              this.employeeCardDataObject.totalShifts += 1;
-            }
+            const shiftYear = new Date(shift.shiftDate).getFullYear();
             const monthName = new Date(0, this.currentMonth - 1).toLocaleString(
               'en-us',
               { month: 'long' }
             );
+            if (
+              shiftMonth === this.currentMonth &&
+              shiftYear === this.currentYear
+            ) {
+              this.employeeCardDataObject.totalShifts += 1;
+            }
             this.employeeCardDataObject.month = monthName;
           }
           this.employeesArray.push(this.employeeCardDataObject);
@@ -87,12 +99,7 @@ export class OverviewService {
 
   getCurrentWeeksPastShifts() {
     let subjectPastShiftsArray = new Subject<Ishift[]>();
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const startOfWeek = currentDate.getDate() - currentDate.getDay() + 1;
-    const endOfWeek = currentDate.getDate() + 6;
-    const endOfWeekLimit =
-      currentDate.getDate() < endOfWeek ? currentDate.getDate() : endOfWeek;
+
     this.getShiftsObject().subscribe(async (res) => {
       this.pastShifts = [];
       for (const userObject of res) {
@@ -103,10 +110,10 @@ export class OverviewService {
             const shiftMonth = new Date(shift.shiftDate).getMonth() + 1;
             const shiftYear = new Date(shift.shiftDate).getFullYear();
             if (
-              shiftDateDay >= startOfWeek &&
-              shiftDateDay <= endOfWeekLimit &&
+              shiftDateDay >= this.startOfWeek &&
+              shiftDateDay <= this.endOfWeekLimit &&
               shiftMonth === this.currentMonth &&
-              shiftYear === currentYear
+              shiftYear === this.currentYear
             ) {
               shift.fullname = responseUserObject.fullname;
               this.pastShifts.push(shift);

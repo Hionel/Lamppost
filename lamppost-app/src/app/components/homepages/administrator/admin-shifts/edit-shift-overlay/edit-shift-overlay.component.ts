@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import CustomValidators from 'src/app/auth-utils/customValidations';
 import { Ishift } from 'src/app/interfaces/ishift';
 import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.service';
 
@@ -20,20 +21,24 @@ export class EditShiftOverlayComponent {
     @Inject(MAT_DIALOG_DATA) public data: Ishift,
     private firestoreSerivce: FirestoreFirebaseService
   ) {
-    this.editShiftForm = new FormGroup({
-      fullname: new FormControl(this.data.fullname),
-      shiftDate: new FormControl(this.data.shiftDate, [Validators.required]),
-      shiftStartTime: new FormControl(this.data.shiftStartTime, [
-        Validators.required,
-      ]),
-      shiftEndTime: new FormControl(this.data.shiftEndTime, [
-        Validators.required,
-      ]),
-      shiftWage: new FormControl(this.data.shiftWage, [Validators.required]),
-      shiftDepartment: new FormControl(this.data.shiftDepartment, [
-        Validators.required,
-      ]),
-    });
+    this.editShiftForm = new FormGroup(
+      {
+        fullname: new FormControl(this.data.fullname),
+        shiftDepartment: new FormControl(this.data.shiftDepartment),
+        shiftDate: new FormControl(this.data.shiftDate, [Validators.required]),
+        shiftStartTime: new FormControl(this.data.shiftStartTime, [
+          Validators.required,
+        ]),
+        shiftEndTime: new FormControl(this.data.shiftEndTime, [
+          Validators.required,
+        ]),
+        shiftWage: new FormControl(this.data.shiftWage, [
+          Validators.required,
+          Validators.min(1),
+        ]),
+      },
+      CustomValidators.dateComparison('shiftStartTime', 'shiftEndTime')
+    );
   }
   updateShiftData(form: FormGroup, formDirective: FormGroupDirective) {
     this.firestoreSerivce.updateShift(

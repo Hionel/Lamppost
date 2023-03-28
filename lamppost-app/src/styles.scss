@@ -108,14 +108,18 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 .mat-mdc-snack-bar-container {
+  --notification-box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   --mat-mdc-snack-bar-button-color: #ffffff;
   --mdc-snackbar-supporting-text-color: #ffffff;
 
   &.red-snackbar {
     --mdc-snackbar-container-color: rgba(226, 52, 52, 0.85);
+    box-shadow: var(--notification-box-shadow);
   }
 
   &.green-snackbar {
     --mdc-snackbar-container-color: rgb(149, 153, 226);
+    box-shadow: var(--notification-box-shadow);
   }
 }

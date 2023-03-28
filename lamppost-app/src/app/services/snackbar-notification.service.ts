@@ -9,9 +9,9 @@ import {
 })
 export class SnackbarNotificationService {
   constructor(private snackBar: MatSnackBar) {}
-  private _Xposition: MatSnackBarHorizontalPosition = 'right';
+  private _Xposition: MatSnackBarHorizontalPosition = 'left';
   private _Yposition: MatSnackBarVerticalPosition = 'top';
-  private _duration: number = 5000;
+  private _duration: number = 2000;
 
   openSuccessSnack = (message: string) => {
     this.snackBar.open(message, 'Ok', {

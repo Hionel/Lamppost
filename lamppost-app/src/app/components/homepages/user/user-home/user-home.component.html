@@ -1,4 +1,9 @@
-<form [formGroup]="addShiftForm" (ngSubmit)="addShift()" class="flexColumn">
+<form
+  *ngIf="addShiftForm"
+  [formGroup]="addShiftForm"
+  (ngSubmit)="addShift()"
+  class="flexColumn"
+>
   <mat-form-field class="form__field-wrapper">
     <mat-label>Shift slug:</mat-label>
     <input
@@ -8,7 +13,7 @@
       value=""
       formControlName="shiftSlug"
     />
-    <!-- <mat-error *ngIf="addShiftForm.get('shiftSlug')?.hasError('required')">
+    <mat-error *ngIf="addShiftForm.get('shiftSlug')?.hasError('required')">
       SLUG IS required
     </mat-error>
     <mat-error
@@ -18,7 +23,7 @@
       "
     >
       SLUG IS ALREADY IN USE
-    </mat-error> -->
+    </mat-error>
   </mat-form-field>
   <br />
   <span>Date</span>

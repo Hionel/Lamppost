@@ -20,31 +20,27 @@ export class UserHomeComponent implements OnInit {
   ) {
     let loggedUserUID = this.cookieService.getTokenCookie();
     this.UID = loggedUserUID.uid;
-    console.log(this.UID);
-    // this.firestoreService.getUserShifts(this.UID).subscribe((shifts) => {
-    //   if (shifts.payload.exists) {
-    //     this.databaseShifts = shifts.payload.data().shifts;
-    //   }
-    // });
-  }
-  ngOnInit(): void {
-    this.addShiftForm = new FormGroup({
-      shiftSlug: new FormControl('', [Validators.required]),
-      shiftDate: new FormControl(''),
-      shiftStartTime: new FormControl(''),
-      shiftEndTime: new FormControl(''),
-      shiftWage: new FormControl(''),
-      shiftDepartment: new FormControl(''),
-      shiftComments: new FormControl(''),
+    this.firestoreService.getUserShifts(this.UID).subscribe((response) => {
+      if (response) {
+        this.databaseShifts = response!.shifts;
+      } else {
+        this.databaseShifts = [];
+      }
+      this.addShiftForm = new FormGroup(
+        {
+          shiftSlug: new FormControl('', [Validators.required]),
+          shiftDate: new FormControl(''),
+          shiftStartTime: new FormControl(''),
+          shiftEndTime: new FormControl(''),
+          shiftWage: new FormControl(''),
+          shiftDepartment: new FormControl(''),
+          shiftComments: new FormControl(''),
+        },
+        CustomValidators.duplicateSlug(this.databaseShifts, 'shiftSlug')
+      );
     });
-    if (this.databaseShifts) {
-      this.addShiftForm.addValidators([
-        CustomValidators.duplicateSlug(this.databaseShifts, 'shiftSlug'),
-      ]);
-    }
-
-    this.addShiftForm.updateValueAndValidity();
   }
+  ngOnInit(): void {}
 
   addShift() {
     this.firestoreService.addShift(this.addShiftForm.value, this.UID);

@@ -6,7 +6,7 @@
 </h2>
 <div class="dialog__content-container">
   <form
-    class="flexColumn"
+    class="dialog__edit__shift__form flexColumn"
     [formGroup]="editShiftForm"
     #formDirective="ngForm"
     (ngSubmit)="updateShiftData(editShiftForm, formDirective)"
@@ -16,7 +16,16 @@
       <input
         matInput
         formControlName="fullname"
-        class="name__inputStyle"
+        class="info__inputStyle"
+        readonly="true"
+      />
+    </mat-form-field>
+    <mat-form-field class="edit__shift__field flexRow" appearance="outline">
+      <mat-label class="edit__label">Department</mat-label>
+      <input
+        matInput
+        formControlName="shiftDepartment"
+        class="info__inputStyle"
         readonly="true"
       />
     </mat-form-field>
@@ -47,6 +56,10 @@
         *ngIf="editShiftForm.get('shiftStartTime')?.hasError('required')"
         >Start time is <strong>required</strong></mat-error
       >
+      <mat-error
+        *ngIf="editShiftForm.get('shiftStartTime')?.hasError('startTooLate')"
+        >Set start time less than end time</mat-error
+      >
     </mat-form-field>
     <mat-form-field class="edit__shift__field flexRow" appearance="outline">
       <mat-label class="edit__label">Edit End Time</mat-label>
@@ -72,19 +85,8 @@
       <mat-error *ngIf="editShiftForm.get('shiftWage')?.hasError('required')">
         Wage is <strong>required</strong></mat-error
       >
-    </mat-form-field>
-    <mat-form-field class="edit__shift__field flexRow" appearance="outline">
-      <mat-label class="edit__label">Edit Department</mat-label>
-      <input
-        matInput
-        formControlName="shiftDepartment"
-        class="edit__inputStyle"
-        required
-      />
-      <mat-error
-        *ngIf="editShiftForm.get('shiftDepartment')?.hasError('required')"
-      >
-        Department is <strong>required</strong></mat-error
+      <mat-error *ngIf="editShiftForm.get('shiftWage')?.hasError('min')">
+        Wage cannot be less then 1</mat-error
       >
     </mat-form-field>
   </form>

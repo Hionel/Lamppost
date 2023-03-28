@@ -108,14 +108,12 @@ export class FirestoreFirebaseService {
                 shifts: [...userShiftsObject.shifts, newShiftData],
               };
               this.snackbar.openSuccessSnack(`Added a new shift`);
-              console.log(updatedArray);
               return this.shiftsCollectionRef.doc(UID).set(updatedArray);
             } else {
               userShiftsObject = {
                 fullname: userFullname,
                 shifts: [newShiftData],
               };
-              console.log(userShiftsObject);
               this.snackbar.openSuccessSnack(`Added a new shift`);
               return this.shiftsCollectionRef.doc(UID).set(userShiftsObject);
             }
@@ -140,6 +138,18 @@ export class FirestoreFirebaseService {
         });
       })
     );
+  }
+  // Get specific user Shifts
+  getUserShifts(UID: string) {
+    // return this.shiftsCollectionRef.doc(UID).get();
+    return this.shiftsCollectionRef
+      .doc(UID)
+      .snapshotChanges()
+      .pipe(
+        map((userShifts) => {
+          return userShifts.payload.data();
+        })
+      );
   }
   //  Update specific shift
 
