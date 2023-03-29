@@ -146,12 +146,13 @@ export class OverviewService {
         November: 0,
         December: 0,
       };
-      for (const userObject of res) {
-        const responseUserObject = await userObject;
+      Object.entries(monthsObj).forEach(async ([key, value], index) => {
+        let monthTotal = 0;
 
-        if (responseUserObject.shifts.length > 0) {
-          Object.entries(monthsObj).map(([key, value], index) => {
-            let monthTotal = 0;
+        for (const userObject of res) {
+          const responseUserObject = await userObject;
+
+          if (responseUserObject.shifts.length > 0) {
             for (const shift of responseUserObject.shifts) {
               shift.totalEarnings =
                 this.allShiftsService.calculateTotalPerShift(
@@ -161,16 +162,16 @@ export class OverviewService {
                 );
               if (new Date(shift.shiftDate).getMonth() === index) {
                 monthTotal += shift.totalEarnings;
-                value = monthTotal;
-                monthsObj[key] = monthTotal;
               }
             }
-          });
-        } else {
-          return;
+            value = monthTotal;
+            monthsObj[key] = monthTotal;
+          } else {
+            return;
+          }
         }
         subjectSummaryData.next(monthsObj);
-      }
+      });
       return subjectSummaryData.asObservable();
     });
     return subjectSummaryData;

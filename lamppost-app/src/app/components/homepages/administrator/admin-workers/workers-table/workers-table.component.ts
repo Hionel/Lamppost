@@ -48,7 +48,6 @@ export class WorkersTableComponent {
     this.firestoreService.getAllUsersData().subscribe((response) => {
       this.usersData = [];
       if (response) {
-        console.log(response);
         let i = 1;
         for (const user of response) {
           if (!user.adminAccount) {

@@ -50,9 +50,13 @@ export default class CustomValidators {
   ): ValidatorFn {
     return (controls: AbstractControl): ValidationErrors | null => {
       const startControl = controls.get(startDateInput);
-      const startControlValue = Number(startControl?.value.replace(':', ''));
       const endControl = controls.get(endDateInput);
-      const endControlValue = Number(endControl?.value.replace(':', ''));
+      const startControlValue = startControl?.value
+        ? Number(startControl?.value.replace(':', ''))
+        : '';
+      const endControlValue = endControl?.value
+        ? Number(endControl?.value.replace(':', ''))
+        : '';
 
       if (!startControl?.errors && startControlValue >= endControlValue) {
         startControl?.setErrors({

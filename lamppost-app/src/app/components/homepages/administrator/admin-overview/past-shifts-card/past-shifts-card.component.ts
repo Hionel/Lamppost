@@ -21,7 +21,6 @@ export class PastShiftsCardComponent implements OnInit {
   @Input() dataSource: MatTableDataSource<Ishift> =
     new MatTableDataSource<Ishift>();
   @Output() selectedShift: EventEmitter<Ishift> = new EventEmitter<Ishift>();
-  @ViewChild(MatSort) sort!: MatSort;
 
   searchFormGroup: FormGroup;
   constructor() {

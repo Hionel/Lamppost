@@ -56,6 +56,7 @@ export class AdminOverviewComponent implements OnInit, AfterContentChecked {
             }
           }
           highestValue = Math.ceil(res[highestMonth] / workersArray.length);
+
           this.highestEarningsValue = highestValue;
           this.highestEarningsMonth = highestMonth;
         });
