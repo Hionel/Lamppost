@@ -141,3 +141,9 @@ input[type="number"] {
     box-shadow: var(--notification-box-shadow);
   }
 }
+
+@media only screen and (max-width: 415px) {
+  .form {
+    gap: 0.25rem;
+  }
+}

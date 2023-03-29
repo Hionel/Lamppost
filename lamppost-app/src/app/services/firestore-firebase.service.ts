@@ -141,7 +141,6 @@ export class FirestoreFirebaseService {
   }
   // Get specific user Shifts
   getUserShifts(UID: string) {
-    // return this.shiftsCollectionRef.doc(UID).get();
     return this.shiftsCollectionRef
       .doc(UID)
       .snapshotChanges()

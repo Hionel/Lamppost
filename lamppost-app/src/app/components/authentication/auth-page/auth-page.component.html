@@ -15,6 +15,10 @@
         <router-outlet></router-outlet>
       </section>
       <div class="authentication__forms__controls-container flexRow">
+        <a mat-fab extended [routerLink]="routerLink" color="secondary">
+          <mat-icon [innerText]="routerButtonIcon"></mat-icon>
+          {{ routerButtonText }}
+        </a>
         <a
           mat-fab
           extended
@@ -24,10 +28,6 @@
         >
           <mat-icon [innerText]="resetButtonIcon"></mat-icon>
           Forgot Password ?
-        </a>
-        <a mat-fab extended [routerLink]="routerLink" color="secondary">
-          <mat-icon [innerText]="routerButtonIcon"></mat-icon>
-          {{ routerButtonText }}
         </a>
       </div>
     </div>
