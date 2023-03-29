@@ -50,6 +50,7 @@ import { MostShiftsCardComponent } from './components/homepages/administrator/ad
 import { PastShiftsCardComponent } from './components/homepages/administrator/admin-overview/past-shifts-card/past-shifts-card.component';
 import { HighestEarningsSummaryDisplayComponent } from './components/homepages/administrator/admin-overview/highest-earnings-summary-display/highest-earnings-summary-display.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { ResetPasswordComponent } from './components/authentication/reset-password/reset-password.component';
 
 const materialModules = [
   MatCardModule,
@@ -94,6 +95,7 @@ const modules = [FormsModule, ReactiveFormsModule];
     HighestEarningsSummaryDisplayComponent,
     PastShiftsCardComponent,
     LoaderComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

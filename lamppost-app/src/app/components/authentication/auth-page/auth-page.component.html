@@ -14,7 +14,17 @@
       <section class="authentication__form-container">
         <router-outlet></router-outlet>
       </section>
-      <div class="authentication__forms__controls-container">
+      <div class="authentication__forms__controls-container flexRow">
+        <a
+          mat-fab
+          extended
+          [routerLink]="resetButtonRoute"
+          color="secondary"
+          *ngIf="!routerLink?.includes('login')"
+        >
+          <mat-icon [innerText]="resetButtonIcon"></mat-icon>
+          Forgot Password ?
+        </a>
         <a mat-fab extended [routerLink]="routerLink" color="secondary">
           <mat-icon [innerText]="routerButtonIcon"></mat-icon>
           {{ routerButtonText }}

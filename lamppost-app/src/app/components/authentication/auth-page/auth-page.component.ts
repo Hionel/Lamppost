@@ -14,6 +14,8 @@ export class AuthPageComponent implements AfterContentChecked, OnInit {
   routerLink?: string;
   routerButtonText?: string;
   routerButtonIcon?: string;
+  resetButtonIcon: string = 'settings_backup_restore';
+  resetButtonRoute: string = '/authentication/reset-password';
   ngOnInit(): void {
     this.cookieService.deleteCookie();
   }
@@ -36,6 +38,13 @@ export class AuthPageComponent implements AfterContentChecked, OnInit {
         this.routerLink = '/authentication/login';
         this.routerButtonText = 'Login';
         this.routerButtonIcon = 'login';
+        break;
+      case '/authentication/reset-password':
+        this.authFormTitle = 'Reset Password';
+        this.routerLink = '/authentication/login';
+        this.routerButtonText = 'Cancel';
+        this.routerButtonIcon = 'login';
+
         break;
       case '/authentication':
         this.authFormTitle = 'Authentication';

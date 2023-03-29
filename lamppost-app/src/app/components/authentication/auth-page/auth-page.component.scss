@@ -32,10 +32,12 @@
       }
 
       .authentication__forms__controls-container {
+        width: 100%;
+        justify-content: space-between;
+        padding: 0rem 1%;
         position: absolute;
         color: white;
         bottom: 1%;
-        right: 1%;
       }
     }
   }

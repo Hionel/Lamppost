@@ -17,6 +17,7 @@ import { UserHomeComponent } from './components/homepages/user/user-home/user-ho
 import { AccessGuard } from './guards/access.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { MasterGuard } from './guards/master.guard';
+import { ResetPasswordComponent } from './components/authentication/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
       {
         path: 'registration',
         component: UserSignupComponent,
+      },
+      {
+        path: 'reset-password',
+        component: ResetPasswordComponent,
       },
     ],
   },
