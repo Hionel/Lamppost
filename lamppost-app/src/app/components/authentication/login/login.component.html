@@ -12,7 +12,7 @@
       required
     />
     <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-      Email is required
+      Email is <strong>required</strong>
     </mat-error>
     <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
       Email format is invalid
@@ -24,7 +24,7 @@
       [type]="loginPasswordsVisibility ? 'text' : 'password'"
       matInput
       formControlName="password"
-      placeholder="PasswordExample1234!"
+      placeholder="Insert your password"
       required
     />
     <mat-icon
@@ -37,7 +37,7 @@
       {{ loginPasswordsVisibility ? "visibility_off" : "visibility" }}
     </mat-icon>
     <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-      Password is required
+      Password is <strong>required</strong>
     </mat-error>
   </mat-form-field>
   <button
