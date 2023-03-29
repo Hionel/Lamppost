@@ -1,9 +1,9 @@
 .highest__earnings__display-container {
   height: 100%;
   .highest__earnings__display__message {
-    color: white;
+    color: var(--text-on-gradient-color);
     font-weight: 500;
-    font-family: "Source Serif Pro", serif;
+    font-family: var(--text-font);
     margin: 0;
   }
 }

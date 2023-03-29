@@ -6,14 +6,13 @@
     transition: transform 2s;
     background-image: var(--background-image);
     border-radius: 15px;
-    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
-      rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    box-shadow: var(--white-inset-card-box-shadow);
     transform-style: preserve-3d;
 
     .card__front,
     .card__back {
-      font-family: "Source Serif Pro", serif;
-      color: white;
+      font-family: var(--text-font);
+      color: var(--text-on-gradient-color);
       position: absolute;
       top: 0;
       bottom: 0;
@@ -28,8 +27,8 @@
       gap: 2.5rem;
       .card__title {
         font-size: 3rem;
-        text-shadow: rgba(0, 0, 0, 0.5) -1px 0, rgba(0, 0, 0, 0.3) 0 -1px,
-          rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
+        text-shadow: var(--text-inset-shadow);
+
         transform: translateZ(7.5rem);
         // animation: floating 520ms ease-in-out alternate infinite;
       }
@@ -37,8 +36,8 @@
         padding: 1rem;
         border-radius: 15px;
         font-size: 1rem;
-        text-shadow: rgba(0, 0, 0, 0.5) -1px 0, rgba(0, 0, 0, 0.3) 0 -1px,
-          rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
+        text-shadow: var(--text-inset-shadow);
+
         transform: translateZ(15rem);
       }
       .card__front__icon {
@@ -49,19 +48,17 @@
     .card__back {
       transform: rotateY(-0.5turn);
       background-image: var(--background-image);
-      box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
-        rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+      box-shadow: var(--white-inset-card-box-shadow);
+
       border-radius: 15px;
       .card__back__title {
         font-size: 1rem;
         letter-spacing: 1.5px;
-        text-shadow: rgba(0, 0, 0, 0.5) -1px 0, rgba(0, 0, 0, 0.3) 0 -1px,
-          rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
+        text-shadow: var(--text-inset-shadow);
         transform: translateZ(5rem);
       }
       .card__back__closeBtn {
-        text-shadow: rgba(0, 0, 0, 0.5) -1px 0, rgba(0, 0, 0, 0.3) 0 -1px,
-          rgba(255, 255, 255, 0.5) 0 1px, rgba(0, 0, 0, 0.3) -1px -2px;
+        text-shadow: var(--text-inset-shadow);
         cursor: pointer;
         position: absolute;
         right: 4%;

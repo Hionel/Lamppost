@@ -3,6 +3,12 @@
   background-repeat: no-repeat;
   background-position: center;
   img {
-    filter: brightness(0) invert(1) drop-shadow(0px 10px 5px #0000008b);
+    filter: brightness(0) invert(1) drop-shadow(var(--logo-drop-shadow));
+    transition: all 220ms ease-in-out;
+
+    &:hover {
+      filter: brightness(0) invert(1) drop-shadow(var(--logo-HOVER-drop-shadow));
+      transition: all 220ms ease-in-out;
+    }
   }
 }

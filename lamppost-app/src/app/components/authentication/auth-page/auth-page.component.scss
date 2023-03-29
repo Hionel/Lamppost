@@ -19,7 +19,7 @@
         justify-content: space-between;
         .authentication__forms__headings {
           margin: 0.5rem 0rem;
-          color: white;
+          color: var(--text-on-gradient-color);
         }
         .main-heading {
           letter-spacing: 2px;
@@ -36,7 +36,7 @@
         justify-content: space-between;
         padding: 0rem 1%;
         position: absolute;
-        color: white;
+        color: var(--text-on-gradient-color);
         bottom: 1%;
       }
     }

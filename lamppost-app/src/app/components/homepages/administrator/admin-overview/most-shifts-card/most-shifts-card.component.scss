@@ -2,14 +2,14 @@
   background-image: var(--background-image);
   height: 100%;
   width: 100%;
-  color: white;
+  color: var(--text-on-gradient-color);
 
   .most__shifts__card__title-container {
     height: 25%;
     justify-content: space-between;
     padding: 1rem;
     .most__shifts__card-title {
-      font-family: "Source Serif Pro", serif !important;
+      font-family: var(--text-font) !important;
       text-decoration: overline;
       margin: 0;
       user-select: none;

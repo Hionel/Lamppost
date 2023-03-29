@@ -1,7 +1,11 @@
 h2 {
-  font-family: "Source Serif Pro", serif !important;
-  color: white !important;
+  font-family: var(--text-font) !important;
+  margin: 0;
+  color: var(--text-on-gradient-color) !important;
   user-select: none;
+  p {
+    text-decoration: overline;
+  }
 }
 .dialog__content-container {
   padding: 1rem;
