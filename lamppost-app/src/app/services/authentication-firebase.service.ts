@@ -92,4 +92,16 @@ export class AuthenticationFirebaseService {
       }
     }
   }
+
+  resetPassword(email: string) {
+    this.ngFireAuth
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        this.router.navigate(['/authentication/login']);
+      })
+      .catch((error) => {
+        const errorMsg = this.extractErrorMsg.transform(error.message);
+        return this.snackbarNotification.openErrorSnack(`${errorMsg}`);
+      });
+  }
 }

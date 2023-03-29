@@ -14,14 +14,6 @@ export default class PasswordVisibilityToogler {
     if (fieldName === 'loginPassword') {
       let loginPasswordVisibility = visibilityStatus;
       return !loginPasswordVisibility;
-    }
-    if (fieldName === 'newPassword') {
-      let resetPasswordVisibility = visibilityStatus;
-      return !resetPasswordVisibility;
-    }
-    if (fieldName === 'confirmNewPassword') {
-      let resetNewPasswordVisibility = visibilityStatus;
-      return !resetNewPasswordVisibility;
     } else return false;
   }
 }
