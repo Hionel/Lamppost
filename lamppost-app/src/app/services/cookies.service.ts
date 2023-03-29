@@ -32,7 +32,7 @@ export class CookiesService {
     }
   }
   deleteCookie() {
-    this.cookie.delete('token');
+    this.cookie.deleteAll();
   }
   checkCookie() {
     return this.cookie.check('token');

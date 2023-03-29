@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { CookiesService } from 'src/app/services/cookies.service';
 
 interface Inavigation {
   path: string;
@@ -19,7 +21,7 @@ export class AdminHeaderComponent {
   logoutIcon: string;
   logoutPath: string;
   navLinks: Inavigation[];
-  constructor() {
+  constructor(private cookieService: CookiesService, private router: Router) {
     this.logoPath = 'overview';
     this.logoSrc = '../assets/icon/lamppost.png';
     this.appTitle = 'LAMPPOST';
@@ -34,5 +36,9 @@ export class AdminHeaderComponent {
       { name: '', icon: 'assessment', path: 'overview' },
       { name: 'Employees', icon: 'fingerprint', path: 'employees' },
     ];
+  }
+  logoutCurrentUser() {
+    this.cookieService.deleteCookie();
+    this.router.navigate([`${this.logoutPath}`]);
   }
 }

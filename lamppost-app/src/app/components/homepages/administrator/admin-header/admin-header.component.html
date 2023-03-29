@@ -36,7 +36,7 @@
       <button
         mat-mini-fab
         color="primary"
-        [routerLink]="logoutPath"
+        (click)="logoutCurrentUser()"
         matTooltip="Log out"
       >
         <mat-icon>{{ logoutIcon }}</mat-icon>
