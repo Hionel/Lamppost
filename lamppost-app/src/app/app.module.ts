@@ -38,6 +38,9 @@ import { AuthImageComponent } from './components/authentication/auth-image/auth-
 import { UserSignupComponent } from './components/authentication/user-signup/user-signup.component';
 
 import { UserHomeComponent } from './components/homepages/user/user-home/user-home.component';
+import { EditShiftOverlayComponent } from './components/homepages/administrator/admin-shifts/edit-shift-overlay/edit-shift-overlay.component';
+import { ShiftsTableComponent } from './components/homepages/administrator/admin-shifts/shifts-table/shifts-table.component';
+import { UserHeaderComponent } from './components/homepages/user/user-header/user-header.component';
 
 import { AdminHomeComponent } from './components/homepages/administrator/admin-home/admin-home.component';
 import { AdminShiftsComponent } from './components/homepages/administrator/admin-shifts/admin-shifts.component';
@@ -46,6 +49,16 @@ import { AdminOverviewComponent } from './components/homepages/administrator/adm
 import { AdminHeaderComponent } from './components/homepages/administrator/admin-header/admin-header.component';
 import { EditInfoCardComponent } from './components/homepages/administrator/admin-workers/edit-info-card/edit-info-card.component';
 import { WorkersTableComponent } from './components/homepages/administrator/admin-workers/workers-table/workers-table.component';
+import { ResetPasswordComponent } from './components/authentication/reset-password/reset-password.component';
+import { HighestEarningsSummaryDisplayComponent } from './components/homepages/administrator/admin-overview/highest-earnings-summary-display/highest-earnings-summary-display.component';
+import { MostShiftsCardComponent } from './components/homepages/administrator/admin-overview/most-shifts-card/most-shifts-card.component';
+import { PastShiftsCardComponent } from './components/homepages/administrator/admin-overview/past-shifts-card/past-shifts-card.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { UserAddShiftsComponent } from './components/homepages/user/user-shifts/user-add-shifts/user-add-shifts.component';
+import { UserOverviewComponent } from './components/homepages/user/user-overview/user-overview.component';
+import { UserTableShiftsComponent } from './components/homepages/user/user-shifts/user-table-shifts/user-table-shifts.component';
+import { UserProfileComponent } from './components/homepages/user/user-profile/user-profile.component';
+import { UserShiftsComponent } from './components/homepages/user/user-shifts/user-shifts.component';
 
 const materialModules = [
   MatCardModule,
@@ -77,13 +90,22 @@ const modules = [FormsModule, ReactiveFormsModule];
     ExtractErrorMessagePipe,
     DateTimeRemovalPipe,
     NumberFormatterPipe,
+
     AppComponent,
     AuthPageComponent,
     LoginComponent,
     AdminSignupComponent,
     AuthImageComponent,
     UserSignupComponent,
+
     UserHomeComponent,
+    UserHeaderComponent,
+    UserAddShiftsComponent,
+    UserOverviewComponent,
+    UserShiftsComponent,
+    UserTableShiftsComponent,
+    UserProfileComponent,
+
     AdminHomeComponent,
     AdminShiftsComponent,
     AdminWorkersComponent,

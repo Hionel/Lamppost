@@ -43,7 +43,7 @@ export class EditShiftOverlayComponent {
   updateShiftData(form: FormGroup, formDirective: FormGroupDirective) {
     this.firestoreSerivce.updateShift(
       this.data.uid!,
-      this.data.shiftSlug,
+      this.data.shiftSlug!,
       form.value
     );
     form.reset();
@@ -51,6 +51,6 @@ export class EditShiftOverlayComponent {
   }
 
   deleteShiftData() {
-    this.firestoreSerivce.deleteShift(this.data.uid!, this.data.shiftSlug);
+    this.firestoreSerivce.deleteShift(this.data.uid!, this.data.shiftSlug!);
   }
 }
