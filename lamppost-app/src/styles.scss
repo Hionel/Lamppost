@@ -147,3 +147,19 @@ input[type="number"] {
     gap: 0.25rem;
   }
 }
+
+@media only screen and (max-width: 960px) {
+  .main__body {
+    float: right;
+    width: 87.5%;
+    height: 100vh;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  .main__body {
+    float: right;
+    width: 80%;
+    height: 100vh;
+  }
+}

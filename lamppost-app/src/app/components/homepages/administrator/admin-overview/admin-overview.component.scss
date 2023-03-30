@@ -44,3 +44,20 @@
     position: absolute;
   }
 }
+
+@media only screen and (max-width: 770px) {
+  .overview__section-wrapper {
+    .overview__statistics-wrapper {
+      width: 90%;
+      height: 95%;
+      .overview__cards-container {
+        flex-direction: column;
+        gap: 2rem;
+        .overview__card-component {
+          width: 100%;
+          height: 50%;
+        }
+      }
+    }
+  }
+}

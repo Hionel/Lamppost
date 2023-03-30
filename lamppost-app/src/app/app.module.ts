@@ -27,6 +27,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { AuthPageComponent } from './components/authentication/auth-page/auth-page.component';
@@ -67,6 +68,7 @@ const materialModules = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatDialogModule,
+  MatSelectModule,
 ];
 const modules = [FormsModule, ReactiveFormsModule];
 
