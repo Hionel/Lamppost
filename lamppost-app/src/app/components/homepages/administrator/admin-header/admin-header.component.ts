@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookiesService } from 'src/app/services/cookies.service';
 
@@ -21,7 +22,17 @@ export class AdminHeaderComponent {
   logoutIcon: string;
   logoutPath: string;
   navLinks: Inavigation[];
-  constructor(private cookieService: CookiesService, private router: Router) {
+  isTooltipDisabled = true;
+  hamburgerMenuStatus: boolean = false;
+  constructor(
+    private cookieService: CookiesService,
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    this.breakpointObserver.observe([Breakpoints.Small]).subscribe((result) => {
+      this.isTooltipDisabled = !result.matches;
+      this.hamburgerMenuStatus = !result.matches;
+    });
     this.logoPath = 'overview';
     this.logoSrc = '../assets/icon/lamppost.png';
     this.appTitle = 'LAMPPOST';
@@ -33,9 +44,12 @@ export class AdminHeaderComponent {
         icon: 'work',
         path: 'shifts',
       },
-      { name: '', icon: 'assessment', path: 'overview' },
+      { name: 'Overview', icon: 'assessment', path: 'overview' },
       { name: 'Employees', icon: 'fingerprint', path: 'employees' },
     ];
+  }
+  openMobileMenu() {
+    this.hamburgerMenuStatus = !this.hamburgerMenuStatus;
   }
   logoutCurrentUser() {
     this.cookieService.deleteCookie();
