@@ -11,6 +11,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { ExtractErrorMessagePipe } from './customPipes/extract-error-message.pipe';
 import { DateTimeRemovalPipe } from './customPipes/date-time-removal.pipe';
 import { NumberFormatterPipe } from './customPipes/number-formatter.pipe';
+import { AbbreviatePipe } from './customPipes/abbreviate.pipe';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
@@ -45,13 +46,6 @@ import { AdminOverviewComponent } from './components/homepages/administrator/adm
 import { AdminHeaderComponent } from './components/homepages/administrator/admin-header/admin-header.component';
 import { EditInfoCardComponent } from './components/homepages/administrator/admin-workers/edit-info-card/edit-info-card.component';
 import { WorkersTableComponent } from './components/homepages/administrator/admin-workers/workers-table/workers-table.component';
-import { ShiftsTableComponent } from './components/homepages/administrator/admin-shifts/shifts-table/shifts-table.component';
-import { EditShiftOverlayComponent } from './components/homepages/administrator/admin-shifts/edit-shift-overlay/edit-shift-overlay.component';
-import { MostShiftsCardComponent } from './components/homepages/administrator/admin-overview/most-shifts-card/most-shifts-card.component';
-import { PastShiftsCardComponent } from './components/homepages/administrator/admin-overview/past-shifts-card/past-shifts-card.component';
-import { HighestEarningsSummaryDisplayComponent } from './components/homepages/administrator/admin-overview/highest-earnings-summary-display/highest-earnings-summary-display.component';
-import { LoaderComponent } from './components/loader/loader.component';
-import { ResetPasswordComponent } from './components/authentication/reset-password/reset-password.component';
 
 const materialModules = [
   MatCardModule,
@@ -69,11 +63,17 @@ const materialModules = [
   MatNativeDateModule,
   MatDialogModule,
   MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatDialogModule,
+  MatSelectModule,
 ];
+
 const modules = [FormsModule, ReactiveFormsModule];
 
 @NgModule({
   declarations: [
+    AbbreviatePipe,
     ExtractErrorMessagePipe,
     DateTimeRemovalPipe,
     NumberFormatterPipe,
@@ -113,6 +113,7 @@ const modules = [FormsModule, ReactiveFormsModule];
     ExtractErrorMessagePipe,
     DateTimeRemovalPipe,
     NumberFormatterPipe,
+    AbbreviatePipe,
   ],
   bootstrap: [AppComponent],
 })

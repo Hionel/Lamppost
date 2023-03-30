@@ -13,6 +13,11 @@ import { EditShiftOverlayComponent } from './components/homepages/administrator/
 import { AdminWorkersComponent } from './components/homepages/administrator/admin-workers/admin-workers.component';
 
 import { UserHomeComponent } from './components/homepages/user/user-home/user-home.component';
+import { UserOverviewComponent } from './components/homepages/user/user-overview/user-overview.component';
+import { UserProfileComponent } from './components/homepages/user/user-profile/user-profile.component';
+import { UserAddShiftsComponent } from './components/homepages/user/user-shifts/user-add-shifts/user-add-shifts.component';
+import { UserShiftsComponent } from './components/homepages/user/user-shifts/user-shifts.component';
+import { UserTableShiftsComponent } from './components/homepages/user/user-shifts/user-table-shifts/user-table-shifts.component';
 
 import { AccessGuard } from './guards/access.guard';
 import { AuthGuard } from './guards/auth.guard';
@@ -50,7 +55,31 @@ const routes: Routes = [
   {
     path: 'homepage',
     component: UserHomeComponent,
-    canActivate: [AuthGuard, AccessGuard],
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'overview',
+        component: UserOverviewComponent,
+      },
+      {
+        path: 'shifts',
+        component: UserShiftsComponent,
+        children: [
+          {
+            path: 'add-shift',
+            component: UserAddShiftsComponent,
+          },
+          {
+            path: 'table',
+            component: UserTableShiftsComponent,
+          },
+        ],
+      },
+      {
+        path: 'profile',
+        component: UserProfileComponent,
+      },
+    ],
   },
   {
     path: 'administrator',
