@@ -1,0 +1,128 @@
+<section class="form-wrapper flexColumn">
+  <form
+    *ngIf="addShiftForm"
+    [formGroup]="addShiftForm"
+    (ngSubmit)="addShift()"
+    class="addShiftFormContainer flexColumn"
+  >
+    <mat-form-field appearance="fill">
+      <mat-label>Department</mat-label>
+      <mat-select formControlName="shiftDepartment">
+        <mat-option value="HR">HR</mat-option>
+        <mat-option value="ASSETS">ASSETS</mat-option>
+        <mat-option value="DEV">DEV</mat-option>
+        <mat-option value="PROD">PROD</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="addShiftForm.get('shiftDepartment')!.hasError('required')"
+      >
+        Department<strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="form__field-wrapper" appearance="outline">
+      <mat-label>Shift slug</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Enter Shift Slug"
+        value=""
+        formControlName="shiftSlug"
+      />
+      <mat-error *ngIf="addShiftForm.get('shiftSlug')!.hasError('required')">
+        Shift Slug <strong>required</strong>
+      </mat-error>
+      <mat-error
+        *ngIf="
+          addShiftForm.get('shiftSlug')!.hasError('pattern') &&
+          !addShiftForm.get('shiftSlug')!.hasError('required')
+        "
+      >
+        Shift Slug must match the required pattern : "DEP-NN-NUM"
+      </mat-error>
+      <mat-error
+        *ngIf="
+          !addShiftForm.get('shiftSlug')?.hasError('required') &&
+          addShiftForm.get('shiftSlug')?.hasError('slugAlreadyInUse')
+        "
+      >
+        SLUG IS ALREADY IN USE
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form__field-wrapper">
+      <mat-label>Date</mat-label>
+      <input
+        type="date"
+        matInput
+        placeholder="Enter Shift Date"
+        value=""
+        formControlName="shiftDate"
+      />
+      <mat-error *ngIf="addShiftForm.get('shiftDate')!.hasError('required')">
+        Date is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form__field-wrapper">
+      <mat-label>Start Time</mat-label>
+      <input
+        type="time"
+        matInput
+        placeholder="Enter Start Time"
+        value=""
+        formControlName="shiftStartTime"
+      />
+      <mat-error
+        *ngIf="addShiftForm.get('shiftStartTime')!.hasError('required')"
+      >
+        Start Time <strong>required</strong>
+      </mat-error>
+      <mat-error
+        *ngIf="addShiftForm.get('shiftStartTime')?.hasError('startTooLate')"
+        >Set start time less than end time</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field class="form__field-wrapper">
+      <mat-label>End Time</mat-label>
+      <input
+        type="time"
+        matInput
+        placeholder="Enter End Time"
+        value=""
+        formControlName="shiftEndTime"
+      />
+      <mat-error *ngIf="addShiftForm.get('shiftEndTime')!.hasError('required')">
+        End Time <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form__field-wrapper">
+      <mat-label>Wage/Hour</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Wage/hour"
+        value=""
+        formControlName="shiftWage"
+      />
+      <mat-error *ngIf="addShiftForm.get('shiftWage')!.hasError('required')">
+        Wage/hour <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Textarea</mat-label>
+      <textarea matInput formControlName="shiftComments"></textarea>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="addShiftForm.invalid"
+    >
+      Add Shift
+    </button>
+  </form>
+</section>

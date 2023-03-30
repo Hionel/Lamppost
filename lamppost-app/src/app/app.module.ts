@@ -21,6 +21,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { AuthPageComponent } from './components/authentication/auth-page/auth-page.component';
@@ -37,6 +41,14 @@ import { AdminOverviewComponent } from './components/homepages/administrator/adm
 import { AdminHeaderComponent } from './components/homepages/administrator/admin-header/admin-header.component';
 import { EditInfoCardComponent } from './components/homepages/administrator/admin-workers/edit-info-card/edit-info-card.component';
 import { WorkersTableComponent } from './components/homepages/administrator/admin-workers/workers-table/workers-table.component';
+import { UserOverviewComponent } from './components/homepages/user/user-overview/user-overview.component';
+import { UserShiftsComponent } from './components/homepages/user/user-shifts/user-shifts.component';
+import { UserProfileComponent } from './components/homepages/user/user-profile/user-profile.component';
+import { UserHeaderComponent } from './components/homepages/user/user-header/user-header.component';
+import { UserAddShiftsComponent } from './components/homepages/user/user-shifts/user-add-shifts/user-add-shifts.component';
+import { UserTableShiftsComponent } from './components/homepages/user/user-shifts/user-table-shifts/user-table-shifts.component';
+import { AbbreviatePipe } from './customPipes/abbreviate.pipe';
+import { DateTimeRemovalPipe } from './customPipes/date-time-removal.pipe';
 
 const materialModules = [
   MatCardModule,
@@ -50,7 +62,12 @@ const materialModules = [
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatDialogModule,
+  MatSelectModule,
 ];
+
 const modules = [FormsModule, ReactiveFormsModule];
 
 @NgModule({
@@ -70,6 +87,14 @@ const modules = [FormsModule, ReactiveFormsModule];
     AdminHeaderComponent,
     EditInfoCardComponent,
     WorkersTableComponent,
+    UserOverviewComponent,
+    UserShiftsComponent,
+    UserProfileComponent,
+    UserHeaderComponent,
+    UserAddShiftsComponent,
+    UserTableShiftsComponent,
+    AbbreviatePipe,
+    DateTimeRemovalPipe,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +106,7 @@ const modules = [FormsModule, ReactiveFormsModule];
     ...materialModules,
     ...modules,
   ],
-  providers: [ExtractErrorMessagePipe],
+  providers: [ExtractErrorMessagePipe, AbbreviatePipe, DateTimeRemovalPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

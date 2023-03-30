@@ -74,10 +74,48 @@ export class FirestoreFirebaseService {
       this.snackbar.openErrorSnack(`Error updating ${error}`);
     }
   }
-
+  // Get fullname
+  async getFullname(UID: string) {
+    try {
+      let fullname;
+      await this.usersCollectionRef
+        .doc(UID)
+        .get()
+        .forEach((user) => {
+          fullname = user.data()?.firstname + ' ' + user.data()?.lastname;
+        });
+      return fullname;
+    } catch (error) {
+      return this.snackbar.openErrorSnack('Failed fetching the names');
+    }
+  }
+  getAllShifts() {
+    return this.shiftsCollectionRef.snapshotChanges().pipe(
+      map((userShifts) => {
+        return userShifts.map(async (res) => {
+          const shiftData = res.payload.doc.data();
+          const shiftsUID = res.payload.doc.id;
+          return { shiftsUID, ...shiftData };
+        });
+      })
+    );
+  }
+  // Get specific user Shifts
+  getUserShifts(UID: string) {
+    return this.shiftsCollectionRef
+      .doc(UID)
+      .snapshotChanges()
+      .pipe(
+        map((userShifts) => {
+          return userShifts.payload.data();
+        })
+      );
+  }
   // Add shift to
   async addShift(newShiftData: Ishift, UID: string) {
     try {
+      console.log(newShiftData);
+      console.log(UID);
       const db = getFirestore();
       const ref = doc(db, 'Shifts', UID);
       getDoc(ref)
