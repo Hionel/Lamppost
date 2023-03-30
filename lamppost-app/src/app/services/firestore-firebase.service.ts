@@ -94,6 +94,8 @@ export class FirestoreFirebaseService {
   // Add shift to
   async addShift(newShiftData: Ishift, UID: string) {
     try {
+      console.log(newShiftData);
+      console.log(UID);
       const db = getFirestore();
       const ref = doc(db, 'Shifts', UID);
       getDoc(ref)
