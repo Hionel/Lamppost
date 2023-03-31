@@ -105,6 +105,7 @@
       mat-row
       *matRowDef="let row; columns: displayedColumns"
       class="hoverRowSelectionEffect"
+      (click)="selectShift(row)"
     ></tr>
 
     <!-- Row shown when there is no matching data. -->

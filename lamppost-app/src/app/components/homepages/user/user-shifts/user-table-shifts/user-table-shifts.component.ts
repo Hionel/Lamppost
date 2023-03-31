@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Ishift } from 'src/app/interfaces/ishift';
@@ -8,6 +14,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AllShiftsService } from 'src/app/services/all-shifts.service';
 import { SnackbarNotificationService } from 'src/app/services/snackbar-notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-table-shifts',
@@ -29,7 +36,9 @@ export class UserTableShiftsComponent implements OnInit {
   dataSource = new MatTableDataSource<Ishift>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @Output() selectedShift: EventEmitter<Ishift> = new EventEmitter<Ishift>();
   constructor(
+    private router: Router,
     private snackbar: SnackbarNotificationService,
     private shiftService: AllShiftsService,
     private firestoreService: FirestoreFirebaseService,
@@ -61,6 +70,7 @@ export class UserTableShiftsComponent implements OnInit {
             shift.shiftWage!
           );
           shiftInfo = {
+            shiftSlug: shift.shiftSlug,
             shiftDate: shift.shiftDate,
             shiftDepartment: shift.shiftDepartment,
             shiftStartTime: shift.shiftStartTime,
@@ -101,5 +111,9 @@ export class UserTableShiftsComponent implements OnInit {
       'filterStartDate',
       'filterEndDate'
     );
+  }
+  selectShift(shift: Ishift) {
+    console.log(shift);
+    this.selectedShift.emit(shift);
   }
 }

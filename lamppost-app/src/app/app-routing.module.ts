@@ -23,6 +23,7 @@ import { AccessGuard } from './guards/access.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { MasterGuard } from './guards/master.guard';
 import { ResetPasswordComponent } from './components/authentication/reset-password/reset-password.component';
+import { UserEditShiftComponent } from './components/homepages/user/user-shifts/user-edit-shift/user-edit-shift.component';
 
 const routes: Routes = [
   {
@@ -72,6 +73,10 @@ const routes: Routes = [
           {
             path: 'table',
             component: UserTableShiftsComponent,
+          },
+          {
+            path: ':shiftId',
+            component: UserEditShiftComponent,
           },
         ],
       },

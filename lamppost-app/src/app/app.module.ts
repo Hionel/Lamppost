@@ -59,6 +59,7 @@ import { UserOverviewComponent } from './components/homepages/user/user-overview
 import { UserTableShiftsComponent } from './components/homepages/user/user-shifts/user-table-shifts/user-table-shifts.component';
 import { UserProfileComponent } from './components/homepages/user/user-profile/user-profile.component';
 import { UserShiftsComponent } from './components/homepages/user/user-shifts/user-shifts.component';
+import { UserEditShiftComponent } from './components/homepages/user/user-shifts/user-edit-shift/user-edit-shift.component';
 
 const materialModules = [
   MatCardModule,
@@ -120,6 +121,7 @@ const modules = [FormsModule, ReactiveFormsModule];
     PastShiftsCardComponent,
     LoaderComponent,
     ResetPasswordComponent,
+    UserEditShiftComponent,
   ],
   imports: [
     BrowserModule,
