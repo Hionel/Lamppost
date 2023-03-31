@@ -73,13 +73,16 @@ const routes: Routes = [
           {
             path: 'table',
             component: UserTableShiftsComponent,
-          },
-          {
-            path: ':shiftId',
-            component: UserEditShiftComponent,
+            children: [
+              {
+                path: ':shiftID',
+                component: UserEditShiftComponent,
+              },
+            ],
           },
         ],
       },
+
       {
         path: 'profile',
         component: UserProfileComponent,

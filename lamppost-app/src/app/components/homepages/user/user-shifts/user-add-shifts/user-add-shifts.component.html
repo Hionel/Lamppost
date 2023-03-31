@@ -5,6 +5,8 @@
     (ngSubmit)="addShift()"
     class="addShiftFormContainer flexColumn"
   >
+    <h1>Insert a new shift</h1>
+
     <mat-form-field
       class="form__field-wrapper"
       appearance="fill"
@@ -20,7 +22,7 @@
       <mat-error
         *ngIf="addShiftForm.get('shiftDepartment')!.hasError('required')"
       >
-        Department<strong>required</strong>
+        Department is<strong>required</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field class="form__field-wrapper" appearance="outline">
@@ -33,7 +35,7 @@
         formControlName="shiftSlug"
       />
       <mat-error *ngIf="addShiftForm.get('shiftSlug')!.hasError('required')">
-        Shift Slug <strong>required</strong>
+        Shift Slug is<strong>required</strong>
       </mat-error>
       <mat-error
         *ngIf="
@@ -41,7 +43,8 @@
           !addShiftForm.get('shiftSlug')!.hasError('required')
         "
       >
-        Shift Slug must match the required pattern : "DEP-NN-NUM"
+        Shift Slug must <strong>match</strong> the required pattern :
+        "DEP-NN-NUM"
       </mat-error>
       <mat-error
         *ngIf="
@@ -79,7 +82,7 @@
       <mat-error
         *ngIf="addShiftForm.get('shiftStartTime')!.hasError('required')"
       >
-        Start Time <strong>required</strong>
+        Start Time is<strong>required</strong>
       </mat-error>
       <mat-error
         *ngIf="addShiftForm.get('shiftStartTime')?.hasError('startTooLate')"
@@ -111,7 +114,7 @@
         formControlName="shiftWage"
       />
       <mat-error *ngIf="addShiftForm.get('shiftWage')!.hasError('required')">
-        Wage/hour <strong>required</strong>
+        Wage/hour is<strong>required</strong>
       </mat-error>
     </mat-form-field>
 

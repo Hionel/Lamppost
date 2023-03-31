@@ -79,7 +79,6 @@ const materialModules = [
   MatSelectModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatDialogModule,
   MatSelectModule,
 ];
 

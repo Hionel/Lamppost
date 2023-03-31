@@ -5,8 +5,9 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 import { Ishift } from 'src/app/interfaces/ishift';
 import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.service';
 import { CookiesService } from 'src/app/services/cookies.service';
@@ -15,6 +16,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { AllShiftsService } from 'src/app/services/all-shifts.service';
 import { SnackbarNotificationService } from 'src/app/services/snackbar-notification.service';
 import { Router } from '@angular/router';
+import { UserEditShiftComponent } from '../user-edit-shift/user-edit-shift.component';
 
 @Component({
   selector: 'app-user-table-shifts',
@@ -38,6 +40,7 @@ export class UserTableShiftsComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   @Output() selectedShift: EventEmitter<Ishift> = new EventEmitter<Ishift>();
   constructor(
+    private matDialog: MatDialog,
     private router: Router,
     private snackbar: SnackbarNotificationService,
     private shiftService: AllShiftsService,
@@ -56,9 +59,23 @@ export class UserTableShiftsComponent implements OnInit {
   ngOnInit(): void {
     this.getShifts(this.UID);
   }
+  selectShift(shift: Ishift) {
+    console.log(shift.shiftSlug);
+    this.router.navigate([
+      `/homepage/shifts/table/edit-shift:${shift.shiftSlug}`,
+    ]);
+    const dialogRef = this.matDialog.open(UserEditShiftComponent, {
+      data: shift,
+      height: 'fit-content',
+      width: '35%',
+      hasBackdrop: true,
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      this.router.navigate(['/homepage/shifts/table']);
+    });
+  }
   getShifts(userUID: string) {
     this.firestoreService.getUserShifts(userUID).subscribe((res) => {
-      console.log(res?.shifts);
       if (res) {
         this.shiftsData = [];
         let shiftInfo: Ishift;
@@ -70,6 +87,7 @@ export class UserTableShiftsComponent implements OnInit {
             shift.shiftWage!
           );
           shiftInfo = {
+            uid: this.UID,
             shiftSlug: shift.shiftSlug,
             shiftDate: shift.shiftDate,
             shiftDepartment: shift.shiftDepartment,
@@ -111,9 +129,5 @@ export class UserTableShiftsComponent implements OnInit {
       'filterStartDate',
       'filterEndDate'
     );
-  }
-  selectShift(shift: Ishift) {
-    console.log(shift);
-    this.selectedShift.emit(shift);
   }
 }

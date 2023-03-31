@@ -39,7 +39,7 @@ export class UserAddShiftsComponent {
           ?.valueChanges.subscribe((value) => {
             const shiftSlugValue = `${value}-${this.workerNameAbrreviation}`;
             this.addShiftForm.get('shiftSlug')?.setValue(shiftSlugValue);
-            this.slugPattern = new RegExp(`^${shiftSlugValue}-\d+$`);
+            this.slugPattern = new RegExp(`${shiftSlugValue}-\\d+$`);
             this.addShiftForm
               .get('shiftSlug')
               ?.setValidators([

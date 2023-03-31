@@ -55,3 +55,13 @@
     }
   }
 }
+
+@media only screen and (max-width: 925px) {
+  .workers__table__head {
+    justify-content: center;
+    flex-direction: column-reverse;
+    .workers__table__paginator {
+      background-color: transparent;
+    }
+  }
+}

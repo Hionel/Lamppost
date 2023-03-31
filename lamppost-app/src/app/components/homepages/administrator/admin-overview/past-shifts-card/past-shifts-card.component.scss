@@ -52,3 +52,12 @@
     }
   }
 }
+
+@media only screen and (max-width: 770px) {
+  .past__shifts__card-wrapper {
+    .past__shifts__card__title-container {
+      padding: 0rem;
+      font-size: 1rem;
+    }
+  }
+}

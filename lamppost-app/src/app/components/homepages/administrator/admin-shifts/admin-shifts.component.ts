@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Ishift } from 'src/app/interfaces/ishift';
-import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.service';
+
 import { EditShiftOverlayComponent } from './edit-shift-overlay/edit-shift-overlay.component';
 
 @Component({
