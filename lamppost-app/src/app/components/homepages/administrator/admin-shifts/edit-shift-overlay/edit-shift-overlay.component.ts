@@ -17,6 +17,7 @@ import { FirestoreFirebaseService } from 'src/app/services/firestore-firebase.se
 })
 export class EditShiftOverlayComponent {
   editShiftForm: FormGroup;
+  wageRegex = new RegExp(/^\d+$/);
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Ishift,
     private firestoreSerivce: FirestoreFirebaseService
@@ -35,6 +36,7 @@ export class EditShiftOverlayComponent {
         shiftWage: new FormControl(this.data.shiftWage, [
           Validators.required,
           Validators.min(1),
+          Validators.pattern(this.wageRegex),
         ]),
       },
       CustomValidators.dateComparison('shiftStartTime', 'shiftEndTime')

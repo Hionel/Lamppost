@@ -22,7 +22,7 @@
       <mat-error
         *ngIf="addShiftForm.get('shiftDepartment')!.hasError('required')"
       >
-        Department is<strong>required</strong>
+        Department is <strong>required</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field class="form__field-wrapper" appearance="outline">
@@ -35,7 +35,7 @@
         formControlName="shiftSlug"
       />
       <mat-error *ngIf="addShiftForm.get('shiftSlug')!.hasError('required')">
-        Shift Slug is<strong>required</strong>
+        Shift Slug is <strong>required</strong>
       </mat-error>
       <mat-error
         *ngIf="
@@ -114,7 +114,15 @@
         formControlName="shiftWage"
       />
       <mat-error *ngIf="addShiftForm.get('shiftWage')!.hasError('required')">
-        Wage/hour is<strong>required</strong>
+        Wage/hour is <strong>required</strong>
+      </mat-error>
+      <mat-error
+        *ngIf="
+          !addShiftForm.get('shiftWage')!.hasError('required') &&
+          addShiftForm.get('shiftWage')!.hasError('pattern')
+        "
+      >
+        Wage/hour requires only digits
       </mat-error>
     </mat-form-field>
 

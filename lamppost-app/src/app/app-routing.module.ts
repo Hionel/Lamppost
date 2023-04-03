@@ -56,27 +56,34 @@ const routes: Routes = [
   {
     path: 'homepage',
     component: UserHomeComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AccessGuard],
     children: [
       {
         path: 'overview',
         component: UserOverviewComponent,
+        canActivate: [AuthGuard, AccessGuard],
       },
       {
         path: 'shifts',
         component: UserShiftsComponent,
+        canActivate: [AuthGuard, AccessGuard],
+
         children: [
           {
             path: 'add-shift',
             component: UserAddShiftsComponent,
+            canActivate: [AuthGuard, AccessGuard],
           },
           {
             path: 'table',
             component: UserTableShiftsComponent,
+            canActivate: [AuthGuard, AccessGuard],
+
             children: [
               {
                 path: ':shiftID',
                 component: UserEditShiftComponent,
+                canActivate: [AuthGuard, AccessGuard],
               },
             ],
           },

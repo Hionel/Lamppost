@@ -15,6 +15,7 @@ export class UserAddShiftsComponent {
   addShiftForm!: FormGroup;
   workerNameAbrreviation!: string;
   slugPattern!: RegExp;
+  wageRegex = new RegExp(/^\d+$/);
   dataBaseShifts!: Ishift[];
   private UID: string;
   constructor(
@@ -54,7 +55,10 @@ export class UserAddShiftsComponent {
           shiftDate: new FormControl('', [Validators.required]),
           shiftStartTime: new FormControl('', [Validators.required]),
           shiftEndTime: new FormControl('', [Validators.required]),
-          shiftWage: new FormControl('', [Validators.required]),
+          shiftWage: new FormControl('', [
+            Validators.required,
+            Validators.pattern(this.wageRegex),
+          ]),
           shiftDepartment: new FormControl('', [Validators.required]),
           shiftComments: new FormControl(''),
         },

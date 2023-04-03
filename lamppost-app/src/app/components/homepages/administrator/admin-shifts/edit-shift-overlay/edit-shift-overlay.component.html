@@ -88,6 +88,14 @@
       <mat-error *ngIf="editShiftForm.get('shiftWage')?.hasError('min')">
         Wage cannot be less then 1</mat-error
       >
+      <mat-error
+        *ngIf="
+          !editShiftForm.get('shiftWage')!.hasError('required') &&
+          editShiftForm.get('shiftWage')!.hasError('pattern')
+        "
+      >
+        Wage/hour requires only digits
+      </mat-error>
     </mat-form-field>
   </form>
 </div>
