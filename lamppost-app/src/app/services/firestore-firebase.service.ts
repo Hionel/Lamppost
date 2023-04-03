@@ -4,7 +4,7 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import { map } from 'rxjs';
+import { map, take } from 'rxjs';
 import { Ishift, IshiftObject } from '../interfaces/ishift';
 import { StoredUser } from '../interfaces/stored-user';
 
@@ -56,10 +56,21 @@ export class FirestoreFirebaseService {
       })
     );
   }
-  // Update specifci user Data
+  // Update specific user Data
   updateUserData(UID: string, userUpdated: StoredUser) {
     try {
       this.usersCollectionRef.doc(UID).update(userUpdated);
+      this.shiftsCollectionRef
+        .doc(UID)
+        .snapshotChanges()
+        .pipe(take(1))
+        .subscribe((data) => {
+          if (data.payload.exists) {
+            this.shiftsCollectionRef.doc(UID).update({
+              fullname: userUpdated.firstname + ' ' + userUpdated.lastname,
+            });
+          }
+        });
       this.snackbar.openSuccessSnack(`Successfully updated the user's data`);
     } catch (error: any) {
       this.snackbar.openErrorSnack(`Error updating ${error}`);

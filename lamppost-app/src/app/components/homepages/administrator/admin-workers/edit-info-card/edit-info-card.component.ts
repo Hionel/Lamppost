@@ -87,7 +87,6 @@ export class EditInfoCardComponent {
           uid: res.payload.id,
           ...res.payload.data()!,
         };
-        console.log(this.selectedUserData);
         this.addDataToEditForm(this.selectedUserData!);
         this.showDeleteButton = false;
       });
