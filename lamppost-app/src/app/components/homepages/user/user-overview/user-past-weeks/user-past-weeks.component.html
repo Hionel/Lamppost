@@ -1,0 +1,26 @@
+<section class="past__shifts__card-wrapper">
+  <header class="past__shifts__card__title-container flexColumn">
+    <h1>This week's past shifts</h1>
+  </header>
+  <main class="past__shifts__table-container">
+    <div class="shifts__table-wrapper mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" class="past__shifts__table">
+        <ng-container matColumnDef="shiftSlug">
+          <th mat-header-cell *matHeaderCellDef>Worker Name</th>
+          <td mat-cell *matCellDef="let row">{{ row.shiftSlug }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="shiftDate">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let row">{{ row.shiftDate }}</td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </main>
+</section>

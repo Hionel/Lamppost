@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormGroupDirective,
+} from '@angular/forms';
 import CustomValidators from 'src/app/auth-utils/customValidations';
 import { AbbreviatePipe } from 'src/app/customPipes/abbreviate.pipe';
 import { Ishift } from 'src/app/interfaces/ishift';
@@ -70,7 +75,6 @@ export class UserAddShiftsComponent {
     });
   }
   addShift() {
-    console.log(this.addShiftForm.value);
     this.fireStoreService.addShift(this.addShiftForm.value, this.UID);
   }
 }

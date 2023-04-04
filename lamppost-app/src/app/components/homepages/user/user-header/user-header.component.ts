@@ -41,7 +41,7 @@ export class UserHeaderComponent {
     this.logoutPath = '/';
     this.navLinks = [
       {
-        name: ' My-Shifts',
+        name: ' My Shifts',
         icon: 'work',
         path: 'shifts',
       },

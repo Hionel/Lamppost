@@ -1,1 +1,23 @@
-<p>user-overview works!</p>
+<section class="main__body overview__section-wrapper flexColumn">
+  <main class="overview__statistics-wrapper flexColumn">
+    <div class="overview__cards-container flexRow">
+      <app-user-past-weeks
+        *ngIf="pastWeekShifts"
+        [dataSource]="pastWeekShifts"
+        class="overview__card-component past__shifts__card"
+      ></app-user-past-weeks>
+      <app-user-upcoming-week
+        *ngIf="upcomingWeekShifts"
+        [dataSource]="upcomingWeekShifts"
+        class="overview__card-component upcoming__shifts__card"
+      ></app-user-upcoming-week>
+    </div>
+    <app-user-highest-earnings
+      *ngIf="highestEarningsMonth && highestEarningsValue"
+      [currentMonth]="highestEarningsMonth"
+      [highestTotal]="highestEarningsValue"
+      class="overview__summary-container"
+    >
+    </app-user-highest-earnings>
+  </main>
+</section>

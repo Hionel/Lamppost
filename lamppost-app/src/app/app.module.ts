@@ -60,6 +60,9 @@ import { UserTableShiftsComponent } from './components/homepages/user/user-shift
 import { UserProfileComponent } from './components/homepages/user/user-profile/user-profile.component';
 import { UserShiftsComponent } from './components/homepages/user/user-shifts/user-shifts.component';
 import { UserEditShiftComponent } from './components/homepages/user/user-shifts/user-edit-shift/user-edit-shift.component';
+import { UserPastWeeksComponent } from './components/homepages/user/user-overview/user-past-weeks/user-past-weeks.component';
+import { UserUpcomingWeekComponent } from './components/homepages/user/user-overview/user-upcoming-week/user-upcoming-week.component';
+import { UserHighestEarningsComponent } from './components/homepages/user/user-overview/user-highest-earnings/user-highest-earnings.component';
 
 const materialModules = [
   MatCardModule,
@@ -121,6 +124,9 @@ const modules = [FormsModule, ReactiveFormsModule];
     LoaderComponent,
     ResetPasswordComponent,
     UserEditShiftComponent,
+    UserPastWeeksComponent,
+    UserUpcomingWeekComponent,
+    UserHighestEarningsComponent,
   ],
   imports: [
     BrowserModule,

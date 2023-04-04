@@ -20,7 +20,6 @@ export class PastShiftsCardComponent implements OnInit {
   displayedColumns: string[] = ['fullname', 'shiftDate'];
   @Input() dataSource: MatTableDataSource<Ishift> =
     new MatTableDataSource<Ishift>();
-  @Output() selectedShift: EventEmitter<Ishift> = new EventEmitter<Ishift>();
 
   searchFormGroup: FormGroup;
   constructor() {

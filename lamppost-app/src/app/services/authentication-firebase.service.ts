@@ -45,7 +45,6 @@ export class AuthenticationFirebaseService {
       this.ngFireAuth
         .signInWithEmailAndPassword(email, password)
         .then((res) => {
-          console.log(res.user?.uid);
           let tokenData: { uid: string; adminAccount?: boolean } = {
             uid: res.user!.uid,
           };

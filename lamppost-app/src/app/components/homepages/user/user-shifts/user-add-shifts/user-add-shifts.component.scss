@@ -1,22 +1,31 @@
 .form-wrapper {
+  height: 100%;
   .addShiftFormContainer {
-    padding: 2rem 0rem;
-    gap: 0.25rem;
+    height: 65%;
+    width: 75%;
+    border-radius: 25px;
     background-image: var(--background-image);
-    width: 60%;
     box-shadow: rgb(204, 219, 232) -3px -3px 6px 0px inset,
       rgba(255, 255, 255, 0.5) -3px -3px 6px 0px inset,
       rgb(106, 106, 106, 0.2) 3px 3px 6px 0px inset;
-    border-radius: 25px;
-  }
-  height: 90%;
-  width: 100%;
-  h1 {
-    font-family: var(--text-font);
-    color: var(--text-on-gradient-color);
-    padding-bottom: 1%;
-  }
-  .form__field-wrapper {
-    width: 70%;
+    h1 {
+      font-family: var(--text-font);
+      color: var(--text-on-gradient-color);
+      justify-self: flex-start;
+      height: 10%;
+    }
+    .add__shift__fields-container {
+      height: 75%;
+      width: 100%;
+      justify-content: space-around;
+      align-items: flex-start;
+      .shift__fields {
+        gap: 1rem;
+        width: 30%;
+        .form__field-wrapper {
+          width: 100%;
+        }
+      }
+    }
   }
 }
