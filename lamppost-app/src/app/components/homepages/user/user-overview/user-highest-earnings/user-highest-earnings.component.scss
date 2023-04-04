@@ -1,0 +1,17 @@
+.highest__earnings__display-container {
+  height: 100%;
+  text-align: center;
+  .highest__earnings__display__message {
+    color: var(--text-on-gradient-color);
+    font-weight: 500;
+    font-family: var(--text-font);
+    margin: 0;
+  }
+}
+@media only screen and (max-width: 770px) {
+  .highest__earnings__display-container {
+    .highest__earnings__display__message {
+      font-size: 1.25rem;
+    }
+  }
+}

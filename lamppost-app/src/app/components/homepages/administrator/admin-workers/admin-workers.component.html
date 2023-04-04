@@ -1,0 +1,10 @@
+<section class="main__body workers__body-wrapper flexRow">
+  <div class="workers__edit-container flexColumn">
+    <app-edit-info-card
+      [selectedUserData]="selectedUserData"
+    ></app-edit-info-card>
+  </div>
+  <div class="workers__table-container">
+    <app-workers-table (selectUser)="onSelectUser($event)"></app-workers-table>
+  </div>
+</section>

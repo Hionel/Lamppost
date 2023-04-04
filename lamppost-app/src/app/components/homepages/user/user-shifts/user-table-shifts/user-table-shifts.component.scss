@@ -1,0 +1,57 @@
+.workerstablehead {
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 1rem;
+  background-image: var(--background-image);
+  border-radius: 5px;
+  box-shadow: var(--white-inset-card-box-shadow);
+  .workerstablefilter-container {
+    gap: 0.5rem;
+    width: fit-content;
+    span {
+      font-family: var(--text-font);
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+    .workerstablesfiltersinputs-container {
+      gap: 1rem;
+      input {
+        font-family: var(--text-font);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid black;
+      }
+      .wokerstablefilterdatepicker-wrapper {
+        gap: 0.2rem;
+        input {
+          font-family: var(--text-font);
+          cursor: default;
+          border: none;
+        }
+        .daterangeclear-button {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .workerstable__paginator {
+    background-color: transparent;
+  }
+}
+.user__table-wrapper {
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: var(--table-box-shadow);
+  table {
+    background-color: transparent;
+    .hoverRowSelectionEffect {
+      transition: all 220ms ease-in-out;
+    }
+    .hoverRowSelectionEffect:hover {
+      cursor: pointer;
+      background-color: var(--table-HOVER-text-bg);
+      transition: all 220ms ease-in-out;
+    }
+  }
+}

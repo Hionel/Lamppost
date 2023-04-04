@@ -1,0 +1,12 @@
+.card__form__body {
+  height: fit-content;
+  padding: 1rem 2rem;
+  gap: 1rem;
+  border-radius: 25px;
+  box-shadow: var(--box-shadow);
+  background-image: var(--background-image);
+  .card__form__heading {
+    font-family: var(--text-font);
+    color: var(--text-on-gradient-color);
+  }
+}

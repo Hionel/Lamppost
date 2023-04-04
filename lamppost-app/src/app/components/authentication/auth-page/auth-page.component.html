@@ -1,0 +1,39 @@
+<section class="authentication__body flexRow">
+  <main class="authentication__card-wrapper">
+    <div class="authentication__forms-container">
+      <header class="authentication__forms__header-container flexRow">
+        <h1
+          class="authentication__forms__headings main-heading"
+          [innerHTML]="appTitle"
+        ></h1>
+        <h4
+          class="authentication__forms__headings subheading"
+          [innerHTML]="authFormTitle"
+        ></h4>
+      </header>
+      <section class="authentication__form-container">
+        <router-outlet></router-outlet>
+      </section>
+      <div class="authentication__forms__controls-container flexRow">
+        <a mat-fab extended [routerLink]="routerLink" color="secondary">
+          <mat-icon [innerText]="routerButtonIcon"></mat-icon>
+          {{ routerButtonText }}
+        </a>
+        <a
+          mat-fab
+          extended
+          [routerLink]="resetButtonRoute"
+          color="secondary"
+          *ngIf="!routerLink?.includes('login')"
+        >
+          <mat-icon [innerText]="resetButtonIcon"></mat-icon>
+          Forgot Password ?
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <aside class="authentication__image-container">
+    <app-auth-image></app-auth-image>
+  </aside>
+</section>

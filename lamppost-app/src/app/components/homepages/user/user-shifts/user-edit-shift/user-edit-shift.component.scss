@@ -1,0 +1,37 @@
+h2 {
+  font-family: var(--text-font) !important;
+  margin: 0;
+  color: var(--text-on-gradient-color) !important;
+  user-select: none;
+  p {
+    text-decoration: overline;
+  }
+}
+.dialog__content-container {
+  padding: 1rem;
+  overflow: hidden;
+  height: 100%;
+  .dialog__edit__shift__form {
+    gap: 0.5rem;
+  }
+}
+.dialog__controls-container {
+  justify-content: space-around;
+  padding-bottom: 2.5rem;
+
+  button {
+    transition: all 220ms ease-in-out;
+
+    &:hover {
+      scale: 1.1;
+      transition: all 220ms ease-in-out;
+    }
+  }
+}
+.info__inputStyle {
+  user-select: none;
+  cursor: default;
+}
+.edit__shift__field {
+  width: 65%;
+}

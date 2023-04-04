@@ -1,0 +1,104 @@
+.worker__edit__card__card-container {
+  .card__content {
+    text-align: center;
+    position: relative;
+    padding: 17em;
+    transition: transform 2s;
+    background-image: var(--background-image);
+    border-radius: 15px;
+    box-shadow: var(--white-inset-card-box-shadow);
+    transform-style: preserve-3d;
+
+    .card__front,
+    .card__back {
+      font-family: var(--text-font);
+      color: var(--text-on-gradient-color);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      padding: 2em;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+    }
+
+    .card__front {
+      gap: 2.5rem;
+      .card__title {
+        font-size: 3rem;
+        text-shadow: var(--text-inset-shadow);
+
+        transform: translateZ(7.5rem);
+        // animation: floating 520ms ease-in-out alternate infinite;
+      }
+      .card__subtitle {
+        padding: 1rem;
+        border-radius: 15px;
+        font-size: 1rem;
+        text-shadow: var(--text-inset-shadow);
+
+        transform: translateZ(15rem);
+      }
+      .card__front__icon {
+        transform: translateZ(11.5rem);
+      }
+    }
+
+    .card__back {
+      transform: rotateY(-0.5turn);
+      background-image: var(--background-image);
+      box-shadow: var(--white-inset-card-box-shadow);
+
+      border-radius: 15px;
+      .card__back__title {
+        font-size: 1rem;
+        letter-spacing: 1.5px;
+        text-shadow: var(--text-inset-shadow);
+        transform: translateZ(5rem);
+      }
+      .card__back__closeBtn {
+        text-shadow: var(--text-inset-shadow);
+        cursor: pointer;
+        position: absolute;
+        right: 4%;
+        top: 2%;
+        transform: translateZ(7.5rem);
+        transition: all 220ms ease-in-out;
+        &:hover {
+          transition: all 220ms ease-in-out;
+          scale: 1.1;
+        }
+      }
+
+      .card__form__body {
+        height: 90%;
+        justify-content: space-around;
+        transform: translateZ(10rem);
+
+        .card__form__field {
+          width: 100%;
+        }
+        .card__form__controls {
+          width: 100%;
+          justify-content: space-evenly;
+        }
+      }
+    }
+  }
+}
+
+.email__inputStyle {
+  cursor: default;
+  user-select: none;
+}
+
+// @keyframes floating {
+//   0% {
+//     transform: translateZ(7.5rem);
+//   }
+
+//   100% {
+//     transform: translateZ(15.5rem);
+//   }
+// }

@@ -1,0 +1,51 @@
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="submitLogin()"
+  class="form flexColumn"
+>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      placeholder="Insert your email address"
+      formControlName="email"
+      required
+    />
+    <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+    <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+      Email format is invalid
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input
+      [type]="loginPasswordsVisibility ? 'text' : 'password'"
+      matInput
+      formControlName="password"
+      placeholder="Insert your password"
+      required
+    />
+    <mat-icon
+      mat-icon-button
+      (click)="
+        tooglePasswordVisibility('loginPassword', loginPasswordsVisibility)
+      "
+      class="visibility__toogle-icon"
+    >
+      {{ loginPasswordsVisibility ? "visibility_off" : "visibility" }}
+    </mat-icon>
+    <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="loginForm.invalid"
+  >
+    Login
+  </button>
+</form>
