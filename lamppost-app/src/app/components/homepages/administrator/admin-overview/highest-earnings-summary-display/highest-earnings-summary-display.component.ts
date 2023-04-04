@@ -13,8 +13,8 @@ export class HighestEarningsSummaryDisplayComponent implements OnInit {
   displayMessage!: string;
   constructor(private numberFormatterPipe: NumberFormatterPipe) {}
   ngOnInit(): void {
-    this.displayMessage = this.numberFormatterPipe.transform(this.highestTotal);
-    this.displayMessage = `The highest earnings are in ${this.currentMonth} with a summarized total of ${this.displayMessage} €`;
+    const total = this.numberFormatterPipe.transform(this.highestTotal);
+    this.displayMessage = `The highest earnings are in ${this.currentMonth} with a summarized total of ${total} €`;
   }
   ngOnChanges(changes: SimpleChanges) {
     if (
@@ -22,10 +22,9 @@ export class HighestEarningsSummaryDisplayComponent implements OnInit {
       (changes['highestTotal'] && !changes['highestTotal'].firstChange)
     ) {
       this.displayMessage = ``;
-      this.displayMessage = this.numberFormatterPipe.transform(
-        this.highestTotal
-      );
-      this.displayMessage = `The highest earnings are in ${this.currentMonth} with a summarized total of ${this.displayMessage} €`;
+      const total = this.numberFormatterPipe.transform(this.highestTotal);
+
+      this.displayMessage = `The highest earnings are in ${this.currentMonth} with a summarized total of ${total} €`;
     }
   }
 }
